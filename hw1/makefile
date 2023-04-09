@@ -17,28 +17,24 @@ lex.yy.c:
 
 # Part 2: Clean up previous Compilation of the scanner.
 clean:
-	rm -f lex.yy.c scanner
+	rm -f lex.yy.c error scanner
 
 # Part 3: Run the scanner on the terminal.
 .PHONY: run
 run:
 	./scanner
+	golden_scanner
 
 # Part 4: Run the scanner for debug or reset debug.
 debug:
 	./scanner < ../hw1_debug/testcase_basic > ../hw1_debug/out
 	golden_scanner < ../hw1_debug/testcase_basic > ../hw1_debug/sol
-	-diff ../hw1_debug/sol ../hw1_debug/out > error
-
-.PHONY: erase
-erase:
-	rm -f ../hw1_debug/sol ../hw1_debug/out error
+	-diff ../hw1_debug/sol ../hw1_debug/out > error -y  --suppress-common-lines
 
 # Part 5: Fast Command.
-.PHONY: c d r e a
+.PHONY: c d r a
 c:clean
 d:debug
 r:run
-e:erase
-a: e c scanner.l d
+a: c scanner.l d
 	
