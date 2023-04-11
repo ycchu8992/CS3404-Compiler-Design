@@ -6,9 +6,9 @@ int iter(int n)
 	}
 	return sum;
 }
-
 int main(void) {
 	int sum = iter(10);
-	printf("%d", sum);
+	printf("%d		", sum);
 	return 0;
 }
+a

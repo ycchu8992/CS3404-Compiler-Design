@@ -9,9 +9,10 @@ $(make clean)
 $(make all)
 for FILE in 0 1 2 3
 do
-    $(./scanner < ./test_case/input_${FILE}.cpp > out)
-    $(golden_scanner < ./test_case/input_${FILE}.cpp > sol) 
-    $(diff sol out > ./test_result/output_${FILE}.cpp -s -y -W 200 --suppress-common-lines)
+$(./scanner < ./test_case/input_${FILE}.cpp > out)
+$(golden_scanner < ./test_case/input_${FILE}.cpp > sol) 
+$(diff sol out > ./test_result/output_${FILE}.cpp -s -y -W 200 --suppress-common-lines)
+#$(diff sol out > ./test_result/output_${FILE}.cpp -s -y -W 200)
 done
 $(rm -f sol out)
 exit 0
