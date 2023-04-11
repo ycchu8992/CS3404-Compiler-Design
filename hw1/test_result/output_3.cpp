@@ -1,1 +1,1 @@
-#id:a												   /	a
+Files sol and out are identical
