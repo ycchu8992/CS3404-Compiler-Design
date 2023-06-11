@@ -29,7 +29,7 @@ keyword_1   ("break"|"return"|"long"|"switch"|"char"|"case"|"continue"|"const"|"
 keyword_2   (((voi)|((un)?signe))d)|(s("hor"|"truc")t)|(("whil"|"els")e)|(f("or"|"loat"))|(i("nt"|f))
 
 keyword     ({keyword_1}|{keyword_2})   
-macro       ((("CHAR"|"INT"_)?M(AX)|(IN))|"NULL")|(__"COUNTER"|"LINE"__)
+macro       ("NULL"|"__COUNTER__"|"__LINE__"|"INT_MAX"|"INT_MIN"|"CHAR_MAX"|"CHAR_MIN"|"MAX"|"MIN")
 identifier  (_|[a-zA-Z])[_a-zA-Z0-9]*
 op          ((\+\+?)|(--?)|(\*)|(\/)|(%)|(\<=?)|(\>=?)|(==?)|(!=?)|(&&?)|(\|\|?))
 punc        [:;,\.\[\]\(\)\{\}]
@@ -42,7 +42,6 @@ empty       (" "|("\t"))
 
 pragma_src  ("#pragma"(" "|"\t")+"source"(" "|"\t")+)
 pragma_tkn  ("#pragma"(" "|"\t")+"token"(" "|"\t")+)
-switch      ("on"|"off")
 
 single_comment      (\/\/(.)*)                
 mul_comment_start   (\/\*)
@@ -65,20 +64,37 @@ mul_comment_end     ((.)*"*/")
 <LINE>{pragma_src}                                            { pragma=&src; BEGIN PRAGMA; }
 <LINE>{pragma_tkn}                                            { pragma=&tkn; BEGIN PRAGMA; }
 
-<PRAGMA>{switch}                                 { *pragma=(*(yytext+1)=='n'); BEGIN LINE; }
+<PRAGMA>{"on"|"off"}                                 { *pragma=(*(yytext+1)=='n'); BEGIN LINE; }
 
-<LINE>\n                             { if(src) printf("%d:%s",++lines,line_text); BEGIN 0; }
-<COMMENT>\n               { if(src) printf("%d:%s",++lines,line_text); BEGIN COMMENT_LINE; }
+<LINE>\n                             { ++lines; if(src) printf("%d:%s",lines,line_text); BEGIN 0; }
+<COMMENT>\n               { ++lines; if(src) printf("%d:%s",lines,line_text); BEGIN COMMENT_LINE; }
 
 
+<LINE>{for}                                    { return FOR; }
+<LINE>{do}                                     { return DO; }
+<LINE>{while}                                  { return WHILE; }
+<LINE>{if}                                     { return IF; }
+<LINE>{else}                                   { return ELSE;}
+<LINE>{return}                                 { return RETURN; }
+<LINE>{struct}                                 { return STRUCT; }
+<LINE>{switch}                                 { return SWITCH; }
+<LINE>{case}                                   { return CASE; }
+<LINE>{default}                                { return CASE; }
 
-<LINE>{keyword}                                     { if(tkn)printf("#%s:%s\n",type[0],yytext); }
+<LINE>{"void"|"int"|"double"|"float"|"char"|"double"|"short"|"long"}           { return CASE; }
+<LINE>{"void"|"int"|"double"|"float"|"char"|"double"|"short"|"long"}           { return CASE; }
+
+<LINE>{const}                                  { return CASE; }
+<LINE>{"signed"|"unsigned"}                                 { return CASE; }
+<LINE>{unsigned}                               { return CASE; }
+
+
 <LINE>{macro}                                       { if(tkn)printf("#%s:%s\n",type[1],yytext); }
 <LINE>{identifier}                                  { if(tkn)printf("#%s:%s\n",type[2],yytext); }
 <LINE>{op}                                          { if(tkn)printf("#%s:%s\n",type[3],yytext); }
 <LINE>{punc}                                        { if(tkn)printf("#%s:%s\n",type[4],yytext); }
 <LINE>{float}                                       { if(tkn)printf("#%s:%s\n",type[5],yytext); }
-<LINE>{integer}                                     { if(tkn)printf("#%s:%s\n",type[6],yytext); }
+<LINE>{integer}                                     { yyval.intVal = atoi(yytext); return NUM;if(tkn)printf("#%s:%s\n",type[6],yytext); }
 <LINE>{char}                                        { if(tkn)printf("#%s:%s\n",type[7],yytext); }
 <LINE>{string}                                      { if(tkn)printf("#%s:%s\n",type[8],yytext); }
 
@@ -90,5 +106,6 @@ mul_comment_end     ((.)*"*/")
 <COMMENT>.                                          { ; }
 
 %%
+
 
 int yywrap() { return 1; /* eof */ }
