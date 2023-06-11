@@ -2482,13 +2482,13 @@ case 7:
 /* rule 7 can match eol */
 YY_RULE_SETUP
 #line 69 "scanner.l"
-{ if(src) printf("%d:%s",++lines,line_text); BEGIN 0; }
+{ ++lines; if(src) printf("%d:%s",lines,line_text); BEGIN 0; }
 	YY_BREAK
 case 8:
 /* rule 8 can match eol */
 YY_RULE_SETUP
 #line 70 "scanner.l"
-{ if(src) printf("%d:%s",++lines,line_text); BEGIN COMMENT_LINE; }
+{ ++lines; if(src) printf("%d:%s",lines,line_text); BEGIN COMMENT_LINE; }
 	YY_BREAK
 case 9:
 YY_RULE_SETUP

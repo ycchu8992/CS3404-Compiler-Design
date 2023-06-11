@@ -66,8 +66,8 @@ mul_comment_end     ((.)*"*/")
 
 <PRAGMA>{switch}                                 { *pragma=(*(yytext+1)=='n'); BEGIN LINE; }
 
-<LINE>\n                             { if(src) printf("%d:%s",++lines,line_text); BEGIN 0; }
-<COMMENT>\n               { if(src) printf("%d:%s",++lines,line_text); BEGIN COMMENT_LINE; }
+<LINE>\n                             { ++lines; if(src) printf("%d:%s",lines,line_text); BEGIN 0; }
+<COMMENT>\n               { ++lines; if(src) printf("%d:%s",lines,line_text); BEGIN COMMENT_LINE; }
 
 
 
