@@ -28,7 +28,7 @@ keyword_1   ("break"|"return"|"long"|"switch"|"char"|"case"|"continue"|"const"|"
 keyword_2   (((voi)|((un)?signe))d)|(s("hor"|"truc")t)|(("whil"|"els")e)|(f("or"|"loat"))|(i("nt"|f))
 
 keyword     ({keyword_1}|{keyword_2})   
-macro       ((("CHAR"|"INT"_)?M(AX)|(IN))|"NULL")|(__"COUNTER"|"LINE"__)
+macro       ("NULL"|"__COUNTER__"|"__LINE__"|"INT_MAX"|"INT_MIN"|"CHAR_MAX"|"CHAR_MIN"|"MAX"|"MIN")
 identifier  (_|[a-zA-Z])[_a-zA-Z0-9]*
 op          ((\+\+?)|(--?)|(\*)|(\/)|(%)|(\<=?)|(\>=?)|(==?)|(!=?)|(&&?)|(\|\|?))
 punc        [:;,\.\[\]\(\)\{\}]
