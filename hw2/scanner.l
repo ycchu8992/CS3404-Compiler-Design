@@ -29,7 +29,7 @@ keyword_1   ("break"|"return"|"long"|"switch"|"char"|"case"|"continue"|"const"|"
 keyword_2   (((voi)|((un)?signe))d)|(s("hor"|"truc")t)|(("whil"|"els")e)|(f("or"|"loat"))|(i("nt"|f))
 
 keyword     ({keyword_1}|{keyword_2})   
-macro       ((("CHAR"|"INT"_)?M(AX)|(IN))|"NULL")|(__"COUNTER"|"LINE"__)
+macro       ("NULL"|"__COUNTER__"|"__LINE__"|"INT_MAX"|"INT_MIN"|"CHAR_MAX"|"CHAR_MIN"|"MAX"|"MIN")
 identifier  (_|[a-zA-Z])[_a-zA-Z0-9]*
 op          ((\+\+?)|(--?)|(\*)|(\/)|(%)|(\<=?)|(\>=?)|(==?)|(!=?)|(&&?)|(\|\|?))
 punc        [:;,\.\[\]\(\)\{\}]
@@ -67,8 +67,8 @@ mul_comment_end     ((.)*"*/")
 
 <PRAGMA>{switch}                                 { *pragma=(*(yytext+1)=='n'); BEGIN LINE; }
 
-<LINE>\n                             { if(src) printf("%d:%s",++lines,line_text); BEGIN 0; }
-<COMMENT>\n               { if(src) printf("%d:%s",++lines,line_text); BEGIN COMMENT_LINE; }
+<LINE>\n                             { ++lines; if(src) printf("%d:%s",lines,line_text); BEGIN 0; }
+<COMMENT>\n               { ++lines; if(src) printf("%d:%s",lines,line_text); BEGIN COMMENT_LINE; }
 
 
 
@@ -90,5 +90,7 @@ mul_comment_end     ((.)*"*/")
 <COMMENT>.                                          { ; }
 
 %%
+
+int main(int argc, char* argv[]) { yylex(); return 0; }
 
 int yywrap() { return 1; /* eof */ }
