@@ -1,27 +1,13 @@
-#pragma token                  off
-int main() {
-  int a = 1;
-  int b = -1;
-  char test[1000] = "      \n\n";
-  printf("%d", a);
-  return a + b;
-}
-#pragma   token     on
-int iter(int n)
-{
-  int sum = 1;
-	for(int i = 1; i <= n; i++){
-    a=b+c;/*
+2147483648    
+         +123  
++0 0 -0    
+-2147483649           -3654
+-9223372036854775807
 
-    comment a=b+c;
++23.032   3112.32304       +.32143
++2132.    
++0. +.0 -0. -.0
+-123645.313           -321321432.       -1232342.313         -.312445
 
-    */a=b+c;//a=b+c;
-		sum *= i;
-	}
-  return sum;
-}
-int main(void) {
-	int sum = iter(10);
-	printf("%d", sum);
-	return 0;
-}
+'c'       '\n'   
+

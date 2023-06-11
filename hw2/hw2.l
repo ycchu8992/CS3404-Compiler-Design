@@ -1,5 +1,6 @@
 %{
 #include <stdio.h>
+#include "y.tab.h"
 /*
 #define KEYWORD 0
 #define MACRO   1
@@ -89,7 +90,5 @@ mul_comment_end     ((.)*"*/")
 <COMMENT>.                                          { ; }
 
 %%
-
-int main(int argc, char* argv[]) { yylex(); return 0; }
 
 int yywrap() { return 1; /* eof */ }
