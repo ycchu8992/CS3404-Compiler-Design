@@ -17,6 +17,7 @@ y.tab.c:
 .PHONY: scanner.l
 lex.yy.c: y.tab.c
 	flex scanner.l
+
 # Part 2: Clean up previous Compilation of the scanner.
 clean:
 	rm -f lex.yy.c y.tab.c y.tab.h scanner parser

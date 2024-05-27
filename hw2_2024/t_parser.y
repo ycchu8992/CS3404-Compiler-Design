@@ -73,6 +73,10 @@ expr: expr '+' NUM  { $$ = $1 + $3;}
 
 int yylex(void);
 
+int yywrap(void){
+    return 1;
+}
+
 int main(void) {
     yyparse();
     return 0;
@@ -82,3 +86,37 @@ int yyerror(char *s){
     fprintf(stderr, "%s\n", s);
     return 0;
 }
+
+/*
+
+
+
+    
+    
+    
+
+
+scalar_decl: TYPE ident         {
+                                  printf("<scalar_decl>%s%s</scalar_decl>\n", $1,$2);
+                                };
+
+
+
+
+
+
+stmt: ID '=' expr   { $$ = $1; printf("36");}
+    | expr          { printf("%d</expr>",$1); }
+    ;
+ '*'ID '=' expr
+        | '*'ID
+
+<LINE>"\+\+"	{   return '++'; }
+<LINE>"\-\-"	{   return '--'; }
+<LINE>"<="		{   return '<='; }
+<LINE>">="		{   return '>='; }
+<LINE>"=="		{   return '=='; }
+<LINE>"!="		{   return '!='; }
+<LINE>"&&"		{   return '&&'; }
+<LINE>"||"		{   return '||'; }
+*/
