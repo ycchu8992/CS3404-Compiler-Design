@@ -1,1 +1,0 @@
-<array_decl>intc[<expr>1</expr>][<expr>3</expr>][<expr>5</expr>];</array_decl>

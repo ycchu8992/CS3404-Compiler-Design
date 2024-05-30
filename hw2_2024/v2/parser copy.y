@@ -37,18 +37,18 @@ int cur_scope=0;
 %token<charv> NUM 
 %token<charv> ID
 %token<token> CONST SIGN USIGN LONG LLONG SHRT FLOAT DOUBLE VOID CHAR INT
-%token<charv> '=' '\n' '[' ']' '{' '}'
+%token<charv> '=' '\n' '[' ']' 
 %left<charv>'*'
 %type<charv>  type_decl type_layer sign_usgn int_char long_shrt
-%type<charv>  ident var_decl scalar_decl func_decl program global_var_decl array_decl
-%type<charv> expr arr_ident arr_tag arr_content box arr_cnt_fmt arr_id
+
+%type<charv>  ident var_decl scalar_decl func_decl program global_var_decl array_decl arr_ident arr_tag arr_content box 
+%type<charv> expr
 %token<charv> SEMICOLON ENTER
 %left<charv> COMMA
-
 %%
 
 
-program: global_var_decl
+program: global_var_decl '\n'
     ;
 
 global_var_decl: scalar_decl global_var_decl 
@@ -56,6 +56,7 @@ global_var_decl: scalar_decl global_var_decl
                 ;
 
 array_decl: type_decl arr_ident SEMICOLON   {
+
                                                 size_t n1 = strlen($1);
                                                 size_t n2 = strlen($2);
                                                 size_t n3 = strlen($3);
@@ -68,109 +69,27 @@ array_decl: type_decl arr_ident SEMICOLON   {
                                             }    
         ;
 
-arr_ident:  arr_id COMMA arr_ident    {
-                                    size_t n1 = strlen($1);
-                                    size_t n2 = strlen($2);
-                                    size_t n3 = strlen($3);
-                                    char* buffer = (char*)malloc(n1+n2+n3+1);
-                                    strcpy(buffer,$1);
-                                    strcat(buffer,$2);
-                                    strcat(buffer,$3);
-                                    $$ = buffer;
-                                    free($1);
-                                    free($3);
+arr_ident: ID arr_tag           {
+                                    strcpy($$,$1);
+                                    strcat($$,$2);
                                 }
-            | arr_id
         ;
 
-arr_id: ID arr_tag        {
-                                    size_t n1 = strlen($1);
-                                    size_t n2 = strlen($2);
-                                    char* buffer = (char*)malloc(n1+n2+1);
-                                    strcpy(buffer,$1);
-                                    strcat(buffer,$2);
-                                    $$ = buffer;
-                                    free($2);
+arr_tag:  box arr_tag           {            
+                                    strcpy($$,$1);
+                                    strcat($$,$2);
                                 }
-
-arr_tag:  box arr_tag           {
-                                    size_t n1 = strlen($1);
-                                    size_t n2 = strlen($2);
-                                    char* buffer = (char*)malloc(n1+n2+1);
-                                    strcpy(buffer,$1);
-                                    strcat(buffer,$2);
-                                    $$ = buffer;
+        | box '=' arr_content   {
+                                    strcpy($$,$1);
+                                    strcat($$,$2);
+                                    strcat($$,$3);
                                     free($1);
-                                    free($2);
-                                }
-        | box '=' arr_cnt_fmt   {
-                                    size_t n1 = strlen($1);
-                                    size_t n2 = strlen($2);
-                                    size_t n3 = strlen($3);
-                                    char* art = (char*)malloc(n1+n2+n3+1);
-                                    strcpy(art,$1);
-                                    strcat(art,$2);
-                                    strcat(art,$3);
-                                    $$ = art;
-                                    free($1);
-                                    free($3);
                                 }
         | box                   
         ;
-arr_cnt_fmt: '{'arr_content'}'          {
-                                            size_t n1 = strlen($1);
-                                            size_t n2 = strlen($2);
-                                            size_t n3 = strlen($3);
-                                            char* aac = (char*)malloc(n1+n2+n3+1);
-                                            strcpy(aac,$1);
-                                            strcat(aac,$2);
-                                            strcat(aac,$3);
-                                            $$ = aac;
-                                            free($2);
-                                        }
-arr_content: arr_cnt_fmt                {
-                                            size_t n1 = strlen($1);
-                                            char* buffer = (char*)malloc(n1+1);//free_at_next_reduction
-                                            strcpy(buffer,$1);
-                                            $$ = buffer;
-                                            free($1);   
-                                        }
-            | arr_cnt_fmt COMMA  arr_content   {
-                                            size_t n1 = strlen($1);
-                                            size_t n2 = strlen($2);
-                                            size_t n3 = strlen($3);
-                                            char* buffer = (char*)malloc(n1+n2+n3+1);//free_at_next_reduction
-                                            strcpy(buffer,$1);
-                                            strcat(buffer,$2);
-                                            strcat(buffer,$3);
-                                            $$ = buffer;
-                                            free($1);
-                                            free($3);
-                                        }
-            | expr COMMA arr_content    {
-                                            size_t n1 = strlen($1);
-                                            size_t n2 = strlen($2);
-                                            size_t n3 = strlen($3);
-                                            char* arc = (char*)malloc(n1+n2+n3+1);
-                                            strcpy(arc,$1);
-                                            strcat(arc,$2);
-                                            strcat(arc,$3);
-                                            $$ = arc;
-                                            free($1);
-                                            free($3);
-                                        } 
-            | expr              {
-                                    size_t n1 = strlen($1);
-                                    char* exr = (char*)malloc(n1+1);
-                                    strcpy(exr,$1);
-                                    $$ = exr;
-                                    free($1);
-                                    
-                                } 
-            ;
-            
+
 box: '[' expr ']'               {
-                                    char* sc = (char*)malloc(strlen("[<expr>")+strlen($2)+strlen("</expr>]")+1);
+                                    char* sc = (char*)malloc(strlen("[<expr>")+strlen($2)+strlen("</expr>]"));
                                     strcpy(sc,"[");
                                     strcat(sc,$2);
                                     strcat(sc,"]");
@@ -320,7 +239,7 @@ expr:   NUM         {
 int yylex(void);
 
 int main(int argc, char* argv[]) {
-    //if(argc ==2 && !strcmp(argv[1],"-d")) yydebug = tkn = 1;
+    if(argc ==2 && !strcmp(argv[1],"-d")) yydebug = tkn = 1;
     yylval.sym = symbol_table;
     yyparse();
     return 0;

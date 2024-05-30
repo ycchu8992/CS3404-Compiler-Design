@@ -15,10 +15,9 @@
 #define CHAR 268
 #define INT 269
 #define func_decl 270
-#define arr_content 271
-#define SEMICOLON 272
-#define ENTER 273
-#define COMMA 274
+#define SEMICOLON 271
+#define ENTER 272
+#define COMMA 273
 #ifdef YYSTYPE
 #undef  YYSTYPE_IS_DECLARED
 #define YYSTYPE_IS_DECLARED 1

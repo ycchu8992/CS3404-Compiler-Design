@@ -36,7 +36,7 @@ Type_Token      "const"|"signed"|"unsigned"|"long long"|"long"|"short"|"int"|"fl
 Macro_Token		("NULL"|"__COUNTER__"|"__LINE__"|"INT_MAX"|"INT_MIN"|"CHAR_MIN"|"CHAR_MAX"|"MIN"|"MAX")
 Identifier_Token (_|[a-zA-Z])[_a-zA-Z0-9]*
 Operator_Token	(\+|\-|\*|\/|%|"\+\+"|"\-\-"|"<"|">"|"<="|">="|"=="|"!="|"&"|"&&"|"\|\|"|"!"|"&"|"\|")
-Punc_Token		(\:|\.|\(|\)|\{|\})
+Punc_Token		(\:|\.|\[|\]|\(|\)|\{|\})
 Empty_Token		(" "|"\t")
 Char_Token		(\'(.|"\\a"|"\\b"|"\\e"|"\\f"|"\\n"|"\\r"|"\\t"|"\\v"|"\\\\"|"\\\'"|"\\\""|"\\\?")\')
 Escape_Token	(\'\\[01234567]+\')
@@ -117,16 +117,6 @@ Comment_Token 	\/\/(.)*
                                 if(tkn) printf("\n#SEMICOLON: %s\n", yytext); 
                                 return ']';
                             }
-<LINE>"{"		              {  
-                                yylval.charv="{"; 
-                                if(tkn) printf("\n#SEMICOLON: %s\n", yytext); 
-                                return '{';
-                          }
-<LINE>"}"		              {  
-                                yylval.charv="}"; 
-                                if(tkn) printf("\n#SEMICOLON: %s\n", yytext); 
-                                return '}';
-                          }
 <LINE>{Punc_Token}		    {  yylval.charv=yytext; if(tkn) printf("#punc:%s\n", yytext); return yytext[0];}
 
 <LINE>{Escape_Token}		{ if(tkn) printf("#char:%s\n", yytext); }
