@@ -188,35 +188,26 @@ void key_reset(){
 
 void Hashfunc(char* yytext){
     if(!strcmp(yytext,"const")){
-		key = 0;
+		  key = 0;
     }else if(!strcmp(yytext,"signed")){
-		key = 1;
+		  key = 1;
     }else if(!strcmp(yytext,"unsigned")){
-		key = 2;
+		  key = 2;
     }else if(!strcmp(yytext,"long long")){
-		key = 3;
+		  key = 3;
     }else if(!strcmp(yytext,"long")){
-		key = 4;
+		  key = 4;
     }else if(!strcmp(yytext,"short")){
-		key = 5;
+		  key = 5;
     }else if(!strcmp(yytext,"int")){
-		key = 6;
+		  key = 6;
     }else if(!strcmp(yytext,"float")){
-		key = 7;
+		  key = 7;
     }else if(!strcmp(yytext,"double")){
-		key = 8;
+		  key = 8;
     }else if(!strcmp(yytext,"void")){
-		key = 9;
+		  key = 9;
     }else if(!strcmp(yytext,"char")){
-		key = 10;
-    }
+		  key = 10;
+    }else key = -2;
 }
-
-/*
-    "const" "signed" "unsigned" "long long" "long" "short" "int" "float" "double" "void" "char"
-    0       1        2          3           4      5        6     7         8       9       10
-    1000    100     200         10          20      30      1     2       3         4       5
-    */
-
-    //"const" "signed" "unsigned" "long long" "long" "short" "int" "float" "double" "void" "char"
-//CONST, SIGN, USIGN, LLONG, LONG, SHRT, INT, FLOAT, DOUBLE, VOID, CHAR 

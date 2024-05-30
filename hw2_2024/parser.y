@@ -38,20 +38,21 @@ int cur_scope=0;
 %token<charv> ID
 %token<token> CONST SIGN USIGN LONG LLONG SHRT FLOAT DOUBLE VOID CHAR INT
 %token<charv> '=' '\n' '[' ']' '{' '}'  '(' ')'
-%left<charv>'*'
+%left<charv> '*'
 %type<charv>  type_decl type_layer sign_usgn int_char long_shrt
-%type<charv>  ident var_decl scalar_decl func_decl program array_decl func_def
+%type<charv>  ident var_init scalar_decl func_decl program array_decl func_def var_decl
 %type<charv> expr arr_ident arr_tag arr_content box arr_cnt_fmt arr_id type_ident parameter_info parameters compound_stmt
 %token<charv> SEMICOLON ENTER
 %left<charv> COMMA
 %%
 
 
-program: scalar_decl program
-        | array_decl program
+program:  var_decl program
         | func_decl program 
         | func_def program
         ;
+
+var_decl: scalar_decl | array_decl ;
 
 func_def: type_ident parameter_info compound_stmt {
                                                     size_t n1 = strlen($1);
@@ -69,6 +70,46 @@ func_def: type_ident parameter_info compound_stmt {
                                                 };
         ;
 
+expr_stmt:　expr SEMICOLON
+
+if_else_stmt: if_stmt else_stmt
+            | if_stmt
+            ;
+
+if_stmt: IF condition compound_stmt
+
+else_stmt: ELSE compound_stmt
+
+switch_stmt: SWITCH condition switch_clause
+
+switch_clause: '{' switch_content '}'
+
+switch_content: CASE case_expr
+                | DEFALUT default_expr
+                ;
+
+case_expr: expr ':' stmt
+
+default_expr: ':' stmt
+
+while_stmt: while_tag stmt
+
+do_while_stmt:  do_tag while_tag SEMICOLON
+
+while_tag: WHILE condition 
+
+do_tag: DO stmt
+
+condition: '(' expr ')'
+
+return_stmt: RETURN expr SEMICOLON
+            | RETURN SEMICOLON
+            ;
+
+break_stmt: BREAK SEMICOLON
+
+continue_stmt: CONTINUE SEMICOLON
+
 compound_stmt: '{' '}'  {
                                                     size_t n1 = strlen($1);
                                                     size_t n2 = strlen($2);
@@ -78,6 +119,11 @@ compound_stmt: '{' '}'  {
                                                     $$ = buffer;
                                                 };
         ;
+
+compound_stmt_content: stmt compound_stmt_content
+                    | var_decl compound_stmt
+                    ;
+
 
 func_decl: type_ident parameter_info SEMICOLON {
                                                     size_t n1 = strlen($1);
@@ -128,6 +174,7 @@ parameters: type_ident COMMA parameters {
                                         }
         | type_ident
         ;
+
 type_ident: type_decl ID  {
                             size_t n1 = strlen($1);
                             size_t n2 = strlen($2);
@@ -200,6 +247,7 @@ arr_tag:  box arr_tag           {
                                 }
         | box                   
         ;
+
 arr_cnt_fmt: '{'arr_content'}'          {
                                             size_t n1 = strlen($1);
                                             size_t n2 = strlen($2);
@@ -211,6 +259,8 @@ arr_cnt_fmt: '{'arr_content'}'          {
                                             $$ = aac;
                                             free($2);
                                         }
+            ;
+
 arr_content: arr_cnt_fmt                {
                                             size_t n1 = strlen($1);
                                             char* buffer = (char*)malloc(n1+1);//free_at_next_reduction
@@ -271,7 +321,6 @@ scalar_decl: type_decl ident    {
                                     printf("<scalar_decl>%s</scalar_decl>", bfr); 
                                     free(bfr);
                                 };
-
 
 type_decl: CONST type_layer     {
                                     size_t n1 = strlen(type_table[$1]);
@@ -359,12 +408,12 @@ long_shrt: LLONG            { $$=type_table[$1]; }
          | SHRT             { $$=type_table[$1]; }
          ;
 
-ident: var_decl COMMA ident {
+ident: var_init COMMA ident {
                                 strcpy($$,$1);
                                 strcat($$,$2);
                                 strcat($$,$3);   
                             }
-    | var_decl SEMICOLON    {
+    | var_init SEMICOLON    {
                                 strcpy($$,$1);
                                 strcat($$,$2);
                             }
@@ -379,7 +428,7 @@ ident: var_decl COMMA ident {
                             }
     ;
 
-var_decl: ID '=' expr   {
+var_init: ID '=' expr   {
                             strcpy($$,$1);
                             strcat($$,$2);
                             strcat($$,$3);
