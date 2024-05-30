@@ -1,16 +1,7 @@
-int w=0;
-int a[0] = {1,{2},{3,4,{5},{6}}};
-int y=1;
-int x[0] = {1, 1, {2},{3,4,{5},{6}},7};
-int e[1][3], p[1][3];
-char f[1][4];
-float k[1], b[2][3] = {{0,1,2},{3,4,5}};
-const signed long var_29=5;
-const unsigned long long var_32=5;
-const unsigned long var_33=5;
-const int var_36=5,ar_37;
-unsigned int var_38=5;
-const unsigned * ptr_03=5,ptr_07=5;
-unsigned * ptr_08=5;
-long long * ptr_12;
-const signed short int * ptr_56;
+int a();
+int* a();
+int* a(int a);
+int a(int a);
+int b(int*a, int*b ){
+    
+}

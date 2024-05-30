@@ -107,6 +107,16 @@ Comment_Token 	\/\/(.)*
                                 if(tkn) printf("\n#SEMICOLON: %s\n", yytext);  
                                 return SEMICOLON;
                             }
+<LINE>"("		            {  
+                                yylval.charv="("; 
+                                if(tkn) printf("\n#SEMICOLON: %s\n", yytext); 
+                                return '(';
+                            }
+<LINE>")"		            {  
+                                yylval.charv=")"; 
+                                if(tkn) printf("\n#SEMICOLON: %s\n", yytext); 
+                                return ')';
+                            }                            
 <LINE>"["		            {  
                                 yylval.charv="["; 
                                 if(tkn) printf("\n#SEMICOLON: %s\n", yytext); 

@@ -110,67 +110,77 @@ extern int YYPARSE_DECL();
 #define VOID 267
 #define CHAR 268
 #define INT 269
-#define func_decl 270
-#define SEMICOLON 271
-#define ENTER 272
-#define COMMA 273
+#define SEMICOLON 270
+#define ENTER 271
+#define COMMA 272
 #define YYERRCODE 256
 typedef int YYINT;
 static const YYINT yylhs[] = {                           -1,
-    0,    9,    9,   10,   12,   12,   17,   13,   13,   13,
-   16,   14,   14,   14,   14,   15,    8,    1,    1,    1,
-    1,    1,    1,    2,    2,    2,    2,    2,    2,    3,
-    3,    4,    4,    4,    4,    5,    5,    5,    6,    6,
-    6,    6,    7,   11,
+    0,    0,    0,    0,   11,   22,    9,   20,   20,   21,
+   21,   19,   10,   13,   13,   18,   14,   14,   14,   17,
+   15,   15,   15,   15,   16,    8,    1,    1,    1,    1,
+    1,    1,    2,    2,    2,    2,    2,    2,    3,    3,
+    4,    4,    4,    4,    5,    5,    5,    6,    6,    6,
+    6,    7,   12,
 };
 static const YYINT yylen[] = {                            2,
-    1,    2,    2,    3,    3,    1,    2,    2,    3,    1,
-    3,    1,    3,    3,    1,    3,    2,    2,    1,    1,
-    3,    2,    2,    2,    1,    1,    1,    1,    1,    1,
-    1,    2,    1,    1,    1,    1,    1,    1,    3,    2,
-    2,    3,    3,    1,
+    2,    2,    2,    2,    3,    2,    3,    3,    2,    3,
+    1,    2,    3,    3,    1,    2,    2,    3,    1,    3,
+    1,    3,    3,    1,    3,    2,    2,    1,    1,    3,
+    2,    2,    2,    1,    1,    1,    1,    1,    1,    1,
+    2,    1,    1,    1,    1,    1,    1,    3,    2,    2,
+    3,    3,    1,
 };
 static const YYINT yydefred[] = {                         0,
-    0,   30,   31,   37,   36,   38,   27,   28,   29,   34,
-   35,    0,    0,    0,    0,   26,    0,    0,    1,    0,
-   23,    0,    0,   17,    0,    0,    0,   22,   24,   32,
-    2,    3,   21,    0,    0,   41,    0,    7,    0,   40,
-    0,    4,    0,   44,   43,    0,    0,   42,    0,    8,
-   39,    0,    5,   16,    0,    9,    0,    0,    0,    0,
-   11,    0,   14,   13,
+    0,   39,   40,   46,   45,   47,   36,   37,   38,   43,
+   44,    0,    0,    0,    0,   35,    0,    0,    0,    0,
+    0,    0,   32,    0,    0,   26,    0,    0,    0,   31,
+   33,   41,    1,    3,    2,    4,    0,    0,   30,    0,
+    0,   50,    0,   16,    0,   49,    0,   13,    0,    9,
+    0,    0,    0,    0,    7,    5,   53,   52,    0,    0,
+   51,    0,   17,   48,    0,   14,   12,    0,    8,    6,
+   25,    0,   18,   10,    0,    0,    0,    0,   20,    0,
+   23,   22,
 };
 #if defined(YYDESTRUCT_CALL) || defined(YYSTYPE_TOSTRING)
 static const YYINT yystos[] = {                           0,
   259,  260,  261,  262,  263,  264,  265,  266,  267,  268,
-  269,  275,  276,  277,  278,  279,  280,  283,  284,  285,
-   42,  277,  258,  281,  282,  287,  292,   42,  279,  269,
-  284,  284,   42,   61,   91,  271,  273,  288,  290,  271,
-  273,  271,  273,  257,  286,  286,  258,  281,   61,  288,
-  281,  258,  287,   93,  123,  291,  286,  289,  291,  273,
-  125,  273,  289,  289,
+  269,  274,  275,  276,  277,  278,  279,  282,  283,  284,
+  285,  293,   42,  276,  258,  280,  281,  287,  292,   42,
+  278,  269,  274,  274,  274,  274,   40,  294,   42,   61,
+   91,  270,  272,  288,  290,  270,  272,  270,  272,   41,
+  275,  293,  295,  123,  270,  296,  257,  286,  286,  258,
+  280,   61,  288,  280,  258,  287,  258,  272,   41,  125,
+   93,  123,  291,  295,  286,  289,  291,  272,  125,  272,
+  289,  289,
 };
 #endif /* YYDESTRUCT_CALL || YYSTYPE_TOSTRING */
 static const YYINT yydgoto[] = {                         12,
-   13,   14,   15,   16,   17,   24,   25,   18,   19,   20,
-   57,   26,   38,   58,   39,   59,   27,
+   13,   14,   15,   16,   17,   26,   27,   18,   19,   20,
+   21,   75,   28,   44,   76,   45,   77,   29,   22,   38,
+   53,   56,
 };
-static const YYINT yysindex[] = {                      -246,
-  -42,    0,    0,    0,    0,    0,    0,    0,    0,    0,
-    0,    0, -250,  -14, -238,    0, -258, -246,    0, -246,
-    0,   -9,  -59,    0, -264, -233, -231,    0,    0,    0,
-    0,    0,    0, -214, -214,    0, -213,    0,  -56,    0,
- -213,    0, -212,    0,    0,  -49,  -58,    0,  -76,    0,
-    0,  -43,    0,    0, -119,    0, -224,  -75, -222, -119,
-    0, -119,    0,    0,
+static const YYINT yysindex[] = {                      -247,
+  -31,    0,    0,    0,    0,    0,    0,    0,    0,    0,
+    0,    0, -250,  -17, -236,    0, -221, -247, -247, -247,
+ -247,   -6,    0,    7,  -60,    0, -235, -220, -219,    0,
+    0,    0,    0,    0,    0,    0,  -41, -120,    0, -206,
+ -206,    0, -204,    0,  -52,    0, -204,    0, -203,    0,
+ -202, -215,   11,  -67,    0,    0,    0,    0,  -34,  -59,
+    0,  -63,    0,    0,  -29,    0,    0, -247,    0,    0,
+    0, -119,    0,    0, -211,  -62, -208, -119,    0, -119,
+    0,    0,
 };
 static const YYINT yyrindex[] = {                         0,
- -206,    0,    0,    0,    0,    0,    0,    0,    0,    0,
-    0,    0,    0, -205,  -41,    0,  -30,    0,    0,    0,
-    0, -204,    0,    0,    0,    0, -216,    0,    0,    0,
-    0,    0,    0,    0,    0,    0,    0,    0, -244,    0,
+ -193,    0,    0,    0,    0,    0,    0,    0,    0,    0,
+    0,    0,    0, -192,  -19,    0,  -18,    0,    0,    0,
+    0,    0,    0, -191,   28,    0,    0,    0, -201,    0,
     0,    0,    0,    0,    0,    0,    0,    0,    0,    0,
-    0,    0,    0,    0,    0,    0,  -69,    0,  -68,    0,
-    0,    0,    0,    0,
+    0,    0,    0,    0, -226,    0,    0,    0,    0,    0,
+    0,   29,    0,    0,    0,    0,    0,    0,    0,    0,
+    0,    0,    0,    0,    0,    0,    0,    0,    0,    0,
+    0,    0,    0,    0,  -54,    0,  -53,    0,    0,    0,
+    0,    0,
 };
 #if YYBTYACC
 static const YYINT yycindex[] = {                         0,
@@ -180,63 +190,68 @@ static const YYINT yycindex[] = {                         0,
     0,    0,    0,    0,    0,    0,    0,    0,    0,    0,
     0,    0,    0,    0,    0,    0,    0,    0,    0,    0,
     0,    0,    0,    0,    0,    0,    0,    0,    0,    0,
-    0,    0,    0,    0,
+    0,    0,    0,    0,    0,    0,    0,    0,    0,    0,
+    0,    0,    0,    0,    0,    0,    0,    0,    0,    0,
+    0,    0,
 };
 #endif
-static const YYINT yygindex[] = {                         0,
-    0,   57,    0,   44,    0,  -31,    0,    0,   16,    0,
-    6,   17,   22,  -23,    0,   13,    0,
+static const YYINT yygindex[] = {                        22,
+  -32,   72,    0,   59,    0,  -37,    0,    0,    0,    0,
+    0,  -11,   26,   31,  -33,    0,   15,    0,  -30,    0,
+   10,    0,
 };
-#define YYTABLESIZE 228
-static const YYINT yytable[] = {                         21,
-   25,   34,   34,   55,   49,   48,   40,   23,   41,   51,
-   30,   33,    1,    2,    3,    4,    5,    6,    7,    8,
-    9,   10,   11,    4,    5,    6,   10,   28,   10,   10,
-   11,   35,   33,   31,   35,   32,   63,   42,   64,   45,
-   46,   43,   44,   54,   47,   52,   55,   35,   60,   61,
-   62,   20,   19,   18,    6,   15,   12,   22,   29,   53,
-   50,   56,    0,    0,    0,    0,    0,    0,    0,    0,
+#define YYTABLESIZE 240
+static const YYINT yytable[] = {                         50,
+   40,   40,   54,   72,   51,   61,   52,   25,   62,   64,
+   23,    1,    2,    3,    4,    5,    6,    7,    8,    9,
+   10,   11,   34,   42,   30,    4,    5,    6,   58,   59,
+   41,   10,   11,   37,   46,   51,   47,   52,   41,   33,
+   34,   35,   36,   19,   81,   19,   82,   32,   39,   48,
+   57,   69,   49,   60,   65,   67,   68,   70,   71,   72,
+   78,   41,   79,   80,   29,   28,   27,   12,   15,   11,
+   24,   21,   24,   31,   66,   63,   73,   74,    0,    0,
     0,    0,    0,    0,    0,    0,    0,    0,    0,    0,
     0,    0,    0,    0,    0,    0,    0,    0,    0,    0,
     0,    0,    0,    0,    0,    0,    0,    0,    0,    0,
     0,    0,    0,    0,    0,    0,    0,    0,    0,    0,
     0,    0,    0,    0,    0,    0,    0,    0,    0,    0,
-    0,    0,    0,    0,    0,    0,    0,    0,    0,    0,
-    0,    0,    0,    0,    0,    0,    0,   44,    0,    0,
-    0,    0,    0,    0,    0,    0,    0,    0,    0,    0,
-    0,    0,    0,    0,    0,    0,    0,    0,    0,    0,
+    0,    0,    0,    0,    0,    0,    0,   57,    0,    0,
+    0,    0,    0,    0,    0,    0,    0,    0,    0,   55,
     0,    0,    0,    0,    0,    0,    0,    0,    0,    0,
     0,    0,    0,    0,    0,    0,    0,    0,    0,    0,
     0,    0,    0,    0,    0,    0,    0,    0,    0,    0,
     0,    0,    0,    0,    0,    0,    0,    0,    0,    0,
     0,    0,    0,    0,    0,    0,    0,    0,    0,    0,
-    0,   36,   36,   37,   37,    0,   25,    2,    3,    4,
-    5,    6,    7,    8,    9,   10,   11,   33,
+    0,    0,    0,    0,    0,    0,    0,    0,    0,   42,
+   42,   43,   43,    0,    0,    0,    0,    1,    2,    3,
+    4,    5,    6,    7,    8,    9,   10,   11,    2,    3,
+    4,    5,    6,    7,    8,    9,   10,   11,   34,   42,
 };
-static const YYINT yycheck[] = {                         42,
-   42,   61,   61,  123,   61,   37,  271,  258,  273,   41,
-  269,   42,  259,  260,  261,  262,  263,  264,  265,  266,
-  267,  268,  269,  262,  263,  264,  271,   42,  273,  268,
-  269,   91,   42,   18,   91,   20,   60,  271,   62,   34,
-   35,  273,  257,   93,  258,  258,  123,   91,  273,  125,
-  273,  258,  258,  258,  271,  125,  125,    1,   15,   43,
-   39,   49,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,
-   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,
+static const YYINT yycheck[] = {                         41,
+   61,   61,  123,  123,   37,   43,   37,  258,   61,   47,
+   42,  259,  260,  261,  262,  263,  264,  265,  266,  267,
+  268,  269,   42,   42,   42,  262,  263,  264,   40,   41,
+   91,  268,  269,   40,  270,   68,  272,   68,   91,   18,
+   19,   20,   21,  270,   78,  272,   80,  269,   42,  270,
+  257,   41,  272,  258,  258,  258,  272,  125,   93,  123,
+  272,   91,  125,  272,  258,  258,  258,   40,  270,   41,
+  125,  125,    1,   15,   49,   45,   62,   68,   -1,   -1,
    -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,
    -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,
    -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,
    -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,
    -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,
    -1,   -1,   -1,   -1,   -1,   -1,   -1,  257,   -1,   -1,
+   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,  270,
    -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,
    -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,
    -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,
    -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,
    -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,
-   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,
-   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,
-   -1,  271,  271,  273,  273,   -1,  258,  260,  261,  262,
-  263,  264,  265,  266,  267,  268,  269,  258,
+   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,  270,
+  270,  272,  272,   -1,   -1,   -1,   -1,  259,  260,  261,
+  262,  263,  264,  265,  266,  267,  268,  269,  260,  261,
+  262,  263,  264,  265,  266,  267,  268,  269,  258,  258,
 };
 #if YYBTYACC
 static const YYINT yyctable[] = {                        -1,
@@ -262,37 +277,48 @@ static const YYINT yyctable[] = {                        -1,
    -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,
    -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,
    -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,
-   -1,   -1,   -1,   -1,   -1,   -1,   -1,
+   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,
+   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,
 };
 #endif
 #define YYFINAL 12
 #ifndef YYDEBUG
 #define YYDEBUG 0
 #endif
-#define YYMAXTOKEN 273
-#define YYUNDFTOKEN 293
+#define YYMAXTOKEN 272
+#define YYUNDFTOKEN 297
 #define YYTRANSLATE(a) ((a) > YYMAXTOKEN ? YYUNDFTOKEN : (a))
 #if YYDEBUG
 static const char *const yyname[] = {
 
 "$end",0,0,0,0,0,0,0,0,0,"'\\n'",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,"'*'",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,"'='",0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,"'['",0,"']'",0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,"'{'",0,"'}'",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,"'('","')'","'*'",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,"'='",0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,"'['",0,"']'",0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,"'{'",0,"'}'",0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,"error",
-"NUM","ID","CONST","SIGN","USIGN","LONG","LLONG","SHRT","FLOAT","DOUBLE","VOID",
-"CHAR","INT","func_decl","SEMICOLON","ENTER","COMMA","$accept","program",
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+"error","NUM","ID","CONST","SIGN","USIGN","LONG","LLONG","SHRT","FLOAT",
+"DOUBLE","VOID","CHAR","INT","SEMICOLON","ENTER","COMMA","$accept","program",
 "type_decl","type_layer","sign_usgn","int_char","long_shrt","ident","var_decl",
-"scalar_decl","global_var_decl","array_decl","expr","arr_ident","arr_tag",
-"arr_content","box","arr_cnt_fmt","arr_id","illegal-symbol",
+"scalar_decl","func_decl","array_decl","func_def","expr","arr_ident","arr_tag",
+"arr_content","box","arr_cnt_fmt","arr_id","type_ident","parameter_info",
+"parameters","compound_stmt","illegal-symbol",
 };
 static const char *const yyrule[] = {
 "$accept : program",
-"program : global_var_decl",
-"global_var_decl : scalar_decl global_var_decl",
-"global_var_decl : array_decl global_var_decl",
+"program : scalar_decl program",
+"program : array_decl program",
+"program : func_decl program",
+"program : func_def program",
+"func_def : type_ident parameter_info compound_stmt",
+"compound_stmt : '{' '}'",
+"func_decl : type_ident parameter_info SEMICOLON",
+"parameter_info : '(' parameters ')'",
+"parameter_info : '(' ')'",
+"parameters : type_ident COMMA parameters",
+"parameters : type_ident",
+"type_ident : type_decl ID",
 "array_decl : type_decl arr_ident SEMICOLON",
 "arr_ident : arr_id COMMA arr_ident",
 "arr_ident : arr_id",
@@ -465,7 +491,7 @@ static YYINT  *yylexp = 0;
 
 static YYINT  *yylexemes = 0;
 #endif /* YYBTYACC */
-#line 319 "parser.y"
+#line 402 "parser.y"
 
 int yylex(void);
 
@@ -496,7 +522,7 @@ char* install_id(char* tok){
     top++;
     return symbol_table[top-1].name;
 }
-#line 500 "y.tab.c"
+#line 526 "y.tab.c"
 
 /* For use in generated program */
 #define yydepth (int)(yystack.s_mark - yystack.s_base)
@@ -1166,8 +1192,111 @@ yyreduce:
 
     switch (yyn)
     {
-case 4:
-#line 58 "parser.y"
+case 5:
+#line 56 "parser.y"
+	{
+                                                    size_t n1 = strlen(yystack.l_mark[-2].charv);
+                                                    size_t n2 = strlen(yystack.l_mark[-1].charv);
+                                                    size_t n3 = strlen(yystack.l_mark[0].charv);
+                                                    char* buffer = (char*)malloc(n1+n2+n3+1);
+                                                    strcpy(buffer,yystack.l_mark[-2].charv);
+                                                    strcat(buffer,yystack.l_mark[-1].charv);
+                                                    strcat(buffer,yystack.l_mark[0].charv);
+                                                    printf("<func_def>%s</func_def>", buffer);
+                                                    free(buffer);
+                                                    free(yystack.l_mark[-2].charv);
+                                                    free(yystack.l_mark[-1].charv);
+                                                    free(yystack.l_mark[0].charv);
+                                                }
+#line 1212 "y.tab.c"
+break;
+case 6:
+#line 72 "parser.y"
+	{
+                                                    size_t n1 = strlen(yystack.l_mark[-1].charv);
+                                                    size_t n2 = strlen(yystack.l_mark[0].charv);
+                                                    char* buffer = (char*)malloc(n1+n2+1);
+                                                    strcpy(buffer,yystack.l_mark[-1].charv);
+                                                    strcat(buffer,yystack.l_mark[0].charv);
+                                                    yyval.charv = buffer;
+                                                }
+#line 1224 "y.tab.c"
+break;
+case 7:
+#line 82 "parser.y"
+	{
+                                                    size_t n1 = strlen(yystack.l_mark[-2].charv);
+                                                    size_t n2 = strlen(yystack.l_mark[-1].charv);
+                                                    size_t n3 = strlen(yystack.l_mark[0].charv);
+                                                    char* buffer = (char*)malloc(n1+n2+n3+1);
+                                                    strcpy(buffer,yystack.l_mark[-2].charv);
+                                                    strcat(buffer,yystack.l_mark[-1].charv);
+                                                    strcat(buffer,yystack.l_mark[0].charv);
+                                                    printf("<func_decl>%s</func_decl>", buffer);
+                                                    free(buffer);
+                                                    free(yystack.l_mark[-2].charv);
+                                                    free(yystack.l_mark[-1].charv);
+                                                }
+#line 1241 "y.tab.c"
+break;
+case 8:
+#line 96 "parser.y"
+	{
+                                        size_t n1 = strlen(yystack.l_mark[-2].charv);
+                                        size_t n2 = strlen(yystack.l_mark[-1].charv);
+                                        size_t n3 = strlen(yystack.l_mark[0].charv);
+                                        char* buffer = (char*)malloc(n1+n2+n3+1);
+                                        strcpy(buffer,yystack.l_mark[-2].charv);
+                                        strcat(buffer,yystack.l_mark[-1].charv);
+                                        strcat(buffer,yystack.l_mark[0].charv);
+                                        yyval.charv = buffer;
+                                        free(yystack.l_mark[-1].charv);
+                                    }
+#line 1256 "y.tab.c"
+break;
+case 9:
+#line 107 "parser.y"
+	{
+                                        size_t n1 = strlen(yystack.l_mark[-1].charv);
+                                        size_t n2 = strlen(yystack.l_mark[0].charv);
+                                        char* buffer = (char*)malloc(n1+n2+1);
+                                        strcpy(buffer,yystack.l_mark[-1].charv);
+                                        strcat(buffer,yystack.l_mark[0].charv);
+                                        yyval.charv = buffer;                                        
+                                    }
+#line 1268 "y.tab.c"
+break;
+case 10:
+#line 117 "parser.y"
+	{
+                                            size_t n1 = strlen(yystack.l_mark[-2].charv);
+                                            size_t n2 = strlen(yystack.l_mark[-1].charv);
+                                            size_t n3 = strlen(yystack.l_mark[0].charv);
+                                            char* buffer = (char*)malloc(n1+n2+n3+1);
+                                            strcpy(buffer,yystack.l_mark[-2].charv);
+                                            strcat(buffer,yystack.l_mark[-1].charv);
+                                            strcat(buffer,yystack.l_mark[0].charv);
+                                            yyval.charv = buffer;
+                                            free(yystack.l_mark[-2].charv);
+                                            free(yystack.l_mark[0].charv);
+                                        }
+#line 1284 "y.tab.c"
+break;
+case 12:
+#line 131 "parser.y"
+	{
+                            size_t n1 = strlen(yystack.l_mark[-1].charv);
+                            size_t n2 = strlen(yystack.l_mark[0].charv);
+                            char* buffer = (char*)malloc(n1+n2+1);
+                            strcpy(buffer,yystack.l_mark[-1].charv);
+                            strcat(buffer,yystack.l_mark[0].charv);
+                            yyval.charv = buffer;
+                            free(yystack.l_mark[-1].charv);                        
+                       }
+#line 1297 "y.tab.c"
+break;
+case 13:
+#line 141 "parser.y"
 	{
                                                 size_t n1 = strlen(yystack.l_mark[-2].charv);
                                                 size_t n2 = strlen(yystack.l_mark[-1].charv);
@@ -1179,10 +1308,10 @@ case 4:
                                                 printf("<array_decl>%s</array_decl>",afr);
                                                 free(afr);
                                             }
-#line 1183 "y.tab.c"
+#line 1312 "y.tab.c"
 break;
-case 5:
-#line 71 "parser.y"
+case 14:
+#line 154 "parser.y"
 	{
                                     size_t n1 = strlen(yystack.l_mark[-2].charv);
                                     size_t n2 = strlen(yystack.l_mark[-1].charv);
@@ -1195,10 +1324,10 @@ case 5:
                                     free(yystack.l_mark[-2].charv);
                                     free(yystack.l_mark[0].charv);
                                 }
-#line 1199 "y.tab.c"
+#line 1328 "y.tab.c"
 break;
-case 7:
-#line 86 "parser.y"
+case 16:
+#line 169 "parser.y"
 	{
                                     size_t n1 = strlen(yystack.l_mark[-1].charv);
                                     size_t n2 = strlen(yystack.l_mark[0].charv);
@@ -1208,10 +1337,10 @@ case 7:
                                     yyval.charv = buffer;
                                     free(yystack.l_mark[0].charv);
                                 }
-#line 1212 "y.tab.c"
+#line 1341 "y.tab.c"
 break;
-case 8:
-#line 96 "parser.y"
+case 17:
+#line 179 "parser.y"
 	{
                                     size_t n1 = strlen(yystack.l_mark[-1].charv);
                                     size_t n2 = strlen(yystack.l_mark[0].charv);
@@ -1222,10 +1351,10 @@ case 8:
                                     free(yystack.l_mark[-1].charv);
                                     free(yystack.l_mark[0].charv);
                                 }
-#line 1226 "y.tab.c"
+#line 1355 "y.tab.c"
 break;
-case 9:
-#line 106 "parser.y"
+case 18:
+#line 189 "parser.y"
 	{
                                     size_t n1 = strlen(yystack.l_mark[-2].charv);
                                     size_t n2 = strlen(yystack.l_mark[-1].charv);
@@ -1238,10 +1367,10 @@ case 9:
                                     free(yystack.l_mark[-2].charv);
                                     free(yystack.l_mark[0].charv);
                                 }
-#line 1242 "y.tab.c"
+#line 1371 "y.tab.c"
 break;
-case 11:
-#line 120 "parser.y"
+case 20:
+#line 203 "parser.y"
 	{
                                             size_t n1 = strlen(yystack.l_mark[-2].charv);
                                             size_t n2 = strlen(yystack.l_mark[-1].charv);
@@ -1253,10 +1382,10 @@ case 11:
                                             yyval.charv = aac;
                                             free(yystack.l_mark[-1].charv);
                                         }
-#line 1257 "y.tab.c"
+#line 1386 "y.tab.c"
 break;
-case 12:
-#line 131 "parser.y"
+case 21:
+#line 214 "parser.y"
 	{
                                             size_t n1 = strlen(yystack.l_mark[0].charv);
                                             char* buffer = (char*)malloc(n1+1);/*free_at_next_reduction*/
@@ -1264,10 +1393,10 @@ case 12:
                                             yyval.charv = buffer;
                                             free(yystack.l_mark[0].charv);   
                                         }
-#line 1268 "y.tab.c"
+#line 1397 "y.tab.c"
 break;
-case 13:
-#line 138 "parser.y"
+case 22:
+#line 221 "parser.y"
 	{
                                             size_t n1 = strlen(yystack.l_mark[-2].charv);
                                             size_t n2 = strlen(yystack.l_mark[-1].charv);
@@ -1280,10 +1409,10 @@ case 13:
                                             free(yystack.l_mark[-2].charv);
                                             free(yystack.l_mark[0].charv);
                                         }
-#line 1284 "y.tab.c"
+#line 1413 "y.tab.c"
 break;
-case 14:
-#line 150 "parser.y"
+case 23:
+#line 233 "parser.y"
 	{
                                             size_t n1 = strlen(yystack.l_mark[-2].charv);
                                             size_t n2 = strlen(yystack.l_mark[-1].charv);
@@ -1296,10 +1425,10 @@ case 14:
                                             free(yystack.l_mark[-2].charv);
                                             free(yystack.l_mark[0].charv);
                                         }
-#line 1300 "y.tab.c"
+#line 1429 "y.tab.c"
 break;
-case 15:
-#line 162 "parser.y"
+case 24:
+#line 245 "parser.y"
 	{
                                     size_t n1 = strlen(yystack.l_mark[0].charv);
                                     char* exr = (char*)malloc(n1+1);
@@ -1308,10 +1437,10 @@ case 15:
                                     free(yystack.l_mark[0].charv);
                                     
                                 }
-#line 1312 "y.tab.c"
+#line 1441 "y.tab.c"
 break;
-case 16:
-#line 172 "parser.y"
+case 25:
+#line 255 "parser.y"
 	{
                                     char* sc = (char*)malloc(strlen("[<expr>")+strlen(yystack.l_mark[-1].charv)+strlen("</expr>]")+1);
                                     strcpy(sc,"[");
@@ -1320,10 +1449,10 @@ case 16:
                                     yyval.charv = sc;
                                     free(yystack.l_mark[-1].charv);
                                 }
-#line 1324 "y.tab.c"
+#line 1453 "y.tab.c"
 break;
-case 17:
-#line 182 "parser.y"
+case 26:
+#line 265 "parser.y"
 	{
                                     size_t n1 = strlen(yystack.l_mark[-1].charv);
                                     size_t n2 = strlen(yystack.l_mark[0].charv);
@@ -1333,10 +1462,10 @@ case 17:
                                     printf("<scalar_decl>%s</scalar_decl>", bfr); 
                                     free(bfr);
                                 }
-#line 1337 "y.tab.c"
+#line 1466 "y.tab.c"
 break;
-case 18:
-#line 193 "parser.y"
+case 27:
+#line 276 "parser.y"
 	{
                                     size_t n1 = strlen(type_table[yystack.l_mark[-1].token]);
                                     size_t n2 = strlen(yystack.l_mark[0].charv);
@@ -1345,30 +1474,30 @@ case 18:
                                     strcat(dct,yystack.l_mark[0].charv);
                                     yyval.charv = dct;
                                 }
-#line 1349 "y.tab.c"
+#line 1478 "y.tab.c"
 break;
-case 19:
-#line 201 "parser.y"
+case 28:
+#line 284 "parser.y"
 	{
                                     size_t n1 = strlen(yystack.l_mark[0].charv);
                                     char* dct = (char*)malloc(n1+1);
                                     strcpy(dct,yystack.l_mark[0].charv);
                                     yyval.charv = dct;
                                 }
-#line 1359 "y.tab.c"
+#line 1488 "y.tab.c"
 break;
-case 20:
-#line 207 "parser.y"
+case 29:
+#line 290 "parser.y"
 	{
                                     size_t n1 = strlen(type_table[yystack.l_mark[0].token]);
                                     char* dct = (char*)malloc(n1+1);
                                     strcpy(dct,type_table[yystack.l_mark[0].token]);
                                     yyval.charv = dct;
                                 }
-#line 1369 "y.tab.c"
+#line 1498 "y.tab.c"
 break;
-case 21:
-#line 213 "parser.y"
+case 30:
+#line 296 "parser.y"
 	{
                                     size_t n1 = strlen(type_table[yystack.l_mark[-2].token]);
                                     size_t n2 = strlen(yystack.l_mark[-1].charv);
@@ -1379,10 +1508,10 @@ case 21:
                                     strcat(dct,yystack.l_mark[0].charv);
                                     yyval.charv = dct;
                                 }
-#line 1383 "y.tab.c"
+#line 1512 "y.tab.c"
 break;
-case 22:
-#line 223 "parser.y"
+case 31:
+#line 306 "parser.y"
 	{
                                     size_t n1 = strlen(yystack.l_mark[-1].charv);
                                     size_t n2 = strlen(yystack.l_mark[0].charv);
@@ -1391,10 +1520,10 @@ case 22:
                                     strcat(dct,yystack.l_mark[0].charv);
                                     yyval.charv = dct;
                                 }
-#line 1395 "y.tab.c"
+#line 1524 "y.tab.c"
 break;
-case 23:
-#line 231 "parser.y"
+case 32:
+#line 314 "parser.y"
 	{
                                     size_t n1 = strlen(type_table[yystack.l_mark[-1].token]);
                                     size_t n2 = strlen(yystack.l_mark[0].charv);
@@ -1403,10 +1532,10 @@ case 23:
                                     strcat(dct,yystack.l_mark[0].charv);
                                     yyval.charv = dct;
                                 }
-#line 1407 "y.tab.c"
+#line 1536 "y.tab.c"
 break;
-case 24:
-#line 241 "parser.y"
+case 33:
+#line 324 "parser.y"
 	{   
 
                                     size_t n1 = strlen(yystack.l_mark[-1].charv);
@@ -1416,35 +1545,35 @@ case 24:
                                     strcat(tsi,yystack.l_mark[0].charv);
                                     yyval.charv = tsi;                       
                                 }
-#line 1420 "y.tab.c"
+#line 1549 "y.tab.c"
 break;
-case 27:
-#line 252 "parser.y"
+case 36:
+#line 335 "parser.y"
 	{ yyval.charv=type_table[yystack.l_mark[0].token]; }
-#line 1425 "y.tab.c"
+#line 1554 "y.tab.c"
 break;
-case 28:
-#line 253 "parser.y"
+case 37:
+#line 336 "parser.y"
 	{ yyval.charv=type_table[yystack.l_mark[0].token]; }
-#line 1430 "y.tab.c"
+#line 1559 "y.tab.c"
 break;
-case 29:
-#line 254 "parser.y"
+case 38:
+#line 337 "parser.y"
 	{ yyval.charv=type_table[yystack.l_mark[0].token]; }
-#line 1435 "y.tab.c"
+#line 1564 "y.tab.c"
 break;
-case 30:
-#line 257 "parser.y"
+case 39:
+#line 340 "parser.y"
 	{ yyval.charv=type_table[yystack.l_mark[0].token]; }
-#line 1440 "y.tab.c"
+#line 1569 "y.tab.c"
 break;
-case 31:
-#line 258 "parser.y"
+case 40:
+#line 341 "parser.y"
 	{ yyval.charv=type_table[yystack.l_mark[0].token]; }
-#line 1445 "y.tab.c"
+#line 1574 "y.tab.c"
 break;
-case 32:
-#line 261 "parser.y"
+case 41:
+#line 344 "parser.y"
 	{
                                 size_t n1 = strlen(yystack.l_mark[-1].charv);
                                 size_t n2 = strlen(type_table[yystack.l_mark[0].token]);
@@ -1453,79 +1582,79 @@ case 32:
                                 strcat(ilI,type_table[yystack.l_mark[0].token]);
                                 yyval.charv = ilI;  
                             }
-#line 1457 "y.tab.c"
+#line 1586 "y.tab.c"
 break;
-case 34:
-#line 270 "parser.y"
+case 43:
+#line 353 "parser.y"
 	{ yyval.charv=type_table[yystack.l_mark[0].token]; }
-#line 1462 "y.tab.c"
+#line 1591 "y.tab.c"
 break;
-case 35:
-#line 271 "parser.y"
+case 44:
+#line 354 "parser.y"
 	{ yyval.charv=type_table[yystack.l_mark[0].token]; }
-#line 1467 "y.tab.c"
+#line 1596 "y.tab.c"
 break;
-case 36:
-#line 274 "parser.y"
+case 45:
+#line 357 "parser.y"
 	{ yyval.charv=type_table[yystack.l_mark[0].token]; }
-#line 1472 "y.tab.c"
+#line 1601 "y.tab.c"
 break;
-case 37:
-#line 275 "parser.y"
+case 46:
+#line 358 "parser.y"
 	{ yyval.charv=type_table[yystack.l_mark[0].token]; }
-#line 1477 "y.tab.c"
+#line 1606 "y.tab.c"
 break;
-case 38:
-#line 276 "parser.y"
+case 47:
+#line 359 "parser.y"
 	{ yyval.charv=type_table[yystack.l_mark[0].token]; }
-#line 1482 "y.tab.c"
+#line 1611 "y.tab.c"
 break;
-case 39:
-#line 279 "parser.y"
+case 48:
+#line 362 "parser.y"
 	{
                                 strcpy(yyval.charv,yystack.l_mark[-2].charv);
                                 strcat(yyval.charv,yystack.l_mark[-1].charv);
                                 strcat(yyval.charv,yystack.l_mark[0].charv);   
                             }
-#line 1491 "y.tab.c"
+#line 1620 "y.tab.c"
 break;
-case 40:
-#line 284 "parser.y"
+case 49:
+#line 367 "parser.y"
 	{
                                 strcpy(yyval.charv,yystack.l_mark[-1].charv);
                                 strcat(yyval.charv,yystack.l_mark[0].charv);
                             }
-#line 1499 "y.tab.c"
+#line 1628 "y.tab.c"
 break;
-case 41:
-#line 288 "parser.y"
+case 50:
+#line 371 "parser.y"
 	{
                                 strcpy(yyval.charv,yystack.l_mark[-1].charv);
                                 strcat(yyval.charv,yystack.l_mark[0].charv);
                             }
-#line 1507 "y.tab.c"
+#line 1636 "y.tab.c"
 break;
-case 42:
-#line 292 "parser.y"
+case 51:
+#line 375 "parser.y"
 	{
                                 strcpy(yyval.charv,yystack.l_mark[-2].charv);
                                 strcat(yyval.charv,yystack.l_mark[-1].charv);
                                 strcat(yyval.charv,yystack.l_mark[0].charv);
                             }
-#line 1516 "y.tab.c"
+#line 1645 "y.tab.c"
 break;
-case 43:
-#line 299 "parser.y"
+case 52:
+#line 382 "parser.y"
 	{
                             strcpy(yyval.charv,yystack.l_mark[-2].charv);
                             strcat(yyval.charv,yystack.l_mark[-1].charv);
                             strcat(yyval.charv,yystack.l_mark[0].charv);
                             free(yystack.l_mark[0].charv);
                         }
-#line 1526 "y.tab.c"
+#line 1655 "y.tab.c"
 break;
-case 44:
-#line 307 "parser.y"
+case 53:
+#line 390 "parser.y"
 	{ 
                         size_t n1 = strlen("<expr>");
                         size_t n2 = strlen(yystack.l_mark[0].charv);
@@ -1536,9 +1665,9 @@ case 44:
                         strcat(num,"</expr>");
                         yyval.charv = num;
                     }
-#line 1540 "y.tab.c"
+#line 1669 "y.tab.c"
 break;
-#line 1542 "y.tab.c"
+#line 1671 "y.tab.c"
     default:
         break;
     }

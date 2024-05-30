@@ -37,23 +37,106 @@ int cur_scope=0;
 %token<charv> NUM 
 %token<charv> ID
 %token<token> CONST SIGN USIGN LONG LLONG SHRT FLOAT DOUBLE VOID CHAR INT
-%token<charv> '=' '\n' '[' ']' '{' '}'
+%token<charv> '=' '\n' '[' ']' '{' '}'  '(' ')'
 %left<charv>'*'
 %type<charv>  type_decl type_layer sign_usgn int_char long_shrt
-%type<charv>  ident var_decl scalar_decl func_decl program global_var_decl array_decl
-%type<charv> expr arr_ident arr_tag arr_content box arr_cnt_fmt arr_id
+%type<charv>  ident var_decl scalar_decl func_decl program array_decl func_def
+%type<charv> expr arr_ident arr_tag arr_content box arr_cnt_fmt arr_id type_ident parameter_info parameters compound_stmt
 %token<charv> SEMICOLON ENTER
 %left<charv> COMMA
-
 %%
 
 
-program: global_var_decl
-    ;
+program: scalar_decl program
+        | array_decl program
+        | func_decl program 
+        | func_def program
+        ;
 
-global_var_decl: scalar_decl global_var_decl 
-                | array_decl global_var_decl
-                ;
+func_def: type_ident parameter_info compound_stmt {
+                                                    size_t n1 = strlen($1);
+                                                    size_t n2 = strlen($2);
+                                                    size_t n3 = strlen($3);
+                                                    char* buffer = (char*)malloc(n1+n2+n3+1);
+                                                    strcpy(buffer,$1);
+                                                    strcat(buffer,$2);
+                                                    strcat(buffer,$3);
+                                                    printf("<func_def>%s</func_def>", buffer);
+                                                    free(buffer);
+                                                    free($1);
+                                                    free($2);
+                                                    free($3);
+                                                };
+        ;
+
+compound_stmt: '{' '}'  {
+                                                    size_t n1 = strlen($1);
+                                                    size_t n2 = strlen($2);
+                                                    char* buffer = (char*)malloc(n1+n2+1);
+                                                    strcpy(buffer,$1);
+                                                    strcat(buffer,$2);
+                                                    $$ = buffer;
+                                                };
+        ;
+
+func_decl: type_ident parameter_info SEMICOLON {
+                                                    size_t n1 = strlen($1);
+                                                    size_t n2 = strlen($2);
+                                                    size_t n3 = strlen($3);
+                                                    char* buffer = (char*)malloc(n1+n2+n3+1);
+                                                    strcpy(buffer,$1);
+                                                    strcat(buffer,$2);
+                                                    strcat(buffer,$3);
+                                                    printf("<func_decl>%s</func_decl>", buffer);
+                                                    free(buffer);
+                                                    free($1);
+                                                    free($2);
+                                                };
+
+parameter_info: '(' parameters ')' {
+                                        size_t n1 = strlen($1);
+                                        size_t n2 = strlen($2);
+                                        size_t n3 = strlen($3);
+                                        char* buffer = (char*)malloc(n1+n2+n3+1);
+                                        strcpy(buffer,$1);
+                                        strcat(buffer,$2);
+                                        strcat(buffer,$3);
+                                        $$ = buffer;
+                                        free($2);
+                                    }
+        | '(' ')'                   {
+                                        size_t n1 = strlen($1);
+                                        size_t n2 = strlen($2);
+                                        char* buffer = (char*)malloc(n1+n2+1);
+                                        strcpy(buffer,$1);
+                                        strcat(buffer,$2);
+                                        $$ = buffer;                                        
+                                    }
+        ;
+
+parameters: type_ident COMMA parameters {
+                                            size_t n1 = strlen($1);
+                                            size_t n2 = strlen($2);
+                                            size_t n3 = strlen($3);
+                                            char* buffer = (char*)malloc(n1+n2+n3+1);
+                                            strcpy(buffer,$1);
+                                            strcat(buffer,$2);
+                                            strcat(buffer,$3);
+                                            $$ = buffer;
+                                            free($1);
+                                            free($3);
+                                        }
+        | type_ident
+        ;
+type_ident: type_decl ID  {
+                            size_t n1 = strlen($1);
+                            size_t n2 = strlen($2);
+                            char* buffer = (char*)malloc(n1+n2+1);
+                            strcpy(buffer,$1);
+                            strcat(buffer,$2);
+                            $$ = buffer;
+                            free($1);                        
+                       };
 
 array_decl: type_decl arr_ident SEMICOLON   {
                                                 size_t n1 = strlen($1);
