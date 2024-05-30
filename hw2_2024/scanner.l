@@ -18,9 +18,14 @@ int tkn=0;
 int src=0;
 int cmt = 0;
 
-int gate[11] = {CONST, SIGN, USIGN, LLONG, LONG, SHRT, INT, FLOAT, DOUBLE, VOID, CHAR };
+int type_hash_table[11] = { CONST, SIGN, USIGN, LLONG, LONG, SHRT, INT, FLOAT, DOUBLE, VOID, CHAR };
+int keyword_hash_table[12] = { FOR, DO, WHILE, BREAK, CONTINUE, IF, ELSE, RETURN, STRUCT, SWITCH, CASE, DEFALUT };
 int key = -1;
-void Hashfunc(char* yytext);
+
+void TypeHash(char* yytext);
+void KeyWordHash(char* yytext);
+
+
 extern char* check_id_exist(char* tok);
 void key_reset();
 
@@ -30,7 +35,7 @@ Line_Pattern	((.){0,298}\n)|((.){1,299})
 Source_Control 	(#pragma)(" "|"\t")+source(" "|"\t")+
 Token_Control 	(#pragma)(" "|"\t")+token(" "|"\t")+
 
-Keyword_Token	("for"|"do"|"while"|"break"|"continue"|"if"|"else"|"return"|"struct"|"switch"|"case"|"default")
+Keyword_Token	  "for"|"do"|"while"|"break"|"continue"|"if"|"else"|"return"|"struct"|"switch"|"case"|"default"
 Type_Token      "const"|"signed"|"unsigned"|"long long"|"long"|"short"|"int"|"float"|"double"|"void"|"char"
 
 Macro_Token		("NULL"|"__COUNTER__"|"__LINE__"|"INT_MAX"|"INT_MIN"|"CHAR_MIN"|"CHAR_MAX"|"MIN"|"MAX")
@@ -68,16 +73,22 @@ Comment_Token 	\/\/(.)*
 
 <LINE>{Token_Control}	{ sw = &tkn;  BEGIN CTRL; 	}
 
-<LINE>{Keyword_Token}	{ if(tkn) printf("#key:%s\n", yytext); }
+<LINE>{Keyword_Token}       {  
+                                key_reset(); 
+                                KeyWordHash(yytext);
+                                yylval.token = key; 
+                                if(tkn) printf("\n#KEYWORD: %s\n", yytext); 
+                                return keyword_hash_table[key];  
+                            }
 
-<LINE>{Macro_Token}		{ if(tkn) printf("#macro:%s\n",yytext); }
+<LINE>{Macro_Token}		      { if(tkn) printf("#macro:%s\n",yytext); }
 
 <LINE>{Type_Token}          {  
                                 key_reset(); 
-                                Hashfunc(yytext);
+                                TypeHash(yytext);
                                 yylval.token = key; 
                                 if(tkn) printf("\n#TYPE: %s\n", yytext); 
-                                return gate[key];  
+                                return type_hash_table[key];  
                             }
 
 <LINE>{Float_Token}		    { if(tkn) printf("#float:%s\n", yytext); }
@@ -186,7 +197,7 @@ void key_reset(){
 	return;
 }
 
-void Hashfunc(char* yytext){
+void TypeHash(char* yytext){
     if(!strcmp(yytext,"const")){
 		  key = 0;
     }else if(!strcmp(yytext,"signed")){
@@ -209,5 +220,33 @@ void Hashfunc(char* yytext){
 		  key = 9;
     }else if(!strcmp(yytext,"char")){
 		  key = 10;
+    }else key = -2;
+}
+
+void KeyWordHash(char* yytext){
+    if(!strcmp(yytext,"for")){
+		  key = 0;
+    }else if(!strcmp(yytext,"do")){
+		  key = 1;
+    }else if(!strcmp(yytext,"while")){
+		  key = 2;
+    }else if(!strcmp(yytext,"break")){
+		  key = 3;
+    }else if(!strcmp(yytext,"continue")){
+		  key = 4;
+    }else if(!strcmp(yytext,"if")){
+		  key = 5;
+    }else if(!strcmp(yytext,"else")){
+		  key = 6;
+    }else if(!strcmp(yytext,"return")){
+		  key = 7;
+    }else if(!strcmp(yytext,"struct")){
+		  key = 8;
+    }else if(!strcmp(yytext,"switch")){
+		  key = 9;
+    }else if(!strcmp(yytext,"case")){
+		  key = 10;
+    }else if(!strcmp(yytext,"default")){
+		  key = 11;
     }else key = -2;
 }

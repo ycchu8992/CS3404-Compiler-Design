@@ -4,7 +4,7 @@
 #include<stdlib.h>
 
 char* const type_table[11] = {"const", "signed", "unsigned", "longlong", "long", "short", "int", "float", "double", "void", "char"};
-
+char* const keyword_table[12] = { "for", "do", "while", "break", "continue", "if", "else", "return", "struct", "switch", "case", "default" };
 extern int tkn;
 
 char* check_id_exist(char* tok);
@@ -36,7 +36,7 @@ int cur_scope=0;
 %start program
 %token<charv> NUM 
 %token<charv> ID
-%token<token> CONST SIGN USIGN LONG LLONG SHRT FLOAT DOUBLE VOID CHAR INT
+%token<token> CONST SIGN USIGN LONG LLONG SHRT FLOAT DOUBLE VOID CHAR INT FOR DO WHILE BREAK CONTINUE IF ELSE RETURN STRUCT SWITCH CASE DEFALUT 
 %token<charv> '=' '\n' '[' ']' '{' '}'  '(' ')'
 %left<charv> '*'
 %type<charv>  type_decl type_layer sign_usgn int_char long_shrt
@@ -54,21 +54,37 @@ program:  var_decl program
 
 var_decl: scalar_decl | array_decl ;
 
-func_def: type_ident parameter_info compound_stmt {
-                                                    size_t n1 = strlen($1);
-                                                    size_t n2 = strlen($2);
-                                                    size_t n3 = strlen($3);
-                                                    char* buffer = (char*)malloc(n1+n2+n3+1);
-                                                    strcpy(buffer,$1);
-                                                    strcat(buffer,$2);
-                                                    strcat(buffer,$3);
-                                                    printf("<func_def>%s</func_def>", buffer);
-                                                    free(buffer);
-                                                    free($1);
-                                                    free($2);
-                                                    free($3);
-                                                };
+func_def: type_ident parameter_info compound_stmt   {
+                                                        size_t n1 = strlen($1);
+                                                        size_t n2 = strlen($2);
+                                                        size_t n3 = strlen($3);
+                                                        char* buffer = (char*)malloc(n1+n2+n3+1);
+                                                        strcpy(buffer,$1);
+                                                        strcat(buffer,$2);
+                                                        strcat(buffer,$3);
+                                                        printf("<func_def>%s</func_def>", buffer);
+                                                        free(buffer);
+                                                        free($1);
+                                                        free($2);
+                                                        free($3);
+                                                    };
         ;
+
+stmt: single_stmt stmt
+    | single_stmt
+    ;
+
+single_stmt: expr_stmt
+            | if_else_stmt
+            | switch_stmt
+            | while_stmt
+            | for_stmt
+            | return_stmt
+            | break_stmt
+            | continue_stmt
+            | '{' compound_stmt '}'
+            | '{' '}'
+            ;
 
 expr_stmt:　expr SEMICOLON
 
@@ -102,28 +118,17 @@ do_tag: DO stmt
 
 condition: '(' expr ')'
 
-return_stmt: RETURN expr SEMICOLON
-            | RETURN SEMICOLON
-            ;
-
 break_stmt: BREAK SEMICOLON
 
 continue_stmt: CONTINUE SEMICOLON
 
-compound_stmt: '{' '}'  {
-                                                    size_t n1 = strlen($1);
-                                                    size_t n2 = strlen($2);
-                                                    char* buffer = (char*)malloc(n1+n2+1);
-                                                    strcpy(buffer,$1);
-                                                    strcat(buffer,$2);
-                                                    $$ = buffer;
-                                                };
-        ;
+return_stmt: RETURN expr SEMICOLON
+            | RETURN SEMICOLON
+            ;
 
-compound_stmt_content: stmt compound_stmt_content
-                    | var_decl compound_stmt
-                    ;
-
+compound_stmt: stmt compound_stmt
+            | var_decl compound_stmt
+            ;
 
 func_decl: type_ident parameter_info SEMICOLON {
                                                     size_t n1 = strlen($1);
