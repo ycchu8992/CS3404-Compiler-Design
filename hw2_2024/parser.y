@@ -41,13 +41,29 @@ int cur_scope=0;
 %left<charv> '*'
 %type<charv>  type_decl type_layer sign_usgn int_char long_shrt
 %type<charv>  ident var_init scalar_decl func_decl program array_decl func_def var_decl
-%type<charv> expr arr_ident arr_tag arr_content box arr_cnt_fmt arr_id type_ident parameter_info parameters compound_stmt
+%type<charv> expr arr_ident arr_tag arr_content box arr_cnt_fmt arr_id type_ident parameter_info parameters compound_stmt init
 %token<charv> SEMICOLON ENTER
 %left<charv> COMMA
 %%
 
+TODO: move print action to here.
+TODO: the name of the layers must be declared.
+init: program
 
-program:  var_decl program
+program:  var_decl program  {
+                                size_t n1 = strlen($1);
+                                size_t n2 = strlen($2);
+                                size_t n3 = strlen($3);
+                                char* buffer = (char*)malloc(n1+n2+n3+1);
+                                strcpy(buffer,$1);
+                                strcat(buffer,$2);
+                                strcat(buffer,$3);
+                                printf("<func_def>%s</func_def>", buffer);
+                                free(buffer);
+                                free($1);
+                                free($2);
+                                free($3);
+                            }
         | func_decl program 
         | func_def program
         ;
@@ -67,7 +83,7 @@ func_def: type_ident parameter_info compound_stmt   {
                                                         free($1);
                                                         free($2);
                                                         free($3);
-                                                    };
+                                                    }
         ;
 
 stmt: single_stmt stmt
@@ -82,8 +98,7 @@ single_stmt: expr_stmt
             | return_stmt
             | break_stmt
             | continue_stmt
-            | '{' compound_stmt '}'
-            | '{' '}'
+            | compound_stmt 
             ;
 
 expr_stmt:　expr SEMICOLON
@@ -126,9 +141,50 @@ return_stmt: RETURN expr SEMICOLON
             | RETURN SEMICOLON
             ;
 
-compound_stmt: stmt compound_stmt
-            | var_decl compound_stmt
+compound_stmt: '{' compound_stmt_content '}'    { 
+                                                    size_t n1 = strlen($1);
+                                                    size_t n2 = strlen($2);
+                                                    size_t n3 = strlen($3);                      
+                                                    char* buffer = (char*)malloc(n1+n2+n3+1);
+                                                    strcpy(buffer,$1);
+                                                    strcat(buffer,$2);
+                                                    strcat(buffer,$3);
+                                                    $$ = buffer;
+                                                    free($2);
+                                                }
+            | '{' '}'                           { 
+                                                    size_t n1 = strlen($1);
+                                                    size_t n2 = strlen($2);                   
+                                                    char* buffer = (char*)malloc(n1+n2+1);
+                                                    strcpy(buffer,$1);
+                                                    strcat(buffer,$2);
+                                                    $$ = buffer;
+                                                }                      
             ;
+
+compound_stmt_content: stmt compound_stmt_content   { 
+                                                        size_t n1 = strlen($1);
+                                                        size_t n2 = strlen($2);                   
+                                                        char* buffer = (char*)malloc(n1+n2+1);
+                                                        strcpy(buffer,$1);
+                                                        strcat(buffer,$2);
+                                                        $$ = buffer;
+                                                        free($1);
+                                                        free($2);
+                                                    } 
+                | var_decl compound_stmt_content    { 
+                                                        size_t n1 = strlen($1);
+                                                        size_t n2 = strlen($2);                   
+                                                        char* buffer = (char*)malloc(n1+n2+1);
+                                                        strcpy(buffer,$1);
+                                                        strcat(buffer,$2);
+                                                        $$ = buffer;
+                                                        free($1);
+                                                        free($2);
+                                                    } 
+                | stmt
+                | var_decl
+                ;
 
 func_decl: type_ident parameter_info SEMICOLON {
                                                     size_t n1 = strlen($1);

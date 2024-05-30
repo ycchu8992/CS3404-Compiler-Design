@@ -1,1 +1,1 @@
-<func_def>intmain(){}</func_def>
+<func_def>intmain(){<stmt>{<stmt><expr>s</expr>;</stmt>}</stmt><stmt>{<stmt><expr>s</expr>;</stmt>}</stmt>}</func_def>

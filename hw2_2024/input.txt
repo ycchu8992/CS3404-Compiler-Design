@@ -1,2 +1,15 @@
 
-int main(){}
+int main(){
+    {s;}{s;}
+}
+
+
+
+{
+    <stmt>{
+        <stmt><expr>s</expr>;</stmt>
+        }</stmt>
+    <stmt>{
+        <stmt><expr>s</expr>;</stmt>
+        }</stmt>
+}
