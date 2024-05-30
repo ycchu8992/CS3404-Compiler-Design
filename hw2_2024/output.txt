@@ -1,1 +1,1 @@
-<scalar_decl>inta=<expr>0</expr>;</scalar_decl><scalar_decl>intb=<expr>0</expr>;</scalar_decl><func_def>intmain(){<stmt>return<expr>0</expr>;</stmt>}</func_def>
+<array_decl>intc[<expr>1</expr>][<expr>3</expr>][<expr>5</expr>];</array_decl>

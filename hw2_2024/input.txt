@@ -1,1 +1,70 @@
-int
+const var_01;
+const signed var_02;
+const unsigned var_03;
+const float var_04;
+const double var_05;
+const void var_06;
+signed var_07;
+unsigned var_08;
+float var_09;
+double var_10;
+void var_11;
+
+long long var_12;
+long var_13;
+short var_14;
+char var_15;
+
+const long long var_16;
+const long var_17;
+const short var_18;
+const char var_19;
+
+signed long long var_20;
+signed long var_21;
+signed short var_22;
+signed char var_23;
+
+unsigned long long var_24;
+unsigned long var_25;
+unsigned short var_26;
+unsigned char var_27;
+
+const signed long long var_28;
+const signed long var_29;
+const signed short var_30;
+const signed char var_31;
+
+const unsigned long long var_32;
+const unsigned long var_33;
+const unsigned short var_34;
+const unsigned char var_35;
+
+const int var_36;
+signed int var_37;
+unsigned int var_38;
+long long int var_39;
+long int var_40;
+short int var_41;
+int var_42;
+const signed int var_43;
+const unsigned int var_44;
+const long long int var_45;
+const long int var_46;
+const short int var_47;
+
+signed long long int var_48;
+signed long int var_49;
+signed short int var_50;
+
+unsigned long long int var_51;
+unsigned long int var_52;
+unsigned short int var_53;
+
+const signed long long int var_54;
+const signed long int var_55;
+const signed short int var_56;
+
+const unsigned long long int var_57;
+const unsigned long int var_58;
+const unsigned short int var_59;

@@ -1,5 +1,6 @@
 CC = gcc
 CFLAG = -lfl
+DFLAG = -DYYDEBUG
 
 # Part 1: Compile the scanner.
 RUNFIRST:=$(shell )
@@ -9,7 +10,7 @@ all: parser.y
 .PHONY: parser.y
 parser.y: lex.yy.c y.tab.c
 	
-	$(CC) -o parser lex.yy.c y.tab.c $(CFLAG)
+	$(CC) -o parser lex.yy.c y.tab.c $(CFLAG) $(DFLAG)
 
 y.tab.c:
 	yacc -d parser.y

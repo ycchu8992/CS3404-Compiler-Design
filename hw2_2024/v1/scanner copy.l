@@ -18,7 +18,6 @@ int tkn=0;
 int src=0;
 int cmt = 0;
 //"const" "signed" "unsigned" "long long" "long" "short" "int" "float" "double" "void" "char"
-//CONST, SIGN, USIGN, LLONG, LONG, SHRT, INT, FLOAT, DOUBLE, VOID, CHAR 
 int gate[11] = {CONST, SIGN, USIGN, LLONG, LONG, SHRT, INT, FLOAT, DOUBLE, VOID, CHAR };
 int key = -1;
 int Hashfunc(char* yytext);
@@ -75,9 +74,7 @@ Comment_Token 	\/\/(.)*
 
 <LINE>{Type_Token}          {  
                                 key_reset(); 
-                                //yylval.token = Hashfunc(yytext); 
-                                Hashfunc(yytext);
-                                yylval.token = key; 
+                                yylval.token = Hashfunc(yytext); 
                                 if(tkn) printf("\n#TYPE: %s\n", yytext); 
                                 return gate[key];  
                             }
@@ -113,16 +110,7 @@ Comment_Token 	\/\/(.)*
                                 if(tkn) printf("\n#SEMICOLON: %s\n", yytext); 
                                 return SEMICOLON;
                             }
-<LINE>"["		            {  
-                                yylval.charv="["; 
-                                if(tkn) printf("\n#SEMICOLON: %s\n", yytext); 
-                                return '[';
-                            }
-<LINE>"]"		            {  
-                                yylval.charv="]"; 
-                                if(tkn) printf("\n#SEMICOLON: %s\n", yytext); 
-                                return ']';
-                            }
+
 <LINE>{Punc_Token}		    {  yylval.charv=yytext; if(tkn) printf("#punc:%s\n", yytext); return yytext[0];}
 
 <LINE>{Escape_Token}		{ if(tkn) printf("#char:%s\n", yytext); }
@@ -152,11 +140,7 @@ Comment_Token 	\/\/(.)*
 								printf("%d:%s", num_lines, line_content);
 								free(line_content);
 							}
-                            
-                            
-                            
 							BEGIN 0;
-                            
 						}
 
 <CTRL>on|off			{ *sw= (int)(*(yytext+1)=='n');  BEGIN LINE; }

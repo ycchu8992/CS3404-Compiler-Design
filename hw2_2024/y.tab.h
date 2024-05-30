@@ -3,11 +3,22 @@
 
 #define NUM 257
 #define ID 258
-#define TYPE 259
-#define array_decl 268
-#define func_decl 269
-#define func_def 270
-#define stmt 271
+#define CONST 259
+#define SIGN 260
+#define USIGN 261
+#define LONG 262
+#define LLONG 263
+#define SHRT 264
+#define FLOAT 265
+#define DOUBLE 266
+#define VOID 267
+#define CHAR 268
+#define INT 269
+#define func_decl 270
+#define arr_content 271
+#define SEMICOLON 272
+#define ENTER 273
+#define COMMA 274
 #ifdef YYSTYPE
 #undef  YYSTYPE_IS_DECLARED
 #define YYSTYPE_IS_DECLARED 1
@@ -16,13 +27,7 @@
 #define YYSTYPE_IS_DECLARED 1
 typedef union YYSTYPE{
     int token;
-    double token_float;
     char* charv;
-    char punc_symbol;
-    char* op;
-    char* data_type;
-    char* identifier;
-    char* expression;
     struct symbol *sym;
 } YYSTYPE;
 #endif /* !YYSTYPE_IS_DECLARED */

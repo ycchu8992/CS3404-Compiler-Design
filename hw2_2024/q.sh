@@ -1,6 +1,6 @@
 #!/bin/sh
 make clean
 make all
-./parser < input.txt
+./parser -d < input.txt
 exit 0
 
