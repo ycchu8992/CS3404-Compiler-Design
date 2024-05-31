@@ -31,6 +31,14 @@
 #define CASE 284
 #define DEFALUT 285
 #define ENTER 286
+#define LEFT_SHIFT 293
+#define RIGHT_SHIFT 294
+#define DEREF 297
+#define UMINUS 298
+#define UPLUS 299
+#define ADDRESS 300
+#define INCREMENT 301
+#define DECREMENT 302
 #ifdef YYSTYPE
 #undef  YYSTYPE_IS_DECLARED
 #define YYSTYPE_IS_DECLARED 1

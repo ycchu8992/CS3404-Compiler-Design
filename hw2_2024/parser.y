@@ -58,10 +58,26 @@ int cur_scope=0;
 %token<charv> ID
 %token<token> CONST SIGN USIGN LONG LLONG SHRT FLOAT DOUBLE VOID CHAR INT FOR DO WHILE BREAK CONTINUE IF ELSE RETURN STRUCT SWITCH CASE DEFALUT 
 %token<charv> '=' '\n' '[' ']' '{' '}'  '(' ')' ':'
-%left<charv> '*'
-%token<charv> ';' ENTER
-%left<charv> ','
 
+
+
+%token<charv> ';' ENTER
+
+%left<charv> ','
+%right<charv> '=' 
+%left<charv>  "||"
+%left<charv>  "&&"
+%left<charv>  '|'
+%left<charv>  '^'
+%left<charv>  '&' 
+%left<charv>  "==" "!="
+%left<charv>  '<' '>' ">=" "<="
+%left<charv>  LEFT_SHIFT RIGHT_SHIFT
+%left<charv>  '+' '-' 
+%left<charv>  '*' '/' '%'
+%right<charv>  "++" "--" 
+%nonassoc DEREF UMINUS UPLUS ADDRESS
+%nonassoc INCREMENT DECREMENT
 %%
 
 init: program                                       {
@@ -101,7 +117,7 @@ scalar_decl: type_decl ident                        {
                                                         free($2);
                                                     };
 
-array_decl: type_decl arr_ident ';'           {
+array_decl: type_decl arr_ident ';'                 {
                                                         size_t l = strlen("<array_decl>");
                                                         size_t n1 = strlen($1);
                                                         size_t n2 = strlen($2);
@@ -119,7 +135,7 @@ array_decl: type_decl arr_ident ';'           {
                                                     }    
         ;
 
-func_decl: type_ident parameter_info ';'      {
+func_decl: type_ident parameter_info ';'            {
                                                         size_t l = strlen("<func_decl>");
                                                         size_t n1 = strlen($1);
                                                         size_t n2 = strlen($2);
@@ -173,16 +189,16 @@ while_stmt: while_tag stmt                          {   $$ = reduce_nonterminal_
 
 for_stmt: FOR for_condition stmt                    {   $$ = reduce_terminal_nonterminal_nonterminal(keyword_table[$1], $2, $3); }
 for_condition: '(' for_content ')'                  {   $$ = reduce_terminal_nonterminal_terminal($1, $2, $3); }
-for_content: expr ';' for_layer_2             {   $$ = reduce_nonterminal_terminal_nonterminal($1, $2, $3); }
-            | ';' for_layer_2                 {   $$ = reduce_terminal_nonterminal($1, $2); }
+for_content: expr ';' for_layer_2                   {   $$ = reduce_nonterminal_terminal_nonterminal($1, $2, $3); }
+            | ';' for_layer_2                       {   $$ = reduce_terminal_nonterminal($1, $2); }
             ;
-for_layer_2: expr ';'                         {   $$ = reduce_nonterminal_terminal($1, $2); }
-            | ';'                             {   $$ = reduce_terminal($1); }
-            | expr ';' expr                   {   $$ = reduce_nonterminal_terminal_nonterminal($1, $2, $3); }
-            | ';' expr                        {   $$ = reduce_terminal_nonterminal($1, $2); }
+for_layer_2: expr ';'                               {   $$ = reduce_nonterminal_terminal($1, $2); }
+            | ';'                                   {   $$ = reduce_terminal($1); }
+            | expr ';' expr                         {   $$ = reduce_nonterminal_terminal_nonterminal($1, $2, $3); }
+            | ';' expr                              {   $$ = reduce_terminal_nonterminal($1, $2); }
             ;
 
-do_while_stmt: do_tag while_tag ';'           {   $$ = reduce_nonterminal_nonterminal_terminal($1,$2,$3);  }
+do_while_stmt: do_tag while_tag ';'                 {   $$ = reduce_nonterminal_nonterminal_terminal($1,$2,$3);  }
 
 while_tag: WHILE condition                          {   $$ = reduce_terminal_nonterminal(keyword_table[$1], $2);   }
 
@@ -213,7 +229,7 @@ if_stmt: IF condition compound_stmt                 {   $$ = reduce_terminal_non
 
 else_stmt: ELSE compound_stmt                       {   $$ = reduce_terminal_nonterminal(keyword_table[$1], $2);   }
 
-expr_stmt: expr ';'                           {   $$ = reduce_nonterminal_terminal($1, $2);   } 
+expr_stmt: expr ';'                                 {   $$ = reduce_nonterminal_terminal($1, $2);   } 
 
 condition: '(' expr ')'                             {   $$ = reduce_terminal_nonterminal_terminal($1, $2, $3);    }
 
@@ -227,22 +243,22 @@ compound_stmt_content: stmt compound_stmt_content   {   $$ = reduce_nonterminal_
                 | var_decl                          {   $$ = reduce_nonterminal($1);    }
                 ;
                 
-break_stmt: BREAK ';'                         {   $$ = reduce_terminal_terminal(keyword_table[$1], $2);  }
-continue_stmt: CONTINUE ';'                   {   $$ = reduce_terminal_terminal(keyword_table[$1], $2);  }
+break_stmt: BREAK ';'                               {   $$ = reduce_terminal_terminal(keyword_table[$1], $2);  }
+continue_stmt: CONTINUE ';'                         {   $$ = reduce_terminal_terminal(keyword_table[$1], $2);  }
 return_stmt: RETURN expr_stmt                       {   $$ = reduce_terminal_nonterminal(keyword_table[$1], $2);  }
-            | RETURN ';'                      {   $$ = reduce_terminal_terminal(keyword_table[$1], $2);  }
+            | RETURN ';'                            {   $$ = reduce_terminal_terminal(keyword_table[$1], $2);  }
             ;
 parameter_info: '(' parameters ')'                  {   $$ = reduce_terminal_nonterminal_terminal($1, $2, $3);    }
             |   '(' ')'                             {   $$ = reduce_terminal_terminal($1, $2);  }
             ;
 
-parameters: type_ident ',' parameters             {   $$ = reduce_nonterminal_terminal_nonterminal($1, $2, $3);   }
+parameters: type_ident ',' parameters               {   $$ = reduce_nonterminal_terminal_nonterminal($1, $2, $3);   }
             | type_ident                            {   $$ = reduce_nonterminal($1);    }
             ;
 
 type_ident: type_decl ID                            {   $$ = reduce_nonterminal_terminal($1, $2);   }  
 
-arr_ident:  arr_id ',' arr_ident                  {   $$ = reduce_nonterminal_terminal_nonterminal($1, $2, $3);   }
+arr_ident:  arr_id ',' arr_ident                    {   $$ = reduce_nonterminal_terminal_nonterminal($1, $2, $3);   }
             | arr_id                                {   $$ = reduce_nonterminal($1);    }                       
             ;
 
@@ -256,8 +272,8 @@ arr_tag:  box arr_tag                               {   $$ = reduce_nonterminal_
 arr_cnt_fmt: '{'arr_content'}'                      {   $$ = reduce_terminal_nonterminal_terminal($1, $2, $3);    }
 
 arr_content: arr_cnt_fmt                            {   $$ = reduce_nonterminal($1);    }
-            | arr_cnt_fmt ',' arr_content         {   $$ = reduce_nonterminal_terminal_nonterminal($1, $2, $3);   }
-            | expr ',' arr_content                {   $$ = reduce_nonterminal_terminal_nonterminal($1, $2, $3);   }
+            | arr_cnt_fmt ',' arr_content           {   $$ = reduce_nonterminal_terminal_nonterminal($1, $2, $3);   }
+            | expr ',' arr_content                  {   $$ = reduce_nonterminal_terminal_nonterminal($1, $2, $3);   }
             | expr                                  {   $$ = reduce_nonterminal($1);    } 
             ;
             
@@ -312,7 +328,7 @@ expr:   factor      {
                         strcat(num,"</expr>");
                         $$ = num;
                     };
-        |'(' expr ')'                               {   $$ = reduce_terminal_nonterminal_terminal($1, $2, $3);    }
+
     ;
 factor: INT_NUM                                     {   $$ = reduce_terminal($1);   }
         | FLOAT_NUM                                 {   $$ = reduce_nonterminal($1);   } // special useage

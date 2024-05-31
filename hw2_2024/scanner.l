@@ -88,11 +88,23 @@ Comment_Token 	    \/\/(.)*
                                 if(tkn) printf("\n#OPERATOR: %s\n",yytext); 
                                 return '='; 
                             }
-<LINE>{Operator_Token}	    { 
-                                yylval.charv=yytext; 
-                                if(tkn) printf("\n#OPERATOR: %s\n",yytext); 
-                                return '*'; 
-                            }
+                           
+
+<LINE>"+"	                {   yylval.charv="+"; return '+'; }
+<LINE>"-"	                {   yylval.charv="-"; return '-'; }
+<LINE>"*"	                {   yylval.charv="*"; return '*'; }
+<LINE>"/"	                {   yylval.charv="/"; return '/'; }
+<LINE>"%"	                {   yylval.charv="%"; return '%'; }
+<LINE>"<"	                {   yylval.charv="<"; return '<'; }
+<LINE>">"	                {   yylval.charv=">"; return '>'; }
+<LINE>"!"	                {   yylval.charv="!"; return '!'; }
+<LINE>"~"	                {   yylval.charv="~"; return '~'; }
+<LINE>"^"	                {   yylval.charv="^"; return '^'; }
+<LINE>"&"	                {   yylval.charv="&"; return '&'; }
+<LINE>"|"	                {   yylval.charv="|"; return '|'; }
+
+
+
 <LINE>","		            {   yylval.charv=","; return ',';   }
 <LINE>";"		            {   yylval.charv=";"; return ';';   }
 <LINE>"("		            {   yylval.charv="("; return '(';   }
@@ -194,3 +206,31 @@ void KeyWordHash(char* yytext){
 		  key = 11;
     }else key = -1;
 }
+/*
+<LINE>"<="	                {   yylval.charv="<="; return "<="; }
+<LINE>">="	                {   yylval.charv=">="; return ">="; }
+<LINE>"=="	                {   yylval.charv="=="; return "=="; }
+<LINE>"!="	                {   yylval.charv="!="; return "!="; }
+<LINE>"&&"	                {   yylval.charv="&&"; return "&&"; }
+<LINE>"<<"	                {   yylval.charv="<<"; return "<<"; }
+<LINE>">>"	                {   yylval.charv=">>"; return ">>"; }
+<LINE>"||"	                {   yylval.charv="||"; return "||"; }
+
+<LINE>{Operator_Token}	    { 
+                                yylval.charv=yytext; 
+                                if(tkn) printf("\n#OPERATOR: %s\n",yytext); 
+                                return yytext; 
+                            }
+<LINE>"++"	                {   yylval.charv="++"; return "++"; }
+<LINE>"--"	                {   yylval.charv="--"; return "--"; }
+
+
+    (int)a;
+    while(1){
+        &(123);
+        printf("as\n");
+    }
+    int a = +1;
+
+
+*/
