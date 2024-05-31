@@ -45,19 +45,22 @@ int cur_scope=0;
 }
 
 
-%type<charv>  type_decl type_layer sign_usgn int_char long_shrt while_stmt do_while_stmt while_tag do_tag switch_stmt switch_clause switch_content case_expr default_expr
-%type<charv>  ident var_init scalar_decl func_decl program array_decl func_def var_decl expr_stmt compound_stmt_content stmt condition if_stmt else_stmt for_stmt for_condition for_content for_layer_2
-%type<charv>  expr arr_ident arr_tag arr_content box arr_cnt_fmt arr_id type_ident parameter_info parameters compound_stmt section init if_else_stmt break_stmt continue_stmt return_stmt
+%type<charv>  type_decl type_layer sign_usgn int_char long_shrt while_stmt do_while_stmt while_tag do_tag 
+%type<charv>  switch_stmt switch_clause switch_content case_expr default_expr factor if_else_stmt break_stmt
+%type<charv>  ident var_init scalar_decl func_decl program array_decl func_def var_decl 
+%type<charv>  expr_stmt compound_stmt_content stmt condition if_stmt else_stmt for_stmt 
+%type<charv>  for_condition for_content for_layer_2 expr arr_ident arr_tag arr_content box arr_cnt_fmt arr_id
+%type<charv>  type_ident parameter_info parameters compound_stmt section init continue_stmt return_stmt
 
 %start init
 
-%token<charv> NUM 
+%token<charv> INT_NUM FLOAT_NUM STRING CHARACTER NULL_SIGNAL
 %token<charv> ID
 %token<token> CONST SIGN USIGN LONG LLONG SHRT FLOAT DOUBLE VOID CHAR INT FOR DO WHILE BREAK CONTINUE IF ELSE RETURN STRUCT SWITCH CASE DEFALUT 
 %token<charv> '=' '\n' '[' ']' '{' '}'  '(' ')' ':'
 %left<charv> '*'
-%token<charv> SEMICOLON ENTER
-%left<charv> COMMA
+%token<charv> ';' ENTER
+%left<charv> ','
 
 %%
 
@@ -98,7 +101,7 @@ scalar_decl: type_decl ident                        {
                                                         free($2);
                                                     };
 
-array_decl: type_decl arr_ident SEMICOLON           {
+array_decl: type_decl arr_ident ';'           {
                                                         size_t l = strlen("<array_decl>");
                                                         size_t n1 = strlen($1);
                                                         size_t n2 = strlen($2);
@@ -116,7 +119,7 @@ array_decl: type_decl arr_ident SEMICOLON           {
                                                     }    
         ;
 
-func_decl: type_ident parameter_info SEMICOLON      {
+func_decl: type_ident parameter_info ';'      {
                                                         size_t l = strlen("<func_decl>");
                                                         size_t n1 = strlen($1);
                                                         size_t n2 = strlen($2);
@@ -170,16 +173,16 @@ while_stmt: while_tag stmt                          {   $$ = reduce_nonterminal_
 
 for_stmt: FOR for_condition stmt                    {   $$ = reduce_terminal_nonterminal_nonterminal(keyword_table[$1], $2, $3); }
 for_condition: '(' for_content ')'                  {   $$ = reduce_terminal_nonterminal_terminal($1, $2, $3); }
-for_content: expr SEMICOLON for_layer_2             {   $$ = reduce_nonterminal_terminal_nonterminal($1, $2, $3); }
-            | SEMICOLON for_layer_2                 {   $$ = reduce_terminal_nonterminal($1, $2); }
+for_content: expr ';' for_layer_2             {   $$ = reduce_nonterminal_terminal_nonterminal($1, $2, $3); }
+            | ';' for_layer_2                 {   $$ = reduce_terminal_nonterminal($1, $2); }
             ;
-for_layer_2: expr SEMICOLON                         {   $$ = reduce_nonterminal_terminal($1, $2); }
-            | SEMICOLON                             {   $$ = reduce_terminal($1); }
-            | expr SEMICOLON expr                   {   $$ = reduce_nonterminal_terminal_nonterminal($1, $2, $3); }
-            | SEMICOLON expr                        {   $$ = reduce_terminal_nonterminal($1, $2); }
+for_layer_2: expr ';'                         {   $$ = reduce_nonterminal_terminal($1, $2); }
+            | ';'                             {   $$ = reduce_terminal($1); }
+            | expr ';' expr                   {   $$ = reduce_nonterminal_terminal_nonterminal($1, $2, $3); }
+            | ';' expr                        {   $$ = reduce_terminal_nonterminal($1, $2); }
             ;
 
-do_while_stmt: do_tag while_tag SEMICOLON           {   $$ = reduce_nonterminal_nonterminal_terminal($1,$2,$3);  }
+do_while_stmt: do_tag while_tag ';'           {   $$ = reduce_nonterminal_nonterminal_terminal($1,$2,$3);  }
 
 while_tag: WHILE condition                          {   $$ = reduce_terminal_nonterminal(keyword_table[$1], $2);   }
 
@@ -210,7 +213,7 @@ if_stmt: IF condition compound_stmt                 {   $$ = reduce_terminal_non
 
 else_stmt: ELSE compound_stmt                       {   $$ = reduce_terminal_nonterminal(keyword_table[$1], $2);   }
 
-expr_stmt: expr SEMICOLON                           {   $$ = reduce_nonterminal_terminal($1, $2);   } 
+expr_stmt: expr ';'                           {   $$ = reduce_nonterminal_terminal($1, $2);   } 
 
 condition: '(' expr ')'                             {   $$ = reduce_terminal_nonterminal_terminal($1, $2, $3);    }
 
@@ -224,22 +227,22 @@ compound_stmt_content: stmt compound_stmt_content   {   $$ = reduce_nonterminal_
                 | var_decl                          {   $$ = reduce_nonterminal($1);    }
                 ;
                 
-break_stmt: BREAK SEMICOLON                         {   $$ = reduce_terminal_terminal(keyword_table[$1], $2);  }
-continue_stmt: CONTINUE SEMICOLON                   {   $$ = reduce_terminal_terminal(keyword_table[$1], $2);  }
+break_stmt: BREAK ';'                         {   $$ = reduce_terminal_terminal(keyword_table[$1], $2);  }
+continue_stmt: CONTINUE ';'                   {   $$ = reduce_terminal_terminal(keyword_table[$1], $2);  }
 return_stmt: RETURN expr_stmt                       {   $$ = reduce_terminal_nonterminal(keyword_table[$1], $2);  }
-            | RETURN SEMICOLON                      {   $$ = reduce_terminal_terminal(keyword_table[$1], $2);  }
+            | RETURN ';'                      {   $$ = reduce_terminal_terminal(keyword_table[$1], $2);  }
             ;
 parameter_info: '(' parameters ')'                  {   $$ = reduce_terminal_nonterminal_terminal($1, $2, $3);    }
             |   '(' ')'                             {   $$ = reduce_terminal_terminal($1, $2);  }
             ;
 
-parameters: type_ident COMMA parameters             {   $$ = reduce_nonterminal_terminal_nonterminal($1, $2, $3);   }
+parameters: type_ident ',' parameters             {   $$ = reduce_nonterminal_terminal_nonterminal($1, $2, $3);   }
             | type_ident                            {   $$ = reduce_nonterminal($1);    }
             ;
 
 type_ident: type_decl ID                            {   $$ = reduce_nonterminal_terminal($1, $2);   }  
 
-arr_ident:  arr_id COMMA arr_ident                  {   $$ = reduce_nonterminal_terminal_nonterminal($1, $2, $3);   }
+arr_ident:  arr_id ',' arr_ident                  {   $$ = reduce_nonterminal_terminal_nonterminal($1, $2, $3);   }
             | arr_id                                {   $$ = reduce_nonterminal($1);    }                       
             ;
 
@@ -253,8 +256,8 @@ arr_tag:  box arr_tag                               {   $$ = reduce_nonterminal_
 arr_cnt_fmt: '{'arr_content'}'                      {   $$ = reduce_terminal_nonterminal_terminal($1, $2, $3);    }
 
 arr_content: arr_cnt_fmt                            {   $$ = reduce_nonterminal($1);    }
-            | arr_cnt_fmt COMMA arr_content         {   $$ = reduce_nonterminal_terminal_nonterminal($1, $2, $3);   }
-            | expr COMMA arr_content                {   $$ = reduce_nonterminal_terminal_nonterminal($1, $2, $3);   }
+            | arr_cnt_fmt ',' arr_content         {   $$ = reduce_nonterminal_terminal_nonterminal($1, $2, $3);   }
+            | expr ',' arr_content                {   $$ = reduce_nonterminal_terminal_nonterminal($1, $2, $3);   }
             | expr                                  {   $$ = reduce_nonterminal($1);    } 
             ;
             
@@ -291,15 +294,15 @@ long_shrt: LLONG                                    {   $$ = reduce_terminal(typ
          | SHRT                                     {   $$ = reduce_terminal(type_table[$1]);   }
          ;
 
-ident: var_init COMMA ident                         {   $$ = reduce_nonterminal_terminal_nonterminal($1, $2, $3);   }
-    | var_init SEMICOLON                            {   $$ = reduce_nonterminal_terminal($1, $2);   }
-    | ID SEMICOLON                                  {   $$ = reduce_terminal_terminal($1, $2);  }
-    | ID COMMA ident                                {   $$ = reduce_terminal_terminal_nonterminal($1, $2, $3);  }
+ident: var_init ',' ident                           {   $$ = reduce_nonterminal_terminal_nonterminal($1, $2, $3);   }
+    | var_init ';'                                  {   $$ = reduce_nonterminal_terminal($1, $2);   }
+    | ID ';'                                        {   $$ = reduce_terminal_terminal($1, $2);  }
+    | ID ',' ident                                  {   $$ = reduce_terminal_terminal_nonterminal($1, $2, $3);  }
     ;
 
 var_init: ID '=' expr                               {   $$ = reduce_terminal_terminal_nonterminal($1, $2, $3);  }  
 
-expr:   NUM         { 
+expr:   factor      { 
                         size_t n1 = strlen("<expr>");
                         size_t n2 = strlen($1);
                         size_t n3 = strlen("</expr>");                      
@@ -309,13 +312,22 @@ expr:   NUM         {
                         strcat(num,"</expr>");
                         $$ = num;
                     };
-    
+        |'(' expr ')'                               {   $$ = reduce_terminal_nonterminal_terminal($1, $2, $3);    }
+    ;
+factor: INT_NUM                                     {   $$ = reduce_terminal($1);   }
+        | FLOAT_NUM                                 {   $$ = reduce_nonterminal($1);   } // special useage
+        | STRING                                    {   $$ = reduce_nonterminal($1);   } // special useage
+        | CHARACTER                                 {   $$ = reduce_nonterminal($1);   } // special useage
+        | NULL_SIGNAL                               {   $$ = reduce_nonterminal($1);   } // special useage
+        | arr_id                                    {   $$ = reduce_nonterminal($1);   } 
+        | ID                                        {   $$ = reduce_terminal($1);      }
+        ;
 %%
 
 int yylex(void);
 
 int main(int argc, char* argv[]) {
-    if(argc ==2 && !strcmp(argv[1],"-d")) yydebug = 1; //tkn 
+    if(argc ==2 && !strcmp(argv[1],"-d")) yydebug = 1;//= tkn 
     yylval.sym = symbol_table;
     yyparse();
     return 0;
@@ -347,7 +359,6 @@ char* reduce_nonterminal(char* r1){
     char* buffer = (char*)malloc(buffer_size);
     strcpy(buffer,r1);
     free(r1);
-    if(tkn) printf("%s", buffer);
     return buffer;                           
 }
 
@@ -355,7 +366,6 @@ char* reduce_terminal(char* r1){
     size_t buffer_size = strlen(r1)+1;
     char* buffer = (char*)malloc(buffer_size);
     strcpy(buffer,r1);
-    if(tkn) printf("%s", buffer);
     return buffer;                           
 }
 

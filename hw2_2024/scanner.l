@@ -27,16 +27,15 @@ Token_Control 	    (#pragma)(" "|"\t")+token(" "|"\t")+
 Keyword_Token	    "for"|"do"|"while"|"break"|"continue"|"if"|"else"|"return"|"struct"|"switch"|"case"|"default"
 Type_Token          "const"|"signed"|"unsigned"|"long long"|"long"|"short"|"int"|"float"|"double"|"void"|"char"
 
-Macro_Token		    ("NULL"|"__COUNTER__"|"__LINE__"|"INT_MAX"|"INT_MIN"|"CHAR_MIN"|"CHAR_MAX"|"MIN"|"MAX")
 Identifier_Token    (_|[a-zA-Z])[_a-zA-Z0-9]*
 Operator_Token	    (\+|\-|\*|\/|%|"\+\+"|"\-\-"|"<"|">"|"<="|">="|"=="|"!="|"&"|"&&"|"\|\|"|"!"|"&"|"\|")
-Punc_Token		    (\.)
 Empty_Token		    (" "|"\t")
 Char_Token		    (\'(.|"\\a"|"\\b"|"\\e"|"\\f"|"\\n"|"\\r"|"\\t"|"\\v"|"\\\\"|"\\\'"|"\\\""|"\\\?")\')
 Escape_Token	    (\'\\[01234567]+\')|(\'\\x[0-9a-fA-F]+\')|(\'\\u[0-9a-fA-F]{1,4}\')|(\'\\U[0-9a-fA-F]{1,8}\')
+
 String_Token 	    (\"(.|"\\a"|"\\b"|"\\e"|"\\f"|"\\n"|"\\r"|"\\t"|"\\v"|"\\\\"|"\\\'"|"\\\""|"\\\?")*\")
-Integer_Token	    (\+|\-)?[0-9]+
-Float_Token		    (\+|\-)?((\.[0-9]+)|([0-9]+\.)|([0-9]+\.[0-9]+))
+Integer_Token	    [0-9]+
+Float_Token		    ((\.[0-9]+)|([0-9]+\.)|([0-9]+\.[0-9]+))
 EOL_Token		    "\n"
 Comment_Token 	    \/\/(.)*
 	
@@ -52,16 +51,20 @@ Comment_Token 	    \/\/(.)*
 				    			else BEGIN LINE;
 						    }
 
-<LINE>{Token_Control}	    { sw = &tkn;  BEGIN CTRL; 	}
-
-<LINE>{Keyword_Token}       {  
+<LINE>{Keyword_Token}       {   
                                 KeyWordHash(yytext);
                                 yylval.token = key; 
                                 if(tkn) printf("\n#KEYWORD: %s\n", yytext); 
                                 return keyword_hash_table[key];  
                             }
 
-<LINE>{Macro_Token}		    { if(tkn) printf("#macro:%s\n",yytext); }
+<LINE>"NULL"		        {   
+                                size_t buffer_size = strlen("0");
+                                char* buffer = (char*)malloc(buffer_size);
+                                strcpy(buffer,"0");
+                                yylval.charv = buffer;
+                                return NULL_SIGNAL;
+                            }
 
 <LINE>{Type_Token}          {  
                                 TypeHash(yytext);
@@ -70,13 +73,16 @@ Comment_Token 	    \/\/(.)*
                                 return type_hash_table[key];  
                             }
 
-<LINE>{Float_Token}		    { if(tkn) printf("#float:%s\n", yytext); }
-
-<LINE>{Identifier_Token}    {   
-                                yylval.charv=check_id_exist(yytext);
-                                if(tkn) printf("\n#IDENTIFIER: %s\n",yytext);  
-                                return ID;
+<LINE>{Float_Token}		    {   
+                                size_t buffer_size = strlen(yytext) + 7;
+                                char* buffer = (char*)malloc(buffer_size);
+                                memset(buffer, '\0', buffer_size);
+                                sprintf(buffer, "%0.6f", atof(yytext));
+                                yylval.charv = buffer;
+                                return FLOAT_NUM;
                             }
+
+<LINE>{Identifier_Token}    {   yylval.charv=check_id_exist(yytext); return ID; }
 <LINE>"="                   { 
                                 yylval.charv="="; 
                                 if(tkn) printf("\n#OPERATOR: %s\n",yytext); 
@@ -87,81 +93,51 @@ Comment_Token 	    \/\/(.)*
                                 if(tkn) printf("\n#OPERATOR: %s\n",yytext); 
                                 return '*'; 
                             }
-<LINE>","		            {  
-                                yylval.charv=","; 
-                                if(tkn) printf("\n#COMMA: %s\n", yytext); 
-                                return COMMA;
-                            }
-<LINE>";"		            {  
-                                yylval.charv=";"; 
-                                if(tkn) printf("\n#SEMICOLON: %s\n", yytext);  
-                                return SEMICOLON;
-                            }
-<LINE>"("		            {  
-                                yylval.charv="("; 
-                                if(tkn) printf("\n#SEMICOLON: %s\n", yytext); 
-                                return '(';
-                            }
-<LINE>")"		            {  
-                                yylval.charv=")"; 
-                                if(tkn) printf("\n#SEMICOLON: %s\n", yytext); 
-                                return ')';
-                            }                            
-<LINE>"["		            {  
-                                yylval.charv="["; 
-                                if(tkn) printf("\n#SEMICOLON: %s\n", yytext); 
-                                return '[';
-                            }
-<LINE>"]"		            {  
-                                yylval.charv="]"; 
-                                if(tkn) printf("\n#SEMICOLON: %s\n", yytext); 
-                                return ']';
-                            }
-<LINE>"{"		            {  
-                                yylval.charv="{"; 
-                                if(tkn) printf("\n#SEMICOLON: %s\n", yytext); 
-                                return '{';
-                            }
-<LINE>"}"		            {  
-                                yylval.charv="}"; 
-                                if(tkn) printf("\n#SEMICOLON: %s\n", yytext); 
-                                return '}';
-                            }
-<LINE>":"		            {  
-                                yylval.charv=":"; 
-                                if(tkn) printf("\n#SEMICOLON: %s\n", yytext); 
-                                return ':';
-                            }
-<LINE>{Punc_Token}		    {  yylval.charv=yytext; if(tkn) printf("#punc:%s\n", yytext); return yytext[0];}
+<LINE>","		            {   yylval.charv=","; return ',';   }
+<LINE>";"		            {   yylval.charv=";"; return ';';   }
+<LINE>"("		            {   yylval.charv="("; return '(';   }
+<LINE>")"		            {   yylval.charv=")"; return ')';   }                            
+<LINE>"["		            {   yylval.charv="["; return '[';   }
+<LINE>"]"		            {   yylval.charv="]"; return ']';   }
+<LINE>"{"		            {   yylval.charv="{"; return '{';   }
+<LINE>"}"		            {   yylval.charv="}"; return '}';   }
+<LINE>":"		            {   yylval.charv=":"; return ':';   }
 
-<LINE>{Escape_Token}		{ if(tkn) printf("#char:%s\n", yytext); }
+<LINE>{Escape_Token}		{   if(tkn) printf("#char:%s\n", yytext);   }
 
-<LINE>{Integer_Token}	    {   
-                                yylval.charv=yytext;
-                                if(tkn) printf("\n#INTEGER: %s\n", yytext); 
-                                return NUM; 
+
+
+
+<LINE>{Integer_Token}	    {   yylval.charv=yytext; return INT_NUM;    }
+
+<LINE>{Char_Token}		    {   
+                                size_t buffer_size = strlen(yytext);
+                                char* buffer = (char*)malloc(buffer_size);
+                                strcpy(buffer,yytext);
+                                yylval.charv = buffer;
+                                return CHARACTER;
                             }
 
-<LINE>{Char_Token}		{ if(tkn) printf("#char:%s\n", yytext); }
+<LINE>{String_Token}	    {   
+                                size_t buffer_size = strlen(yytext);
+                                char* buffer = (char*)malloc(buffer_size);
+                                strcpy(buffer,yytext);
+                                yylval.charv = buffer;
+                                return STRING;
+                            }
 
-<LINE>{String_Token}	{ if(tkn) printf("#string:%s\n", yytext);}
+<LINE>{Empty_Token}		    {}
 
-<LINE>{Empty_Token}		{}
+<LINE>{Comment_Token} 	    {}
 
-<LINE>{Comment_Token} 	{}
+<LINE>\/\*				    { cmt = 1; BEGIN CMT; }
 
-<LINE>\/\*				{ cmt = 1; BEGIN CMT; }
+<LINE>{EOL_Token}		    {	BEGIN 0;    }
 
-<LINE>{EOL_Token}		{	
-							++num_lines;
-							BEGIN 0;
-						}
 
-<CTRL>on|off			{ *sw= (int)(*(yytext+1)=='n');  BEGIN LINE; }
-
-<CMT>\*\/				{ cmt = 0; BEGIN LINE;}
-<CMT>.					{}
-<CMT>{EOL_Token}		{ yyless(0); BEGIN LINE; }
+<CMT>\*\/				    { cmt = 0; BEGIN LINE;}
+<CMT>.					    {}
+<CMT>{EOL_Token}		    { yyless(0); BEGIN LINE; }
 
 %%
 

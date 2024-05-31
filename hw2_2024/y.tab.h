@@ -1,34 +1,36 @@
 #ifndef _yy_defines_h_
 #define _yy_defines_h_
 
-#define NUM 257
-#define ID 258
-#define CONST 259
-#define SIGN 260
-#define USIGN 261
-#define LONG 262
-#define LLONG 263
-#define SHRT 264
-#define FLOAT 265
-#define DOUBLE 266
-#define VOID 267
-#define CHAR 268
-#define INT 269
-#define FOR 270
-#define DO 271
-#define WHILE 272
-#define BREAK 273
-#define CONTINUE 274
-#define IF 275
-#define ELSE 276
-#define RETURN 277
-#define STRUCT 278
-#define SWITCH 279
-#define CASE 280
-#define DEFALUT 281
-#define SEMICOLON 282
-#define ENTER 283
-#define COMMA 284
+#define INT_NUM 257
+#define FLOAT_NUM 258
+#define STRING 259
+#define CHARACTER 260
+#define NULL_SIGNAL 261
+#define ID 262
+#define CONST 263
+#define SIGN 264
+#define USIGN 265
+#define LONG 266
+#define LLONG 267
+#define SHRT 268
+#define FLOAT 269
+#define DOUBLE 270
+#define VOID 271
+#define CHAR 272
+#define INT 273
+#define FOR 274
+#define DO 275
+#define WHILE 276
+#define BREAK 277
+#define CONTINUE 278
+#define IF 279
+#define ELSE 280
+#define RETURN 281
+#define STRUCT 282
+#define SWITCH 283
+#define CASE 284
+#define DEFALUT 285
+#define ENTER 286
 #ifdef YYSTYPE
 #undef  YYSTYPE_IS_DECLARED
 #define YYSTYPE_IS_DECLARED 1
