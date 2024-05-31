@@ -148,7 +148,6 @@ func_def: type_ident parameter_info compound_stmt   {
                                                     }
         ;
 
-
 stmt: if_else_stmt                                  {
                                                         size_t l = strlen("<stmt>");
                                                         size_t n1 = strlen($1);
@@ -200,34 +199,11 @@ compound_stmt: '{' compound_stmt_content '}'        {   $$ = reduce_terminal_non
             |  '{' '}'                              {   $$ = reduce_terminal_terminal($1, $2);  }                     
             ;
 
-compound_stmt_content: stmt compound_stmt_content   { 
-                                                        size_t n1 = strlen($1);
-                                                        size_t n2 = strlen($2);                   
-                                                        char* buffer = (char*)malloc(n1+n2+1);
-                                                        strcpy(buffer,$1);
-                                                        strcat(buffer,$2);
-                                                        $$ = buffer;
-                                                        free($1);
-                                                        free($2);
-                                                    } 
-                | var_decl compound_stmt_content    { 
-                                                        size_t n1 = strlen($1);
-                                                        size_t n2 = strlen($2);                   
-                                                        char* buffer = (char*)malloc(n1+n2+1);
-                                                        strcpy(buffer,$1);
-                                                        strcat(buffer,$2);
-                                                        $$ = buffer;
-                                                        free($1);
-                                                        free($2);
-                                                    } 
+compound_stmt_content: stmt compound_stmt_content   {   $$ = reduce_nonterminal_nonterminal($1,$2);   } 
+                | var_decl compound_stmt_content    {   $$ = reduce_nonterminal_nonterminal($1,$2);   } 
                 | stmt                              {   $$ = reduce_nonterminal($1);    }
                 | var_decl                          {   $$ = reduce_nonterminal($1);    }
                 ;
-
-
-
-
-
 
 parameter_info: '(' parameters ')'                  {   $$ = reduce_terminal_nonterminal_terminal($1, $2, $3);    }
             |   '(' ')'                             {   $$ = reduce_terminal_terminal($1, $2);  }
@@ -298,8 +274,6 @@ ident: var_init COMMA ident                         {   $$ = reduce_nonterminal_
     ;
 
 var_init: ID '=' expr                               {   $$ = reduce_terminal_terminal_nonterminal($1, $2, $3);  }  
-
-
 
 
 
