@@ -1,1 +1,1 @@
-<func_decl>inta();</func_decl><func_decl>int*a();</func_decl><func_decl>int*a(inta);</func_decl><func_decl>inta(inta);</func_decl><func_decl>intb(int*a,int*b);</func_decl>
+<func_def>intmain(){<expr>1</expr>;}</func_def>

@@ -33,113 +33,154 @@ int cur_scope=0;
     struct symbol *sym;
 }
 
-%start program
+%start init
 %token<charv> NUM 
 %token<charv> ID
 %token<token> CONST SIGN USIGN LONG LLONG SHRT FLOAT DOUBLE VOID CHAR INT FOR DO WHILE BREAK CONTINUE IF ELSE RETURN STRUCT SWITCH CASE DEFALUT 
 %token<charv> '=' '\n' '[' ']' '{' '}'  '(' ')'
 %left<charv> '*'
 %type<charv>  type_decl type_layer sign_usgn int_char long_shrt
-%type<charv>  ident var_init scalar_decl func_decl program array_decl func_def var_decl
+%type<charv>  ident var_init scalar_decl func_decl program array_decl func_def var_decl expr_stmt compound_stmt_content stmt
 %type<charv> expr arr_ident arr_tag arr_content box arr_cnt_fmt arr_id type_ident parameter_info parameters compound_stmt init
 %token<charv> SEMICOLON ENTER
 %left<charv> COMMA
 %%
 
-TODO: move print action to here.
-TODO: the name of the layers must be declared.
 init: program
 
 program:  var_decl program  {
                                 size_t n1 = strlen($1);
                                 size_t n2 = strlen($2);
-                                size_t n3 = strlen($3);
-                                char* buffer = (char*)malloc(n1+n2+n3+1);
+                                char* buffer = (char*)malloc(n1+n2+1);
                                 strcpy(buffer,$1);
                                 strcat(buffer,$2);
-                                strcat(buffer,$3);
-                                printf("<func_def>%s</func_def>", buffer);
-                                free(buffer);
+                                $$ = buffer; 
                                 free($1);
                                 free($2);
-                                free($3);
                             }
-        | func_decl program 
-        | func_def program
+        | func_decl program {
+                                size_t n1 = strlen($1);
+                                size_t n2 = strlen($2);
+                                char* buffer = (char*)malloc(n1+n2+1);
+                                strcpy(buffer,$1);
+                                strcat(buffer,$2);
+                                $$ = buffer;
+                                printf("%s", buffer);  
+                                free($1);
+                                free($2);
+                            }
+        | func_def program  {
+                                size_t n1 = strlen($1);
+                                size_t n2 = strlen($2);
+                                char* buffer = (char*)malloc(n1+n2+1);
+                                strcpy(buffer,$1);
+                                strcat(buffer,$2);
+                                $$ = buffer;
+                                printf("%s", buffer);  
+                                free($1);
+                                free($2);
+                            }
         ;
 
-var_decl: scalar_decl | array_decl ;
+var_decl: scalar_decl           {
+                                    
+                                    size_t n1 = strlen($1);
+                                    char* buffer = (char*)malloc(n1+1);//free_at_next_reduction
+                                    strcpy(buffer,$1);
+                                    $$ = buffer;
+                                    printf("%s",buffer);
+                                    free($1);   
+                                }
+        | array_decl            {
+                                    size_t n1 = strlen($1);
+                                    char* buffer = (char*)malloc(n1+1);//free_at_next_reduction
+                                    strcpy(buffer,$1);
+                                    $$ = buffer;
+                                    printf("%s",buffer);
+                                    free($1);   
+                                }
+        ;
+
+scalar_decl: type_decl ident    {
+                                    size_t l = strlen("<scalar_decl>");
+                                    size_t n1 = strlen($1);
+                                    size_t n2 = strlen($2);
+                                    size_t r = strlen("</scalar_decl>");
+                                    char* buffer = (char*)malloc(l+r+n1+n2+1);
+                                    strcpy(buffer,"<scalar_decl>");
+                                    strcat(buffer,$1);
+                                    strcat(buffer,$2); 
+                                    strcat(buffer,"</scalar_decl>");                                    
+                                    $$ = buffer;
+                                    free($1);
+                                    free($2);
+                                };
+
+array_decl: type_decl arr_ident SEMICOLON   {
+                                                size_t l = strlen("<array_decl>");
+                                                size_t n1 = strlen($1);
+                                                size_t n2 = strlen($2);
+                                                size_t n3 = strlen($3);
+                                                size_t r = strlen("</array_decl>");
+                                                char* buffer = (char*)malloc(l+r+n1+n2+n3+1);
+                                                strcpy(buffer,"<array_decl>");
+                                                strcat(buffer,$1);
+                                                strcat(buffer,$2);
+                                                strcat(buffer,$3);
+                                                strcat(buffer,"</array_decl>");
+                                                $$ = buffer;
+                                                free($1);
+                                                free($2);
+                                            }    
+        ;
+
+func_decl: type_ident parameter_info SEMICOLON {
+                                                    size_t l = strlen("<func_decl>");
+                                                    size_t n1 = strlen($1);
+                                                    size_t n2 = strlen($2);
+                                                    size_t n3 = strlen($3);
+                                                    size_t r = strlen("</func_decl>");
+                                                    char* buffer = (char*)malloc(l+r+n1+n2+n3+1);
+                                                    strcpy(buffer,"<func_decl>");
+                                                    strcat(buffer,$1);
+                                                    strcat(buffer,$2);
+                                                    strcat(buffer,$3);
+                                                    strcat(buffer,"</func_decl>");
+                                                    $$ = buffer;
+                                                    printf("%s",buffer);
+                                                    free($1);
+                                                    free($2);
+                                                };
 
 func_def: type_ident parameter_info compound_stmt   {
+                                                        size_t l = strlen("<func_def>");
                                                         size_t n1 = strlen($1);
                                                         size_t n2 = strlen($2);
                                                         size_t n3 = strlen($3);
-                                                        char* buffer = (char*)malloc(n1+n2+n3+1);
-                                                        strcpy(buffer,$1);
+                                                        size_t r = strlen("</func_def>");
+                                                        char* buffer = (char*)malloc(l+r+n1+n2+n3+1);
+                                                        strcpy(buffer,"<func_def>");
+                                                        strcat(buffer,$1);
                                                         strcat(buffer,$2);
                                                         strcat(buffer,$3);
-                                                        printf("<func_def>%s</func_def>", buffer);
-                                                        free(buffer);
+                                                        strcat(buffer,"</func_def>");
+                                                        $$ = buffer;
+                                                        printf("%s",buffer);
                                                         free($1);
                                                         free($2);
                                                         free($3);
                                                     }
         ;
 
-stmt: single_stmt stmt
-    | single_stmt
-    ;
-
-single_stmt: expr_stmt
-            | if_else_stmt
-            | switch_stmt
-            | while_stmt
-            | for_stmt
-            | return_stmt
-            | break_stmt
-            | continue_stmt
-            | compound_stmt 
-            ;
-
-expr_stmt:　expr SEMICOLON
-
-if_else_stmt: if_stmt else_stmt
-            | if_stmt
-            ;
-
-if_stmt: IF condition compound_stmt
-
-else_stmt: ELSE compound_stmt
-
-switch_stmt: SWITCH condition switch_clause
-
-switch_clause: '{' switch_content '}'
-
-switch_content: CASE case_expr
-                | DEFALUT default_expr
-                ;
-
-case_expr: expr ':' stmt
-
-default_expr: ':' stmt
-
-while_stmt: while_tag stmt
-
-do_while_stmt:  do_tag while_tag SEMICOLON
-
-while_tag: WHILE condition 
-
-do_tag: DO stmt
-
-condition: '(' expr ')'
-
-break_stmt: BREAK SEMICOLON
-
-continue_stmt: CONTINUE SEMICOLON
-
-return_stmt: RETURN expr SEMICOLON
-            | RETURN SEMICOLON
-            ;
+expr_stmt: expr SEMICOLON                           { 
+                                                        size_t n1 = strlen($1);
+                                                        size_t n2 = strlen($2);                   
+                                                        char* buffer = (char*)malloc(n1+n2+1);
+                                                        strcpy(buffer,$1);
+                                                        strcat(buffer,$2);
+                                                        $$ = buffer;
+                                                        free($1);
+                                                    } ;
 
 compound_stmt: '{' compound_stmt_content '}'    { 
                                                     size_t n1 = strlen($1);
@@ -162,7 +203,7 @@ compound_stmt: '{' compound_stmt_content '}'    {
                                                 }                      
             ;
 
-compound_stmt_content: stmt compound_stmt_content   { 
+compound_stmt_content: expr_stmt compound_stmt_content   { 
                                                         size_t n1 = strlen($1);
                                                         size_t n2 = strlen($2);                   
                                                         char* buffer = (char*)malloc(n1+n2+1);
@@ -182,23 +223,26 @@ compound_stmt_content: stmt compound_stmt_content   {
                                                         free($1);
                                                         free($2);
                                                     } 
-                | stmt
-                | var_decl
+                | expr_stmt     {
+                                    size_t n1 = strlen($1);
+                                    char* buffer = (char*)malloc(n1+1);//free_at_next_reduction
+                                    strcpy(buffer,$1);
+                                    $$ = buffer;
+                                    free($1);   
+                                }
+                | var_decl      {
+                                    size_t n1 = strlen($1);
+                                    char* buffer = (char*)malloc(n1+1);//free_at_next_reduction
+                                    strcpy(buffer,$1);
+                                    $$ = buffer;
+                                    free($1);   
+                                }
                 ;
 
-func_decl: type_ident parameter_info SEMICOLON {
-                                                    size_t n1 = strlen($1);
-                                                    size_t n2 = strlen($2);
-                                                    size_t n3 = strlen($3);
-                                                    char* buffer = (char*)malloc(n1+n2+n3+1);
-                                                    strcpy(buffer,$1);
-                                                    strcat(buffer,$2);
-                                                    strcat(buffer,$3);
-                                                    printf("<func_decl>%s</func_decl>", buffer);
-                                                    free(buffer);
-                                                    free($1);
-                                                    free($2);
-                                                };
+
+
+
+
 
 parameter_info: '(' parameters ')' {
                                         size_t n1 = strlen($1);
@@ -233,7 +277,13 @@ parameters: type_ident COMMA parameters {
                                             free($1);
                                             free($3);
                                         }
-        | type_ident
+        | type_ident            {
+                                    size_t n1 = strlen($1);
+                                    char* buffer = (char*)malloc(n1+1);//free_at_next_reduction
+                                    strcpy(buffer,$1);
+                                    $$ = buffer;
+                                    free($1);   
+                                }
         ;
 
 type_ident: type_decl ID  {
@@ -245,19 +295,6 @@ type_ident: type_decl ID  {
                             $$ = buffer;
                             free($1);                        
                        };
-
-array_decl: type_decl arr_ident SEMICOLON   {
-                                                size_t n1 = strlen($1);
-                                                size_t n2 = strlen($2);
-                                                size_t n3 = strlen($3);
-                                                char* afr = (char*)malloc(n1+n2+n3+1);
-                                                strcpy(afr,$1);
-                                                strcat(afr,$2);
-                                                strcat(afr,$3);
-                                                printf("<array_decl>%s</array_decl>",afr);
-                                                free(afr);
-                                            }    
-        ;
 
 arr_ident:  arr_id COMMA arr_ident    {
                                     size_t n1 = strlen($1);
@@ -271,7 +308,13 @@ arr_ident:  arr_id COMMA arr_ident    {
                                     free($1);
                                     free($3);
                                 }
-            | arr_id
+            | arr_id            {
+                                    size_t n1 = strlen($1);
+                                    char* buffer = (char*)malloc(n1+1);//free_at_next_reduction
+                                    strcpy(buffer,$1);
+                                    $$ = buffer;
+                                    free($1);   
+                                }
         ;
 
 arr_id: ID arr_tag        {
@@ -298,26 +341,32 @@ arr_tag:  box arr_tag           {
                                     size_t n1 = strlen($1);
                                     size_t n2 = strlen($2);
                                     size_t n3 = strlen($3);
-                                    char* art = (char*)malloc(n1+n2+n3+1);
-                                    strcpy(art,$1);
-                                    strcat(art,$2);
-                                    strcat(art,$3);
-                                    $$ = art;
+                                    char* buffer = (char*)malloc(n1+n2+n3+1);
+                                    strcpy(buffer,$1);
+                                    strcat(buffer,$2);
+                                    strcat(buffer,$3);
+                                    $$ = buffer;
                                     free($1);
                                     free($3);
                                 }
-        | box                   
+        | box                   {
+                                    size_t n1 = strlen($1);
+                                    char* buffer = (char*)malloc(n1+1);//free_at_next_reduction
+                                    strcpy(buffer,$1);
+                                    $$ = buffer;
+                                    free($1);   
+                                }
         ;
 
 arr_cnt_fmt: '{'arr_content'}'          {
                                             size_t n1 = strlen($1);
                                             size_t n2 = strlen($2);
                                             size_t n3 = strlen($3);
-                                            char* aac = (char*)malloc(n1+n2+n3+1);
-                                            strcpy(aac,$1);
-                                            strcat(aac,$2);
-                                            strcat(aac,$3);
-                                            $$ = aac;
+                                            char* buffer = (char*)malloc(n1+n2+n3+1);
+                                            strcpy(buffer,$1);
+                                            strcat(buffer,$2);
+                                            strcat(buffer,$3);
+                                            $$ = buffer;
                                             free($2);
                                         }
             ;
@@ -345,156 +394,251 @@ arr_content: arr_cnt_fmt                {
                                             size_t n1 = strlen($1);
                                             size_t n2 = strlen($2);
                                             size_t n3 = strlen($3);
-                                            char* arc = (char*)malloc(n1+n2+n3+1);
-                                            strcpy(arc,$1);
-                                            strcat(arc,$2);
-                                            strcat(arc,$3);
-                                            $$ = arc;
+                                            char* buffer = (char*)malloc(n1+n2+n3+1);
+                                            strcpy(buffer,$1);
+                                            strcat(buffer,$2);
+                                            strcat(buffer,$3);
+                                            $$ = buffer;
                                             free($1);
                                             free($3);
                                         } 
             | expr              {
                                     size_t n1 = strlen($1);
-                                    char* exr = (char*)malloc(n1+1);
-                                    strcpy(exr,$1);
-                                    $$ = exr;
+                                    char* buffer = (char*)malloc(n1+1);
+                                    strcpy(buffer,$1);
+                                    $$ = buffer;
                                     free($1);
-                                    
                                 } 
             ;
             
 box: '[' expr ']'               {
-                                    char* sc = (char*)malloc(strlen("[<expr>")+strlen($2)+strlen("</expr>]")+1);
-                                    strcpy(sc,"[");
-                                    strcat(sc,$2);
-                                    strcat(sc,"]");
-                                    $$ = sc;
+                                    size_t n1 = strlen($1);
+                                    size_t n2 = strlen($2);
+                                    size_t n3 = strlen($3);
+                                    char* buffer = (char*)malloc(n1+n2+n3+1);
+                                    strcpy(buffer,$1);
+                                    strcat(buffer,$2);
+                                    strcat(buffer,$3);
+                                    $$ = buffer;
                                     free($2);
                                 }   
     ;
 
-scalar_decl: type_decl ident    {
-                                    size_t n1 = strlen($1);
-                                    size_t n2 = strlen($2);
-                                    char* bfr = (char*)malloc(n1+n2+1);
-                                    strcpy(bfr,$1);
-                                    strcat(bfr,$2);
-                                    printf("<scalar_decl>%s</scalar_decl>", bfr); 
-                                    free(bfr);
-                                };
-
 type_decl: CONST type_layer     {
                                     size_t n1 = strlen(type_table[$1]);
                                     size_t n2 = strlen($2);
-                                    char* dct = (char*)malloc(n1+n2+1);
-                                    strcpy(dct,type_table[$1]);
-                                    strcat(dct,$2);
-                                    $$ = dct;
+                                    char* buffer = (char*)malloc(n1+n2+1);
+                                    strcpy(buffer,type_table[$1]);
+                                    strcat(buffer,$2);
+                                    $$ = buffer;
                                 }
          | type_layer           {
                                     size_t n1 = strlen($1);
-                                    char* dct = (char*)malloc(n1+1);
-                                    strcpy(dct,$1);
-                                    $$ = dct;
+                                    char* buffer = (char*)malloc(n1+1);
+                                    strcpy(buffer,$1);
+                                    $$ = buffer;
+                                    free($1);
                                 }
          | CONST                {
                                     size_t n1 = strlen(type_table[$1]);
-                                    char* dct = (char*)malloc(n1+1);
-                                    strcpy(dct,type_table[$1]);
-                                    $$ = dct;
+                                    char* buffer = (char*)malloc(n1+1);
+                                    strcpy(buffer,type_table[$1]);
+                                    $$ = buffer;
                                 }
          | CONST type_layer '*' {
                                     size_t n1 = strlen(type_table[$1]);
                                     size_t n2 = strlen($2);
                                     size_t n3 = strlen($3);
-                                    char* dct = (char*)malloc(n1+n2+n3+1);
-                                    strcpy(dct,type_table[$1]);
-                                    strcat(dct,$2);
-                                    strcat(dct,$3);
-                                    $$ = dct;
+                                    char* buffer = (char*)malloc(n1+n2+n3+1);
+                                    strcpy(buffer,type_table[$1]);
+                                    strcat(buffer,$2);
+                                    strcat(buffer,$3);
+                                    $$ = buffer;
+                                    free($2);
                                 }
          | type_layer '*'       {
                                     size_t n1 = strlen($1);
                                     size_t n2 = strlen($2);
-                                    char* dct = (char*)malloc(n1+n2+1);
-                                    strcpy(dct,$1);
-                                    strcat(dct,$2);
-                                    $$ = dct;
+                                    char* buffer = (char*)malloc(n1+n2+1);
+                                    strcpy(buffer,$1);
+                                    strcat(buffer,$2);
+                                    $$ = buffer;
+                                    free($1);
                                 }   
          | CONST '*'            {
                                     size_t n1 = strlen(type_table[$1]);
                                     size_t n2 = strlen($2);
-                                    char* dct = (char*)malloc(n1+n2+1);
-                                    strcpy(dct,type_table[$1]);
-                                    strcat(dct,$2);
-                                    $$ = dct;
+                                    char* buffer = (char*)malloc(n1+n2+1);
+                                    strcpy(buffer,type_table[$1]);
+                                    strcat(buffer,$2);
+                                    $$ = buffer;
                                 }
          ;         
 
 type_layer: sign_usgn int_char  {   
-
                                     size_t n1 = strlen($1);
                                     size_t n2 = strlen($2);
-                                    char* tsi = (char*)malloc(n1+n2+1);
-                                    strcpy(tsi,$1);
-                                    strcat(tsi,$2);
-                                    $$ = tsi;                       
+                                    char* buffer = (char*)malloc(n1+n2+1);
+                                    strcpy(buffer,$1);
+                                    strcat(buffer,$2);
+                                    $$ = buffer;
+                                    free($1);
+                                    free($2);                     
                                 }
-          | sign_usgn           
-          | int_char            
-          | FLOAT               { $$=type_table[$1]; }
-          | DOUBLE              { $$=type_table[$1]; }
-          | VOID                { $$=type_table[$1]; }
+          | sign_usgn           { 
+                                    size_t n1 = strlen($1);             
+                                    char* buffer = (char*)malloc(n1+1);
+                                    strcpy(buffer, $1);
+                                    $$ = buffer;
+                                    free($1);
+                                }           
+          | int_char            { 
+                                    size_t n1 = strlen($1);             
+                                    char* buffer = (char*)malloc(n1+1);
+                                    strcpy(buffer, $1);
+                                    $$ = buffer;
+                                    free($1);
+                                }
+          | FLOAT               { 
+                                    size_t n1 = strlen(type_table[$1]);             
+                                    char* buffer = (char*)malloc(n1+1);
+                                    strcpy(buffer,type_table[$1]);
+                                    $$ = buffer;
+                                }
+          | DOUBLE              { 
+                                    size_t n1 = strlen(type_table[$1]);             
+                                    char* buffer = (char*)malloc(n1+1);
+                                    strcpy(buffer,type_table[$1]);
+                                    $$ = buffer;
+                                }
+          | VOID                { 
+                                    size_t n1 = strlen(type_table[$1]);             
+                                    char* buffer = (char*)malloc(n1+1);
+                                    strcpy(buffer,type_table[$1]);
+                                    $$ = buffer;
+                                }
           ;
 
-sign_usgn: SIGN                 { $$=type_table[$1]; }
-         | USIGN                { $$=type_table[$1]; }
+sign_usgn: SIGN             { 
+                                size_t n1 = strlen(type_table[$1]);             
+                                char* buffer = (char*)malloc(n1+1);
+                                strcpy(buffer,type_table[$1]);
+                                $$ = buffer;
+                            }
+         | USIGN            { 
+                                size_t n1 = strlen(type_table[$1]);             
+                                char* buffer = (char*)malloc(n1+1);
+                                strcpy(buffer,type_table[$1]);
+                                $$ = buffer;
+                            }
          ;
 
 int_char: long_shrt INT     {
                                 size_t n1 = strlen($1);
                                 size_t n2 = strlen(type_table[$2]);
-                                char* ilI = (char*)malloc(n1+n2+1);
-                                strcpy(ilI,$1);
-                                strcat(ilI,type_table[$2]);
-                                $$ = ilI;  
+                                char* buffer = (char*)malloc(n1+n2+1);
+                                strcpy(buffer,$1);
+                                strcat(buffer,type_table[$2]);
+                                $$ = buffer;
+                                free($1);  
                             }
-        | long_shrt         
-        | CHAR              { $$=type_table[$1]; }
-        | INT               { $$=type_table[$1]; }
+        | long_shrt         { 
+                                size_t n1 = strlen($1);             
+                                char* buffer = (char*)malloc(n1+1);
+                                strcpy(buffer, $1);
+                                $$ = buffer;
+                                free($1);
+                            }
+        | CHAR              { 
+                                size_t n1 = strlen(type_table[$1]);             
+                                char* buffer = (char*)malloc(n1+1);
+                                strcpy(buffer,type_table[$1]);
+                                $$ = buffer;
+                            }
+        | INT               { 
+                                size_t n1 = strlen(type_table[$1]);             
+                                char* buffer = (char*)malloc(n1+1);
+                                strcpy(buffer,type_table[$1]);
+                                $$ = buffer;
+                            }
         ;
 
-long_shrt: LLONG            { $$=type_table[$1]; }
-         | LONG             { $$=type_table[$1]; }
-         | SHRT             { $$=type_table[$1]; }
+long_shrt: LLONG            { 
+                                size_t n1 = strlen(type_table[$1]);             
+                                char* buffer = (char*)malloc(n1+1);
+                                strcpy(buffer,type_table[$1]);
+                                $$ = buffer;
+                            }
+         | LONG             { 
+                                size_t n1 = strlen(type_table[$1]);             
+                                char* buffer = (char*)malloc(n1+1);
+                                strcpy(buffer,type_table[$1]);
+                                $$ = buffer;
+                            }
+         | SHRT             { 
+                                size_t n1 = strlen(type_table[$1]);             
+                                char* buffer = (char*)malloc(n1+1);
+                                strcpy(buffer,type_table[$1]);
+                                $$ = buffer;
+                            }
          ;
 
 ident: var_init COMMA ident {
                                 strcpy($$,$1);
                                 strcat($$,$2);
                                 strcat($$,$3);   
+                                size_t n1 = strlen($1);
+                                size_t n2 = strlen($2);
+                                size_t n3 = strlen($3);               
+                                char* buffer = (char*)malloc(n1+n2+n3+1);
+                                strcpy(buffer,$1);
+                                strcat(buffer,$2);
+                                strcat(buffer,$3);
+                                $$ = buffer;
+                                free($1);
+                                free($3);
                             }
     | var_init SEMICOLON    {
-                                strcpy($$,$1);
-                                strcat($$,$2);
+                                size_t n1 = strlen($1);
+                                size_t n2 = strlen($2);            
+                                char* buffer = (char*)malloc(n1+n2+1);                        
+                                strcpy(buffer,$1);
+                                strcat(buffer,$2);
+                                $$ = buffer;
+                                free($1);
                             }
     | ID SEMICOLON          {
-                                strcpy($$,$1);
-                                strcat($$,$2);
+                                size_t n1 = strlen($1);
+                                size_t n2 = strlen($2);            
+                                char* buffer = (char*)malloc(n1+n2+1);
+                                strcpy(buffer,$1);
+                                strcat(buffer,$2);
+                                $$ = buffer;
                             }
     | ID COMMA ident        {
-                                strcpy($$,$1);
-                                strcat($$,$2);
-                                strcat($$,$3);
+                                size_t n1 = strlen($1);
+                                size_t n2 = strlen($2);     
+                                size_t n3 = strlen($3);       
+                                char* buffer = (char*)malloc(n1+n2+n3+1);
+                                strcpy(buffer,$1);
+                                strcat(buffer,$2);
+                                strcat(buffer,$3);
+                                $$ = buffer;
+                                free($3);
                             }
     ;
 
 var_init: ID '=' expr   {
-                            strcpy($$,$1);
-                            strcat($$,$2);
-                            strcat($$,$3);
+                            size_t n1 = strlen($1);
+                            size_t n2 = strlen($2);     
+                            size_t n3 = strlen($3);       
+                            char* buffer = (char*)malloc(n1+n2+n3+1);
+                            strcpy(buffer,$1);
+                            strcat(buffer,$2);
+                            strcat(buffer,$3);
+                            $$ = buffer;
                             free($3);
-                        }    
+                        }   
         ;
 
 expr:   NUM         { 
@@ -513,7 +657,7 @@ expr:   NUM         {
 int yylex(void);
 
 int main(int argc, char* argv[]) {
-    //if(argc ==2 && !strcmp(argv[1],"-d")) yydebug = tkn = 1;
+    if(argc ==2 && !strcmp(argv[1],"-d")) yydebug = tkn = 1;
     yylval.sym = symbol_table;
     yyparse();
     return 0;
@@ -539,3 +683,37 @@ char* install_id(char* tok){
     top++;
     return symbol_table[top-1].name;
 }
+
+/*
+if_else_stmt: if_stmt else_stmt
+            | if_stmt
+            ;
+if_stmt: IF condition compound_stmt
+else_stmt: ELSE compound_stmt
+switch_stmt: SWITCH condition switch_clause
+switch_clause: '{' switch_content '}'
+switch_content: CASE case_expr
+                | DEFALUT default_expr
+                ;
+case_expr: expr ':' stmt
+default_expr: ':' stmt
+while_stmt: while_tag stmt
+do_while_stmt:  do_tag while_tag SEMICOLON
+while_tag: WHILE condition 
+do_tag: DO stmt
+condition: '(' expr ')'
+break_stmt: BREAK SEMICOLON
+continue_stmt: CONTINUE SEMICOLON
+return_stmt: RETURN expr_stmt
+            | RETURN SEMICOLON
+            ;
+*/
+/*
+            | if_else_stmt
+            | switch_stmt
+            | while_stmt
+            | for_stmt
+            | return_stmt
+            | break_stmt
+            | continue_stmt
+            */
