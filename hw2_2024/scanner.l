@@ -9,7 +9,6 @@ char* line_content;
 
 int* sw;
 int tkn=0;
-int src=0;
 int cmt = 0;
 int key = -1;
 int type_hash_table[11] = { CONST, SIGN, USIGN, LLONG, LONG, SHRT, INT, FLOAT, DOUBLE, VOID, CHAR };
@@ -48,15 +47,10 @@ Comment_Token 	    \/\/(.)*
 %%
 
 {Line_Pattern}			    {
-							    line_content = (char*) malloc(yyleng+1);
-							    num_chars = yyleng;
-						    	strcpy(line_content, yytext);
 					    		yyless(0);
 			    				if(cmt) BEGIN CMT;
 				    			else BEGIN LINE;
 						    }
-
-<LINE>{Source_Control}	    { sw = &src;  BEGIN CTRL;	}
 
 <LINE>{Token_Control}	    { sw = &tkn;  BEGIN CTRL; 	}
 
@@ -160,10 +154,6 @@ Comment_Token 	    \/\/(.)*
 
 <LINE>{EOL_Token}		{	
 							++num_lines;
-							if(src){
-								printf("%d:%s", num_lines, line_content);
-								free(line_content);
-							}
 							BEGIN 0;
 						}
 

@@ -44,31 +44,35 @@ int cur_scope=0;
     struct symbol *sym;
 }
 
+
+%type<charv>  type_decl type_layer sign_usgn int_char long_shrt while_stmt do_while_stmt while_tag do_tag switch_stmt switch_clause switch_content case_expr default_expr
+%type<charv>  ident var_init scalar_decl func_decl program array_decl func_def var_decl expr_stmt compound_stmt_content stmt condition if_stmt else_stmt for_stmt for_condition for_content for_layer_2
+%type<charv>  expr arr_ident arr_tag arr_content box arr_cnt_fmt arr_id type_ident parameter_info parameters compound_stmt section init if_else_stmt break_stmt continue_stmt return_stmt
+
 %start init
+
 %token<charv> NUM 
 %token<charv> ID
 %token<token> CONST SIGN USIGN LONG LLONG SHRT FLOAT DOUBLE VOID CHAR INT FOR DO WHILE BREAK CONTINUE IF ELSE RETURN STRUCT SWITCH CASE DEFALUT 
 %token<charv> '=' '\n' '[' ']' '{' '}'  '(' ')' ':'
 %left<charv> '*'
-%type<charv>  type_decl type_layer sign_usgn int_char long_shrt while_stmt do_while_stmt while_tag do_tag switch_stmt switch_clause switch_content case_expr default_expr
-%type<charv>  ident var_init scalar_decl func_decl program array_decl func_def var_decl expr_stmt compound_stmt_content stmt condition if_stmt else_stmt for_stmt for_condition for_content for_layer_2
-%type<charv> expr arr_ident arr_tag arr_content box arr_cnt_fmt arr_id type_ident parameter_info parameters compound_stmt section init if_else_stmt break_stmt continue_stmt return_stmt
 %token<charv> SEMICOLON ENTER
 %left<charv> COMMA
+
 %%
 
-init: program               {
-                                size_t n1 = strlen($1);
-                                char* buffer = (char*)malloc(n1+1);
-                                strcpy(buffer,$1);
-                                printf("%s", buffer);   
-                                free($1);
-                                free(buffer);
-                            }
+init: program                                       {
+                                                        size_t n1 = strlen($1);
+                                                        char* buffer = (char*)malloc(n1+1);
+                                                        strcpy(buffer,$1);
+                                                        printf("%s", buffer);   
+                                                        free($1);
+                                                        free(buffer);
+                                                    }
 
 program: section program                            {   $$ = reduce_nonterminal_nonterminal($1, $2);    }
-    | section                                       {   $$ = reduce_nonterminal($1);    }
-    ;
+        | section                                   {   $$ = reduce_nonterminal($1);    }
+        ;
 
 section:  var_decl                                  {   $$ = reduce_nonterminal($1);    }
         | func_decl                                 {   $$ = reduce_nonterminal($1);    }
@@ -79,56 +83,56 @@ var_decl: scalar_decl                               {   $$ = reduce_nonterminal(
         | array_decl                                {   $$ = reduce_nonterminal($1);    }
         ;
 
-scalar_decl: type_decl ident    {
-                                    size_t l = strlen("<scalar_decl>");
-                                    size_t n1 = strlen($1);
-                                    size_t n2 = strlen($2);
-                                    size_t r = strlen("</scalar_decl>");
-                                    char* buffer = (char*)malloc(l+r+n1+n2+1);
-                                    strcpy(buffer,"<scalar_decl>");
-                                    strcat(buffer,$1);
-                                    strcat(buffer,$2); 
-                                    strcat(buffer,"</scalar_decl>");                                    
-                                    $$ = buffer;
-                                    free($1);
-                                    free($2);
-                                };
+scalar_decl: type_decl ident                        {
+                                                        size_t l = strlen("<scalar_decl>");
+                                                        size_t n1 = strlen($1);
+                                                        size_t n2 = strlen($2);
+                                                        size_t r = strlen("</scalar_decl>");
+                                                        char* buffer = (char*)malloc(l+r+n1+n2+1);
+                                                        strcpy(buffer,"<scalar_decl>");
+                                                        strcat(buffer,$1);
+                                                        strcat(buffer,$2); 
+                                                        strcat(buffer,"</scalar_decl>");                                    
+                                                        $$ = buffer;
+                                                        free($1);
+                                                        free($2);
+                                                    };
 
-array_decl: type_decl arr_ident SEMICOLON   {
-                                                size_t l = strlen("<array_decl>");
-                                                size_t n1 = strlen($1);
-                                                size_t n2 = strlen($2);
-                                                size_t n3 = strlen($3);
-                                                size_t r = strlen("</array_decl>");
-                                                char* buffer = (char*)malloc(l+r+n1+n2+n3+1);
-                                                strcpy(buffer,"<array_decl>");
-                                                strcat(buffer,$1);
-                                                strcat(buffer,$2);
-                                                strcat(buffer,$3);
-                                                strcat(buffer,"</array_decl>");
-                                                $$ = buffer;
-                                                free($1);
-                                                free($2);
-                                            }    
+array_decl: type_decl arr_ident SEMICOLON           {
+                                                        size_t l = strlen("<array_decl>");
+                                                        size_t n1 = strlen($1);
+                                                        size_t n2 = strlen($2);
+                                                        size_t n3 = strlen($3);
+                                                        size_t r = strlen("</array_decl>");
+                                                        char* buffer = (char*)malloc(l+r+n1+n2+n3+1);
+                                                        strcpy(buffer,"<array_decl>");
+                                                        strcat(buffer,$1);
+                                                        strcat(buffer,$2);
+                                                        strcat(buffer,$3);
+                                                        strcat(buffer,"</array_decl>");
+                                                        $$ = buffer;
+                                                        free($1);
+                                                        free($2);
+                                                    }    
         ;
 
-func_decl: type_ident parameter_info SEMICOLON {
-                                                    size_t l = strlen("<func_decl>");
-                                                    size_t n1 = strlen($1);
-                                                    size_t n2 = strlen($2);
-                                                    size_t n3 = strlen($3);
-                                                    size_t r = strlen("</func_decl>");
-                                                    char* buffer = (char*)malloc(l+r+n1+n2+n3+1);
-                                                    strcpy(buffer,"<func_decl>");
-                                                    strcat(buffer,$1);
-                                                    strcat(buffer,$2);
-                                                    strcat(buffer,$3);
-                                                    strcat(buffer,"</func_decl>");
-                                                    $$ = buffer;
-                                                    if(tkn) printf("%s",buffer);
-                                                    free($1);
-                                                    free($2);
-                                                };
+func_decl: type_ident parameter_info SEMICOLON      {
+                                                        size_t l = strlen("<func_decl>");
+                                                        size_t n1 = strlen($1);
+                                                        size_t n2 = strlen($2);
+                                                        size_t n3 = strlen($3);
+                                                        size_t r = strlen("</func_decl>");
+                                                        char* buffer = (char*)malloc(l+r+n1+n2+n3+1);
+                                                        strcpy(buffer,"<func_decl>");
+                                                        strcat(buffer,$1);
+                                                        strcat(buffer,$2);
+                                                        strcat(buffer,$3);
+                                                        strcat(buffer,"</func_decl>");
+                                                        $$ = buffer;
+                                                        if(tkn) printf("%s",buffer);
+                                                        free($1);
+                                                        free($2);
+                                                    };
 
 func_def: type_ident parameter_info compound_stmt   {
                                                         size_t l = strlen("<func_def>");
