@@ -51,7 +51,7 @@ int cur_scope=0;
 %token<charv> '=' '\n' '[' ']' '{' '}'  '(' ')' ':'
 %left<charv> '*'
 %type<charv>  type_decl type_layer sign_usgn int_char long_shrt while_stmt do_while_stmt while_tag do_tag switch_stmt switch_clause switch_content case_expr default_expr
-%type<charv>  ident var_init scalar_decl func_decl program array_decl func_def var_decl expr_stmt compound_stmt_content stmt condition if_stmt else_stmt
+%type<charv>  ident var_init scalar_decl func_decl program array_decl func_def var_decl expr_stmt compound_stmt_content stmt condition if_stmt else_stmt for_stmt for_condition for_content for_layer_2
 %type<charv> expr arr_ident arr_tag arr_content box arr_cnt_fmt arr_id type_ident parameter_info parameters compound_stmt section init if_else_stmt break_stmt continue_stmt return_stmt
 %token<charv> SEMICOLON ENTER
 %left<charv> COMMA
@@ -158,10 +158,22 @@ stmt: if_else_stmt                                  {   $$ = reduce_for_stmt($1)
     | continue_stmt                                 {   $$ = reduce_for_stmt($1);   }
     | while_stmt                                    {   $$ = reduce_for_stmt($1);   }
     | do_while_stmt                                 {   $$ = reduce_for_stmt($1);   }     
-    | switch_stmt                                   {   $$ = reduce_for_stmt($1);   }    
+    | switch_stmt                                   {   $$ = reduce_for_stmt($1);   }  
+    | for_stmt                                      {   $$ = reduce_for_stmt($1);   }
     ;
 
 while_stmt: while_tag stmt                          {   $$ = reduce_nonterminal_nonterminal($1,$2);   }
+
+for_stmt: FOR for_condition stmt                    {   $$ = reduce_terminal_nonterminal_nonterminal(keyword_table[$1], $2, $3); }
+for_condition: '(' for_content ')'                  {   $$ = reduce_terminal_nonterminal_terminal($1, $2, $3); }
+for_content: expr SEMICOLON for_layer_2             {   $$ = reduce_nonterminal_terminal_nonterminal($1, $2, $3); }
+            | SEMICOLON for_layer_2                 {   $$ = reduce_terminal_nonterminal($1, $2); }
+            ;
+for_layer_2: expr SEMICOLON                         {   $$ = reduce_nonterminal_terminal($1, $2); }
+            | SEMICOLON                             {   $$ = reduce_terminal($1); }
+            | expr SEMICOLON expr                   {   $$ = reduce_nonterminal_terminal_nonterminal($1, $2, $3); }
+            | SEMICOLON expr                        {   $$ = reduce_terminal_nonterminal($1, $2); }
+            ;
 
 do_while_stmt: do_tag while_tag SEMICOLON           {   $$ = reduce_nonterminal_nonterminal_terminal($1,$2,$3);  }
 
@@ -237,7 +249,7 @@ arr_tag:  box arr_tag                               {   $$ = reduce_nonterminal_
 arr_cnt_fmt: '{'arr_content'}'                      {   $$ = reduce_terminal_nonterminal_terminal($1, $2, $3);    }
 
 arr_content: arr_cnt_fmt                            {   $$ = reduce_nonterminal($1);    }
-            | arr_cnt_fmt COMMA  arr_content        {   $$ = reduce_nonterminal_terminal_nonterminal($1, $2, $3);   }
+            | arr_cnt_fmt COMMA arr_content         {   $$ = reduce_nonterminal_terminal_nonterminal($1, $2, $3);   }
             | expr COMMA arr_content                {   $$ = reduce_nonterminal_terminal_nonterminal($1, $2, $3);   }
             | expr                                  {   $$ = reduce_nonterminal($1);    } 
             ;
@@ -443,14 +455,3 @@ char* reduce_for_stmt(char* r1){
     free(r1);   
     return buffer;
 } 
-/*
-
-
-
-
-
-for_stmt: FOR for_condition stmt
-
-            | for_stmt
-
-            */

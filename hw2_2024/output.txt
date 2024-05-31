@@ -1,7 +1,7 @@
 
 #TYPE: int
 intintsymbol_table[0].name: main
-symbol_table[0].name: 0x5584a134f184
+symbol_table[0].name: 0x56298b03d184
 
 #IDENTIFIER: main
 int
@@ -13,7 +13,7 @@ int
 
 #TYPE: int
 intintsymbol_table[1].name: arr
-symbol_table[1].name: 0x5584a134f1c4
+symbol_table[1].name: 0x56298b03d1c4
 
 #IDENTIFIER: arr
 int
@@ -87,7 +87,7 @@ longlong
 
 #OPERATOR: *
 symbol_table[2].name: ptr_57
-symbol_table[2].name: 0x5584a134f204
+symbol_table[2].name: 0x56298b03d204
 
 #IDENTIFIER: ptr_57
 
@@ -183,7 +183,7 @@ int
 <array_decl>intarr[<expr>2</expr>];</array_decl><func_def>intmain(){<array_decl>intarr[<expr>2</expr>];</array_decl>}</func_def><func_def>intmain(){<array_decl>intarr[<expr>2</expr>];</array_decl>}</func_def>
 #TYPE: int
 intintsymbol_table[3].name: w
-symbol_table[3].name: 0x5584a134f244
+symbol_table[3].name: 0x56298b03d244
 
 #IDENTIFIER: w
 int
@@ -195,7 +195,7 @@ int
 <scalar_decl>intw=<expr>0</expr>;</scalar_decl><scalar_decl>intw=<expr>0</expr>;</scalar_decl>
 #TYPE: int
 intintsymbol_table[4].name: a
-symbol_table[4].name: 0x5584a134f284
+symbol_table[4].name: 0x56298b03d284
 
 #IDENTIFIER: a
 int
@@ -253,7 +253,7 @@ int
 a[<expr>0</expr>]={<expr>1</expr>,{<expr>2</expr>},{<expr>3</expr>,<expr>4</expr>,{<expr>5</expr>},{<expr>6</expr>}}}<array_decl>inta[<expr>0</expr>]={<expr>1</expr>,{<expr>2</expr>},{<expr>3</expr>,<expr>4</expr>,{<expr>5</expr>},{<expr>6</expr>}}};</array_decl><array_decl>inta[<expr>0</expr>]={<expr>1</expr>,{<expr>2</expr>},{<expr>3</expr>,<expr>4</expr>,{<expr>5</expr>},{<expr>6</expr>}}};</array_decl>
 #TYPE: int
 intintsymbol_table[5].name: y
-symbol_table[5].name: 0x5584a134f2c4
+symbol_table[5].name: 0x56298b03d2c4
 
 #IDENTIFIER: y
 int
@@ -265,7 +265,7 @@ int
 <scalar_decl>inty=<expr>1</expr>;</scalar_decl><scalar_decl>inty=<expr>1</expr>;</scalar_decl>
 #TYPE: int
 intintsymbol_table[6].name: x
-symbol_table[6].name: 0x5584a134f304
+symbol_table[6].name: 0x56298b03d304
 
 #IDENTIFIER: x
 int
@@ -331,7 +331,7 @@ int
 x[<expr>0</expr>]={<expr>1</expr>,<expr>1</expr>,{<expr>2</expr>},{<expr>3</expr>,<expr>4</expr>,{<expr>5</expr>},{<expr>6</expr>}},<expr>7</expr>}<array_decl>intx[<expr>0</expr>]={<expr>1</expr>,<expr>1</expr>,{<expr>2</expr>},{<expr>3</expr>,<expr>4</expr>,{<expr>5</expr>},{<expr>6</expr>}},<expr>7</expr>};</array_decl><array_decl>intx[<expr>0</expr>]={<expr>1</expr>,<expr>1</expr>,{<expr>2</expr>},{<expr>3</expr>,<expr>4</expr>,{<expr>5</expr>},{<expr>6</expr>}},<expr>7</expr>};</array_decl>
 #TYPE: int
 intintsymbol_table[7].name: e
-symbol_table[7].name: 0x5584a134f344
+symbol_table[7].name: 0x56298b03d344
 
 #IDENTIFIER: e
 int
@@ -349,7 +349,7 @@ int
 
 #COMMA: ,
 [<expr>3</expr>]symbol_table[8].name: p
-symbol_table[8].name: 0x5584a134f384
+symbol_table[8].name: 0x56298b03d384
 
 #IDENTIFIER: p
 
@@ -369,7 +369,7 @@ symbol_table[8].name: 0x5584a134f384
 [<expr>3</expr>]p[<expr>1</expr>][<expr>3</expr>]<array_decl>inte[<expr>1</expr>][<expr>3</expr>],p[<expr>1</expr>][<expr>3</expr>];</array_decl><array_decl>inte[<expr>1</expr>][<expr>3</expr>],p[<expr>1</expr>][<expr>3</expr>];</array_decl>
 #TYPE: char
 charcharsymbol_table[9].name: f
-symbol_table[9].name: 0x5584a134f3c4
+symbol_table[9].name: 0x56298b03d3c4
 
 #IDENTIFIER: f
 char
@@ -389,7 +389,7 @@ char
 [<expr>4</expr>]f[<expr>1</expr>][<expr>4</expr>]<array_decl>charf[<expr>1</expr>][<expr>4</expr>];</array_decl><array_decl>charf[<expr>1</expr>][<expr>4</expr>];</array_decl>
 #TYPE: float
 floatsymbol_table[10].name: k
-symbol_table[10].name: 0x5584a134f404
+symbol_table[10].name: 0x56298b03d404
 
 #IDENTIFIER: k
 float
@@ -401,7 +401,7 @@ float
 
 #COMMA: ,
 [<expr>1</expr>]symbol_table[11].name: b
-symbol_table[11].name: 0x5584a134f444
+symbol_table[11].name: 0x56298b03d444
 
 #IDENTIFIER: b
 
@@ -457,7 +457,7 @@ symbol_table[11].name: 0x5584a134f444
 b[<expr>2</expr>][<expr>3</expr>]={{<expr>0</expr>,<expr>1</expr>,<expr>2</expr>},{<expr>3</expr>,<expr>4</expr>,<expr>5</expr>}}<array_decl>floatk[<expr>1</expr>],b[<expr>2</expr>][<expr>3</expr>]={{<expr>0</expr>,<expr>1</expr>,<expr>2</expr>},{<expr>3</expr>,<expr>4</expr>,<expr>5</expr>}};</array_decl><array_decl>floatk[<expr>1</expr>],b[<expr>2</expr>][<expr>3</expr>]={{<expr>0</expr>,<expr>1</expr>,<expr>2</expr>},{<expr>3</expr>,<expr>4</expr>,<expr>5</expr>}};</array_decl>
 #TYPE: int
 intintsymbol_table[12].name: indd
-symbol_table[12].name: 0x5584a134f484
+symbol_table[12].name: 0x56298b03d484
 
 #IDENTIFIER: indd
 int
@@ -467,7 +467,7 @@ int
 intint
 #OPERATOR: *
 symbol_table[13].name: sdf
-symbol_table[13].name: 0x5584a134f4c4
+symbol_table[13].name: 0x56298b03d4c4
 
 #IDENTIFIER: sdf
 
@@ -479,7 +479,7 @@ int*sdf
 
 #TYPE: signed
 signedsymbol_table[14].name: var_02
-symbol_table[14].name: 0x5584a134f504
+symbol_table[14].name: 0x56298b03d504
 
 #IDENTIFIER: var_02
 signed
@@ -491,7 +491,7 @@ signed
 <scalar_decl>constsignedvar_02=<expr>5</expr>;</scalar_decl><scalar_decl>constsignedvar_02=<expr>5</expr>;</scalar_decl>
 #TYPE: int
 intintsymbol_table[15].name: var_42
-symbol_table[15].name: 0x5584a134f544
+symbol_table[15].name: 0x56298b03d544
 
 #IDENTIFIER: var_42
 int
@@ -507,7 +507,7 @@ int
 signed
 #TYPE: int
 intsymbol_table[16].name: var_43
-symbol_table[16].name: 0x5584a134f584
+symbol_table[16].name: 0x56298b03d584
 
 #IDENTIFIER: var_43
 
@@ -521,7 +521,7 @@ symbol_table[16].name: 0x5584a134f584
 
 #OPERATOR: *
 symbol_table[17].name: ptr_01
-symbol_table[17].name: 0x5584a134f5c4
+symbol_table[17].name: 0x56298b03d5c4
 
 #IDENTIFIER: ptr_01
 
