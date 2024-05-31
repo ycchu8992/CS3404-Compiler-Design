@@ -9,7 +9,15 @@ extern int tkn;
 
 char* check_id_exist(char* tok);
 char* install_id(char* tok);
-
+char* reduce_nonterminal(char* r1);
+char* reduce_terminal(char* r1);
+char* reduce_terminal_nonterminal_terminal(char* r1, char* r2, char* r3);
+char* reduce_nonterminal_nonterminal(char* r1, char* r2);
+char* reduce_nonterminal_terminal_nonterminal(char* r1, char* r2, char* r3);
+char* reduce_terminal_terminal(char* r1, char* r2);
+char* reduce_nonterminal_terminal(char* r1, char* r2);
+char* reduce_terminal_nonterminal(char* r1, char* r2);
+char* reduce_terminal_terminal_nonterminal(char* r1, char* r2, char* r3);
 
 struct symbol{
     int seq_num;
@@ -41,64 +49,31 @@ int cur_scope=0;
 %left<charv> '*'
 %type<charv>  type_decl type_layer sign_usgn int_char long_shrt
 %type<charv>  ident var_init scalar_decl func_decl program array_decl func_def var_decl expr_stmt compound_stmt_content stmt
-%type<charv> expr arr_ident arr_tag arr_content box arr_cnt_fmt arr_id type_ident parameter_info parameters compound_stmt init
+%type<charv> expr arr_ident arr_tag arr_content box arr_cnt_fmt arr_id type_ident parameter_info parameters compound_stmt section init
 %token<charv> SEMICOLON ENTER
 %left<charv> COMMA
 %%
 
-init: program
+init: program               {
+                                size_t n1 = strlen($1);
+                                char* buffer = (char*)malloc(n1+1);
+                                strcpy(buffer,$1);
+                                printf("%s", buffer);   
+                                free($1);
+                                free(buffer);
+                            }
 
-program:  var_decl program  {
-                                size_t n1 = strlen($1);
-                                size_t n2 = strlen($2);
-                                char* buffer = (char*)malloc(n1+n2+1);
-                                strcpy(buffer,$1);
-                                strcat(buffer,$2);
-                                $$ = buffer; 
-                                free($1);
-                                free($2);
-                            }
-        | func_decl program {
-                                size_t n1 = strlen($1);
-                                size_t n2 = strlen($2);
-                                char* buffer = (char*)malloc(n1+n2+1);
-                                strcpy(buffer,$1);
-                                strcat(buffer,$2);
-                                $$ = buffer;
-                                printf("%s", buffer);  
-                                free($1);
-                                free($2);
-                            }
-        | func_def program  {
-                                size_t n1 = strlen($1);
-                                size_t n2 = strlen($2);
-                                char* buffer = (char*)malloc(n1+n2+1);
-                                strcpy(buffer,$1);
-                                strcat(buffer,$2);
-                                $$ = buffer;
-                                printf("%s", buffer);  
-                                free($1);
-                                free($2);
-                            }
+program: section program                            {   $$ = reduce_nonterminal_nonterminal($1, $2);    }
+    | section                                       {   $$ = reduce_nonterminal($1);    }
+    ;
+
+section:  var_decl                                  {   $$ = reduce_nonterminal($1);    }
+        | func_decl                                 {   $$ = reduce_nonterminal($1);    }
+        | func_def                                  {   $$ = reduce_nonterminal($1);    }
         ;
 
-var_decl: scalar_decl           {
-                                    
-                                    size_t n1 = strlen($1);
-                                    char* buffer = (char*)malloc(n1+1);//free_at_next_reduction
-                                    strcpy(buffer,$1);
-                                    $$ = buffer;
-                                    printf("%s",buffer);
-                                    free($1);   
-                                }
-        | array_decl            {
-                                    size_t n1 = strlen($1);
-                                    char* buffer = (char*)malloc(n1+1);//free_at_next_reduction
-                                    strcpy(buffer,$1);
-                                    $$ = buffer;
-                                    printf("%s",buffer);
-                                    free($1);   
-                                }
+var_decl: scalar_decl                               {   $$ = reduce_nonterminal($1);    }
+        | array_decl                                {   $$ = reduce_nonterminal($1);    }
         ;
 
 scalar_decl: type_decl ident    {
@@ -147,7 +122,7 @@ func_decl: type_ident parameter_info SEMICOLON {
                                                     strcat(buffer,$3);
                                                     strcat(buffer,"</func_decl>");
                                                     $$ = buffer;
-                                                    printf("%s",buffer);
+                                                    if(tkn) printf("%s",buffer);
                                                     free($1);
                                                     free($2);
                                                 };
@@ -165,7 +140,7 @@ func_def: type_ident parameter_info compound_stmt   {
                                                         strcat(buffer,$3);
                                                         strcat(buffer,"</func_def>");
                                                         $$ = buffer;
-                                                        printf("%s",buffer);
+                                                        if(tkn) printf("%s",buffer);
                                                         free($1);
                                                         free($2);
                                                         free($3);
@@ -182,25 +157,10 @@ expr_stmt: expr SEMICOLON                           {
                                                         free($1);
                                                     } ;
 
-compound_stmt: '{' compound_stmt_content '}'    { 
-                                                    size_t n1 = strlen($1);
-                                                    size_t n2 = strlen($2);
-                                                    size_t n3 = strlen($3);                      
-                                                    char* buffer = (char*)malloc(n1+n2+n3+1);
-                                                    strcpy(buffer,$1);
-                                                    strcat(buffer,$2);
-                                                    strcat(buffer,$3);
-                                                    $$ = buffer;
-                                                    free($2);
-                                                }
-            | '{' '}'                           { 
-                                                    size_t n1 = strlen($1);
-                                                    size_t n2 = strlen($2);                   
-                                                    char* buffer = (char*)malloc(n1+n2+1);
-                                                    strcpy(buffer,$1);
-                                                    strcat(buffer,$2);
-                                                    $$ = buffer;
-                                                }                      
+stmt: compound_stmt;
+
+compound_stmt: '{' compound_stmt_content '}'        {   $$ = reduce_terminal_nonterminal_terminal($1, $2, $3);    }
+            |  '{' '}'                              {   $$ = reduce_terminal_terminal($1, $2);  }                     
             ;
 
 compound_stmt_content: expr_stmt compound_stmt_content   { 
@@ -223,20 +183,8 @@ compound_stmt_content: expr_stmt compound_stmt_content   {
                                                         free($1);
                                                         free($2);
                                                     } 
-                | expr_stmt     {
-                                    size_t n1 = strlen($1);
-                                    char* buffer = (char*)malloc(n1+1);//free_at_next_reduction
-                                    strcpy(buffer,$1);
-                                    $$ = buffer;
-                                    free($1);   
-                                }
-                | var_decl      {
-                                    size_t n1 = strlen($1);
-                                    char* buffer = (char*)malloc(n1+1);//free_at_next_reduction
-                                    strcpy(buffer,$1);
-                                    $$ = buffer;
-                                    free($1);   
-                                }
+                | expr_stmt                         {   $$ = reduce_nonterminal($1);    }
+                | var_decl                          {   $$ = reduce_nonterminal($1);    }
                 ;
 
 
@@ -244,402 +192,75 @@ compound_stmt_content: expr_stmt compound_stmt_content   {
 
 
 
-parameter_info: '(' parameters ')' {
-                                        size_t n1 = strlen($1);
-                                        size_t n2 = strlen($2);
-                                        size_t n3 = strlen($3);
-                                        char* buffer = (char*)malloc(n1+n2+n3+1);
-                                        strcpy(buffer,$1);
-                                        strcat(buffer,$2);
-                                        strcat(buffer,$3);
-                                        $$ = buffer;
-                                        free($2);
-                                    }
-        | '(' ')'                   {
-                                        size_t n1 = strlen($1);
-                                        size_t n2 = strlen($2);
-                                        char* buffer = (char*)malloc(n1+n2+1);
-                                        strcpy(buffer,$1);
-                                        strcat(buffer,$2);
-                                        $$ = buffer;                                        
-                                    }
-        ;
-
-parameters: type_ident COMMA parameters {
-                                            size_t n1 = strlen($1);
-                                            size_t n2 = strlen($2);
-                                            size_t n3 = strlen($3);
-                                            char* buffer = (char*)malloc(n1+n2+n3+1);
-                                            strcpy(buffer,$1);
-                                            strcat(buffer,$2);
-                                            strcat(buffer,$3);
-                                            $$ = buffer;
-                                            free($1);
-                                            free($3);
-                                        }
-        | type_ident            {
-                                    size_t n1 = strlen($1);
-                                    char* buffer = (char*)malloc(n1+1);//free_at_next_reduction
-                                    strcpy(buffer,$1);
-                                    $$ = buffer;
-                                    free($1);   
-                                }
-        ;
-
-type_ident: type_decl ID  {
-                            size_t n1 = strlen($1);
-                            size_t n2 = strlen($2);
-                            char* buffer = (char*)malloc(n1+n2+1);
-                            strcpy(buffer,$1);
-                            strcat(buffer,$2);
-                            $$ = buffer;
-                            free($1);                        
-                       };
-
-arr_ident:  arr_id COMMA arr_ident    {
-                                    size_t n1 = strlen($1);
-                                    size_t n2 = strlen($2);
-                                    size_t n3 = strlen($3);
-                                    char* buffer = (char*)malloc(n1+n2+n3+1);
-                                    strcpy(buffer,$1);
-                                    strcat(buffer,$2);
-                                    strcat(buffer,$3);
-                                    $$ = buffer;
-                                    free($1);
-                                    free($3);
-                                }
-            | arr_id            {
-                                    size_t n1 = strlen($1);
-                                    char* buffer = (char*)malloc(n1+1);//free_at_next_reduction
-                                    strcpy(buffer,$1);
-                                    $$ = buffer;
-                                    free($1);   
-                                }
-        ;
-
-arr_id: ID arr_tag        {
-                                    size_t n1 = strlen($1);
-                                    size_t n2 = strlen($2);
-                                    char* buffer = (char*)malloc(n1+n2+1);
-                                    strcpy(buffer,$1);
-                                    strcat(buffer,$2);
-                                    $$ = buffer;
-                                    free($2);
-                                }
-
-arr_tag:  box arr_tag           {
-                                    size_t n1 = strlen($1);
-                                    size_t n2 = strlen($2);
-                                    char* buffer = (char*)malloc(n1+n2+1);
-                                    strcpy(buffer,$1);
-                                    strcat(buffer,$2);
-                                    $$ = buffer;
-                                    free($1);
-                                    free($2);
-                                }
-        | box '=' arr_cnt_fmt   {
-                                    size_t n1 = strlen($1);
-                                    size_t n2 = strlen($2);
-                                    size_t n3 = strlen($3);
-                                    char* buffer = (char*)malloc(n1+n2+n3+1);
-                                    strcpy(buffer,$1);
-                                    strcat(buffer,$2);
-                                    strcat(buffer,$3);
-                                    $$ = buffer;
-                                    free($1);
-                                    free($3);
-                                }
-        | box                   {
-                                    size_t n1 = strlen($1);
-                                    char* buffer = (char*)malloc(n1+1);//free_at_next_reduction
-                                    strcpy(buffer,$1);
-                                    $$ = buffer;
-                                    free($1);   
-                                }
-        ;
-
-arr_cnt_fmt: '{'arr_content'}'          {
-                                            size_t n1 = strlen($1);
-                                            size_t n2 = strlen($2);
-                                            size_t n3 = strlen($3);
-                                            char* buffer = (char*)malloc(n1+n2+n3+1);
-                                            strcpy(buffer,$1);
-                                            strcat(buffer,$2);
-                                            strcat(buffer,$3);
-                                            $$ = buffer;
-                                            free($2);
-                                        }
+parameter_info: '(' parameters ')'                  {   $$ = reduce_terminal_nonterminal_terminal($1, $2, $3);    }
+            |   '(' ')'                             {   $$ = reduce_terminal_terminal($1, $2);  }
             ;
 
-arr_content: arr_cnt_fmt                {
-                                            size_t n1 = strlen($1);
-                                            char* buffer = (char*)malloc(n1+1);//free_at_next_reduction
-                                            strcpy(buffer,$1);
-                                            $$ = buffer;
-                                            free($1);   
-                                        }
-            | arr_cnt_fmt COMMA  arr_content   {
-                                            size_t n1 = strlen($1);
-                                            size_t n2 = strlen($2);
-                                            size_t n3 = strlen($3);
-                                            char* buffer = (char*)malloc(n1+n2+n3+1);//free_at_next_reduction
-                                            strcpy(buffer,$1);
-                                            strcat(buffer,$2);
-                                            strcat(buffer,$3);
-                                            $$ = buffer;
-                                            free($1);
-                                            free($3);
-                                        }
-            | expr COMMA arr_content    {
-                                            size_t n1 = strlen($1);
-                                            size_t n2 = strlen($2);
-                                            size_t n3 = strlen($3);
-                                            char* buffer = (char*)malloc(n1+n2+n3+1);
-                                            strcpy(buffer,$1);
-                                            strcat(buffer,$2);
-                                            strcat(buffer,$3);
-                                            $$ = buffer;
-                                            free($1);
-                                            free($3);
-                                        } 
-            | expr              {
-                                    size_t n1 = strlen($1);
-                                    char* buffer = (char*)malloc(n1+1);
-                                    strcpy(buffer,$1);
-                                    $$ = buffer;
-                                    free($1);
-                                } 
+parameters: type_ident COMMA parameters             {   $$ = reduce_nonterminal_terminal_nonterminal($1, $2, $3);   }
+            | type_ident                            {   $$ = reduce_nonterminal($1);    }
+            ;
+
+type_ident: type_decl ID                            {   $$ = reduce_nonterminal_terminal($1, $2);   }  
+
+arr_ident:  arr_id COMMA arr_ident                  {   $$ = reduce_nonterminal_terminal_nonterminal($1, $2, $3);   }
+            | arr_id                                {   $$ = reduce_nonterminal($1);    }                       
+            ;
+
+arr_id: ID arr_tag                                  {   $$ = reduce_terminal_nonterminal($1, $2);   }
+
+arr_tag:  box arr_tag                               {   $$ = reduce_nonterminal_nonterminal($1, $2);    }
+        | box '=' arr_cnt_fmt                       {   $$ = reduce_nonterminal_terminal_nonterminal($1, $2, $3);   }
+        | box                                       {   $$ = reduce_nonterminal($1);    }
+        ;
+
+arr_cnt_fmt: '{'arr_content'}'                      {   $$ = reduce_terminal_nonterminal_terminal($1, $2, $3);    }
+
+arr_content: arr_cnt_fmt                            {   $$ = reduce_nonterminal($1);    }
+            | arr_cnt_fmt COMMA  arr_content        {   $$ = reduce_nonterminal_terminal_nonterminal($1, $2, $3);   }
+            | expr COMMA arr_content                {   $$ = reduce_nonterminal_terminal_nonterminal($1, $2, $3);   }
+            | expr                                  {   $$ = reduce_nonterminal($1);    } 
             ;
             
-box: '[' expr ']'               {
-                                    size_t n1 = strlen($1);
-                                    size_t n2 = strlen($2);
-                                    size_t n3 = strlen($3);
-                                    char* buffer = (char*)malloc(n1+n2+n3+1);
-                                    strcpy(buffer,$1);
-                                    strcat(buffer,$2);
-                                    strcat(buffer,$3);
-                                    $$ = buffer;
-                                    free($2);
-                                }   
-    ;
+box: '[' expr ']'                                   {   $$ = reduce_terminal_nonterminal_terminal($1, $2, $3);    }   
 
-type_decl: CONST type_layer     {
-                                    size_t n1 = strlen(type_table[$1]);
-                                    size_t n2 = strlen($2);
-                                    char* buffer = (char*)malloc(n1+n2+1);
-                                    strcpy(buffer,type_table[$1]);
-                                    strcat(buffer,$2);
-                                    $$ = buffer;
-                                }
-         | type_layer           {
-                                    size_t n1 = strlen($1);
-                                    char* buffer = (char*)malloc(n1+1);
-                                    strcpy(buffer,$1);
-                                    $$ = buffer;
-                                    free($1);
-                                }
-         | CONST                {
-                                    size_t n1 = strlen(type_table[$1]);
-                                    char* buffer = (char*)malloc(n1+1);
-                                    strcpy(buffer,type_table[$1]);
-                                    $$ = buffer;
-                                }
-         | CONST type_layer '*' {
-                                    size_t n1 = strlen(type_table[$1]);
-                                    size_t n2 = strlen($2);
-                                    size_t n3 = strlen($3);
-                                    char* buffer = (char*)malloc(n1+n2+n3+1);
-                                    strcpy(buffer,type_table[$1]);
-                                    strcat(buffer,$2);
-                                    strcat(buffer,$3);
-                                    $$ = buffer;
-                                    free($2);
-                                }
-         | type_layer '*'       {
-                                    size_t n1 = strlen($1);
-                                    size_t n2 = strlen($2);
-                                    char* buffer = (char*)malloc(n1+n2+1);
-                                    strcpy(buffer,$1);
-                                    strcat(buffer,$2);
-                                    $$ = buffer;
-                                    free($1);
-                                }   
-         | CONST '*'            {
-                                    size_t n1 = strlen(type_table[$1]);
-                                    size_t n2 = strlen($2);
-                                    char* buffer = (char*)malloc(n1+n2+1);
-                                    strcpy(buffer,type_table[$1]);
-                                    strcat(buffer,$2);
-                                    $$ = buffer;
-                                }
+type_decl: CONST type_layer                         {   $$ = reduce_terminal_nonterminal(type_table[$1], $2);   }
+         | type_layer                               {   $$ = reduce_nonterminal($1);    }
+         | CONST                                    {   $$ = reduce_terminal(type_table[$1]);   }
+         | CONST type_layer '*'                     {   $$ = reduce_terminal_nonterminal_terminal(type_table[$1], $2, $3);    }
+         | type_layer '*'                           {   $$ = reduce_nonterminal_terminal($1, $2);   }   
+         | CONST '*'                                {   $$ = reduce_terminal_terminal(type_table[$1], $2);  }
          ;         
 
-type_layer: sign_usgn int_char  {   
-                                    size_t n1 = strlen($1);
-                                    size_t n2 = strlen($2);
-                                    char* buffer = (char*)malloc(n1+n2+1);
-                                    strcpy(buffer,$1);
-                                    strcat(buffer,$2);
-                                    $$ = buffer;
-                                    free($1);
-                                    free($2);                     
-                                }
-          | sign_usgn           { 
-                                    size_t n1 = strlen($1);             
-                                    char* buffer = (char*)malloc(n1+1);
-                                    strcpy(buffer, $1);
-                                    $$ = buffer;
-                                    free($1);
-                                }           
-          | int_char            { 
-                                    size_t n1 = strlen($1);             
-                                    char* buffer = (char*)malloc(n1+1);
-                                    strcpy(buffer, $1);
-                                    $$ = buffer;
-                                    free($1);
-                                }
-          | FLOAT               { 
-                                    size_t n1 = strlen(type_table[$1]);             
-                                    char* buffer = (char*)malloc(n1+1);
-                                    strcpy(buffer,type_table[$1]);
-                                    $$ = buffer;
-                                }
-          | DOUBLE              { 
-                                    size_t n1 = strlen(type_table[$1]);             
-                                    char* buffer = (char*)malloc(n1+1);
-                                    strcpy(buffer,type_table[$1]);
-                                    $$ = buffer;
-                                }
-          | VOID                { 
-                                    size_t n1 = strlen(type_table[$1]);             
-                                    char* buffer = (char*)malloc(n1+1);
-                                    strcpy(buffer,type_table[$1]);
-                                    $$ = buffer;
-                                }
+type_layer: sign_usgn int_char                      {   $$ = reduce_nonterminal_nonterminal($1, $2);    }
+          | sign_usgn                               {   $$ = reduce_nonterminal($1);    }           
+          | int_char                                {   $$ = reduce_nonterminal($1);    }
+          | FLOAT                                   {   $$ = reduce_terminal(type_table[$1]);   }
+          | DOUBLE                                  {   $$ = reduce_terminal(type_table[$1]);   }
+          | VOID                                    {   $$ = reduce_terminal(type_table[$1]);   }
           ;
 
-sign_usgn: SIGN             { 
-                                size_t n1 = strlen(type_table[$1]);             
-                                char* buffer = (char*)malloc(n1+1);
-                                strcpy(buffer,type_table[$1]);
-                                $$ = buffer;
-                            }
-         | USIGN            { 
-                                size_t n1 = strlen(type_table[$1]);             
-                                char* buffer = (char*)malloc(n1+1);
-                                strcpy(buffer,type_table[$1]);
-                                $$ = buffer;
-                            }
+sign_usgn: SIGN                                     {   $$ = reduce_terminal(type_table[$1]);   }
+         | USIGN                                    {   $$ = reduce_terminal(type_table[$1]);   }
          ;
 
-int_char: long_shrt INT     {
-                                size_t n1 = strlen($1);
-                                size_t n2 = strlen(type_table[$2]);
-                                char* buffer = (char*)malloc(n1+n2+1);
-                                strcpy(buffer,$1);
-                                strcat(buffer,type_table[$2]);
-                                $$ = buffer;
-                                free($1);  
-                            }
-        | long_shrt         { 
-                                size_t n1 = strlen($1);             
-                                char* buffer = (char*)malloc(n1+1);
-                                strcpy(buffer, $1);
-                                $$ = buffer;
-                                free($1);
-                            }
-        | CHAR              { 
-                                size_t n1 = strlen(type_table[$1]);             
-                                char* buffer = (char*)malloc(n1+1);
-                                strcpy(buffer,type_table[$1]);
-                                $$ = buffer;
-                            }
-        | INT               { 
-                                size_t n1 = strlen(type_table[$1]);             
-                                char* buffer = (char*)malloc(n1+1);
-                                strcpy(buffer,type_table[$1]);
-                                $$ = buffer;
-                            }
+int_char: long_shrt INT                             {   $$ = reduce_nonterminal_terminal($1, type_table[$2]);   }
+        | long_shrt                                 {   $$ = reduce_nonterminal($1);    }
+        | CHAR                                      {   $$ = reduce_terminal(type_table[$1]);   }
+        | INT                                       {   $$ = reduce_terminal(type_table[$1]);   }
         ;
 
-long_shrt: LLONG            { 
-                                size_t n1 = strlen(type_table[$1]);             
-                                char* buffer = (char*)malloc(n1+1);
-                                strcpy(buffer,type_table[$1]);
-                                $$ = buffer;
-                            }
-         | LONG             { 
-                                size_t n1 = strlen(type_table[$1]);             
-                                char* buffer = (char*)malloc(n1+1);
-                                strcpy(buffer,type_table[$1]);
-                                $$ = buffer;
-                            }
-         | SHRT             { 
-                                size_t n1 = strlen(type_table[$1]);             
-                                char* buffer = (char*)malloc(n1+1);
-                                strcpy(buffer,type_table[$1]);
-                                $$ = buffer;
-                            }
+long_shrt: LLONG                                    {   $$ = reduce_terminal(type_table[$1]);   }
+         | LONG                                     {   $$ = reduce_terminal(type_table[$1]);   }
+         | SHRT                                     {   $$ = reduce_terminal(type_table[$1]);   }
          ;
 
-ident: var_init COMMA ident {
-                                strcpy($$,$1);
-                                strcat($$,$2);
-                                strcat($$,$3);   
-                                size_t n1 = strlen($1);
-                                size_t n2 = strlen($2);
-                                size_t n3 = strlen($3);               
-                                char* buffer = (char*)malloc(n1+n2+n3+1);
-                                strcpy(buffer,$1);
-                                strcat(buffer,$2);
-                                strcat(buffer,$3);
-                                $$ = buffer;
-                                free($1);
-                                free($3);
-                            }
-    | var_init SEMICOLON    {
-                                size_t n1 = strlen($1);
-                                size_t n2 = strlen($2);            
-                                char* buffer = (char*)malloc(n1+n2+1);                        
-                                strcpy(buffer,$1);
-                                strcat(buffer,$2);
-                                $$ = buffer;
-                                free($1);
-                            }
-    | ID SEMICOLON          {
-                                size_t n1 = strlen($1);
-                                size_t n2 = strlen($2);            
-                                char* buffer = (char*)malloc(n1+n2+1);
-                                strcpy(buffer,$1);
-                                strcat(buffer,$2);
-                                $$ = buffer;
-                            }
-    | ID COMMA ident        {
-                                size_t n1 = strlen($1);
-                                size_t n2 = strlen($2);     
-                                size_t n3 = strlen($3);       
-                                char* buffer = (char*)malloc(n1+n2+n3+1);
-                                strcpy(buffer,$1);
-                                strcat(buffer,$2);
-                                strcat(buffer,$3);
-                                $$ = buffer;
-                                free($3);
-                            }
+ident: var_init COMMA ident                         {   $$ = reduce_nonterminal_terminal_nonterminal($1, $2, $3);   }
+    | var_init SEMICOLON                            {   $$ = reduce_nonterminal_terminal($1, $2);   }
+    | ID SEMICOLON                                  {   $$ = reduce_terminal_terminal($1, $2);  }
+    | ID COMMA ident                                {   $$ = reduce_terminal_terminal_nonterminal($1, $2, $3);  }
     ;
 
-var_init: ID '=' expr   {
-                            size_t n1 = strlen($1);
-                            size_t n2 = strlen($2);     
-                            size_t n3 = strlen($3);       
-                            char* buffer = (char*)malloc(n1+n2+n3+1);
-                            strcpy(buffer,$1);
-                            strcat(buffer,$2);
-                            strcat(buffer,$3);
-                            $$ = buffer;
-                            free($3);
-                        }   
-        ;
+var_init: ID '=' expr                               {   $$ = reduce_terminal_terminal_nonterminal($1, $2, $3);  }  
 
 expr:   NUM         { 
                         size_t n1 = strlen("<expr>");
@@ -664,7 +285,7 @@ int main(int argc, char* argv[]) {
 }
 
 int yyerror(char *s){
-    //printf("oops!\n");
+    printf("oops!\n");
     fprintf(stderr, "%s\n", s);
     return 0;
 }
@@ -684,6 +305,89 @@ char* install_id(char* tok){
     return symbol_table[top-1].name;
 }
 
+char* reduce_nonterminal(char* r1){
+    size_t buffer_size = strlen(r1)+1;
+    char* buffer = (char*)malloc(buffer_size);
+    strcpy(buffer,r1);
+    free(r1);
+    if(tkn) printf("%s", buffer);
+    return buffer;                           
+}
+
+char* reduce_terminal(char* r1){
+    size_t buffer_size = strlen(r1)+1;
+    char* buffer = (char*)malloc(buffer_size);
+    strcpy(buffer,r1);
+    if(tkn) printf("%s", buffer);
+    return buffer;                           
+}
+
+char* reduce_terminal_nonterminal_terminal(char* r1, char* r2, char* r3){
+    size_t buffer_size = strlen(r1) + strlen(r2) + strlen(r3) + 1;
+    char* buffer = (char*)malloc(buffer_size);
+    strcpy(buffer, r1);
+    strcat(buffer, r2);
+    strcat(buffer, r3);
+    free(r2);
+    return buffer;
+}
+
+char* reduce_nonterminal_nonterminal(char* r1, char* r2){
+    size_t buffer_size = strlen(r1) + strlen(r2) + 1;
+    char* buffer = (char*)malloc(buffer_size);
+    strcpy(buffer, r1);
+    strcat(buffer, r2);
+    free(r1);
+    free(r2);
+    return buffer;
+}
+
+char* reduce_nonterminal_terminal_nonterminal(char* r1, char* r2, char* r3){
+    size_t buffer_size = strlen(r1) + strlen(r2) + strlen(r3) + 1;
+    char* buffer = (char*)malloc(buffer_size);
+    strcpy(buffer, r1);
+    strcat(buffer, r2);
+    strcat(buffer, r3);
+    free(r1);
+    free(r3);
+    return buffer;
+}
+
+char* reduce_terminal_terminal(char* r1, char* r2){
+    size_t buffer_size = strlen(r1) + strlen(r2) + 1;
+    char* buffer = (char*)malloc(buffer_size);
+    strcpy(buffer, r1);
+    strcat(buffer, r2);
+    return buffer;
+}
+
+char* reduce_nonterminal_terminal(char* r1, char* r2){
+    size_t buffer_size = strlen(r1) + strlen(r2) + 1;
+    char* buffer = (char*)malloc(buffer_size);
+    strcpy(buffer, r1);
+    strcat(buffer, r2);
+    free(r1);
+    return buffer;
+}
+
+char* reduce_terminal_nonterminal(char* r1, char* r2){
+    size_t buffer_size = strlen(r1) + strlen(r2) + 1;
+    char* buffer = (char*)malloc(buffer_size);
+    strcpy(buffer, r1);
+    strcat(buffer, r2);
+    free(r2);
+    return buffer;
+}
+
+char* reduce_terminal_terminal_nonterminal(char* r1, char* r2, char* r3){
+    size_t buffer_size = strlen(r1) + strlen(r2) + strlen(r3) + 1;
+    char* buffer = (char*)malloc(buffer_size);
+    strcpy(buffer, r1);
+    strcat(buffer, r2);
+    strcat(buffer, r3);
+    free(r3);
+    return buffer;
+}
 /*
 if_else_stmt: if_stmt else_stmt
             | if_stmt

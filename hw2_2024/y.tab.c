@@ -31,7 +31,15 @@ extern int tkn;
 
 char* check_id_exist(char* tok);
 char* install_id(char* tok);
-
+char* reduce_nonterminal(char* r1);
+char* reduce_terminal(char* r1);
+char* reduce_terminal_nonterminal_terminal(char* r1, char* r2, char* r3);
+char* reduce_nonterminal_nonterminal(char* r1, char* r2);
+char* reduce_nonterminal_terminal_nonterminal(char* r1, char* r2, char* r3);
+char* reduce_terminal_terminal(char* r1, char* r2);
+char* reduce_nonterminal_terminal(char* r1, char* r2);
+char* reduce_terminal_nonterminal(char* r1, char* r2);
+char* reduce_terminal_terminal_nonterminal(char* r1, char* r2, char* r3);
 
 struct symbol{
     int seq_num;
@@ -53,14 +61,14 @@ int cur_scope=0;
 #endif
 #ifndef YYSTYPE_IS_DECLARED
 #define YYSTYPE_IS_DECLARED 1
-#line 30 "parser.y"
+#line 38 "parser.y"
 typedef union YYSTYPE{
     int token;
     char* charv;
     struct symbol *sym;
 } YYSTYPE;
 #endif /* !YYSTYPE_IS_DECLARED */
-#line 64 "y.tab.c"
+#line 72 "y.tab.c"
 
 /* compatibility with bison */
 #ifdef YYPARSE_PARAM
@@ -122,84 +130,83 @@ extern int YYPARSE_DECL();
 #define SWITCH 279
 #define CASE 280
 #define DEFALUT 281
-#define stmt 282
-#define SEMICOLON 283
-#define ENTER 284
-#define COMMA 285
+#define SEMICOLON 282
+#define ENTER 283
+#define COMMA 284
 #define YYERRCODE 256
 typedef int YYINT;
 static const YYINT yylhs[] = {                           -1,
-    0,   10,   10,   10,   13,   13,    8,   11,    9,   12,
-   14,   26,   26,   15,   15,   15,   15,   24,   24,   25,
-   25,   23,   17,   17,   22,   18,   18,   18,   21,   19,
-   19,   19,   19,   20,    1,    1,    1,    1,    1,    1,
-    2,    2,    2,    2,    2,    2,    3,    3,    4,    4,
-    4,    4,    5,    5,    5,    6,    6,    6,    6,    7,
-   16,
+    0,   10,   10,   28,   28,   28,   13,   13,    8,   11,
+    9,   12,   14,   16,   27,   27,   15,   15,   15,   15,
+   25,   25,   26,   26,   24,   18,   18,   23,   19,   19,
+   19,   22,   20,   20,   20,   20,   21,    1,    1,    1,
+    1,    1,    1,    2,    2,    2,    2,    2,    2,    3,
+    3,    4,    4,    4,    4,    5,    5,    5,    6,    6,
+    6,    6,    7,   17,
 };
 static const YYINT yylen[] = {                            2,
-    1,    2,    2,    2,    1,    1,    2,    3,    3,    3,
-    2,    3,    2,    2,    2,    1,    1,    3,    2,    3,
-    1,    2,    3,    1,    2,    2,    3,    1,    3,    1,
-    3,    3,    1,    3,    2,    1,    1,    3,    2,    2,
-    2,    1,    1,    1,    1,    1,    1,    1,    2,    1,
-    1,    1,    1,    1,    1,    3,    2,    2,    3,    3,
-    1,
+    1,    2,    1,    1,    1,    1,    1,    1,    2,    3,
+    3,    3,    2,    1,    3,    2,    2,    2,    1,    1,
+    3,    2,    3,    1,    2,    3,    1,    2,    2,    3,
+    1,    3,    1,    3,    3,    1,    3,    2,    1,    1,
+    3,    2,    2,    2,    1,    1,    1,    1,    1,    1,
+    1,    2,    1,    1,    1,    1,    1,    1,    3,    2,
+    2,    3,    3,    1,
 };
 static const YYINT yydefred[] = {                         0,
-    0,   47,   48,   54,   53,   55,   44,   45,   46,   51,
-   52,    0,    0,    0,    0,   43,    0,    5,    0,    1,
-    6,    0,    0,    0,   40,    0,    0,    7,    0,    0,
-    0,   39,   41,   49,    3,    4,    2,    0,    0,   38,
-    0,    0,   58,    0,   25,    0,   57,    0,    8,    0,
-   19,    0,    0,    0,    0,    9,   10,   61,   60,    0,
-    0,   59,    0,   26,   56,    0,   23,   22,    0,   18,
-   13,    0,    0,    0,    0,    0,   34,    0,   27,   20,
-    0,   15,   14,   12,   11,    0,    0,    0,    0,   29,
-    0,   32,   31,
+    0,   50,   51,   57,   56,   58,   47,   48,   49,   54,
+   55,    0,    0,    0,    0,   46,    0,    7,    5,    1,
+    8,    6,    4,    0,    0,   43,    0,    0,    9,    0,
+    0,    0,   42,   44,   52,    0,    0,    2,   41,    0,
+    0,   61,    0,   28,    0,   60,    0,   10,    0,   22,
+    0,    0,    0,    0,   11,   12,   64,   63,    0,    0,
+   62,    0,   29,   59,    0,   26,   25,    0,   21,   16,
+    0,    0,    0,    0,    0,   37,    0,   30,   23,    0,
+   18,   17,   15,   13,    0,    0,    0,    0,   32,    0,
+   35,   34,
 };
 #if defined(YYDESTRUCT_CALL) || defined(YYSTYPE_TOSTRING)
 static const YYINT yystos[] = {                           0,
   259,  260,  261,  262,  263,  264,  265,  266,  267,  268,
-  269,  287,  288,  289,  290,  291,  292,  295,  296,  297,
-  298,  299,  300,  310,   42,  289,  258,  293,  294,  304,
-  309,   42,  291,  269,  297,  297,  297,   40,  311,   42,
-   61,   91,  283,  285,  305,  307,  283,  285,  283,  285,
-   41,  288,  310,  312,  123,  283,  313,  257,  303,  303,
-  258,  293,   61,  305,  293,  258,  304,  258,  285,   41,
-  125,  288,  300,  301,  302,  303,   93,  123,  308,  312,
-  258,  302,  302,  125,  283,  303,  306,  308,  285,  125,
-  285,  306,  306,
+  269,  286,  287,  288,  289,  290,  291,  294,  295,  296,
+  297,  298,  299,  310,  314,   42,  288,  258,  292,  293,
+  304,  309,   42,  290,  269,   40,  311,  296,   42,   61,
+   91,  282,  284,  305,  307,  282,  284,  282,  284,   41,
+  287,  310,  312,  123,  282,  313,  257,  303,  303,  258,
+  292,   61,  305,  292,  258,  304,  258,  284,   41,  125,
+  287,  299,  300,  301,  303,   93,  123,  308,  312,  258,
+  301,  301,  125,  282,  303,  306,  308,  284,  125,  284,
+  306,  306,
 };
 #endif /* YYDESTRUCT_CALL || YYSTYPE_TOSTRING */
 static const YYINT yydgoto[] = {                         12,
-   13,   14,   15,   16,   17,   28,   29,   18,   19,   20,
-   21,   22,   23,   74,   75,   76,   30,   45,   87,   46,
-   88,   31,   24,   39,   54,   57,
+   71,   14,   15,   16,   17,   29,   30,   18,   19,   20,
+   21,   22,   72,   73,   74,    0,   75,   31,   44,   86,
+   45,   87,   32,   24,   37,   53,   56,   25,
 };
-static const YYINT yysindex[] = {                      -194,
+static const YYINT yysindex[] = {                      -186,
   -31,    0,    0,    0,    0,    0,    0,    0,    0,    0,
-    0,    0, -249,  -23, -248,    0, -239,    0, -194,    0,
-    0, -194, -194,   -6,    0,   -3,  -44,    0, -273, -237,
- -241,    0,    0,    0,    0,    0,    0,  -41, -122,    0,
- -207, -207,    0, -182,    0,  -53,    0, -182,    0, -181,
-    0, -180, -206,   39, -123,    0,    0,    0,    0,  -12,
-  -43,    0,  -40,    0,    0,   -9,    0,    0, -194,    0,
-    0, -174, -205, -205,  -39, -198,    0, -110,    0,    0,
-  -44,    0,    0,    0,    0, -197,  -36, -195, -110,    0,
- -110,    0,    0,
+    0,    0, -249,  -25, -248,    0, -245,    0,    0,    0,
+    0,    0,    0,   -9, -186,    0,   -8,  -43,    0, -272,
+ -246, -243,    0,    0,    0,  -41, -122,    0,    0, -214,
+ -214,    0, -213,    0,  -54,    0, -213,    0, -212,    0,
+ -211, -240,    9, -123,    0,    0,    0,    0,  -44,  -42,
+    0,  -72,    0,    0,  -39,    0,    0, -186,    0,    0,
+ -191, -203, -203,  -57, -198,    0, -110,    0,    0,  -43,
+    0,    0,    0,    0, -215,  -55, -199, -110,    0, -110,
+    0,    0,
 };
 static const YYINT yyrindex[] = {                         0,
- -171,    0,    0,    0,    0,    0,    0,    0,    0,    0,
-    0,    0,    0, -167,  -15,    0,  -14,    0,    0,    0,
-    0,    0,    0,    0,    0, -166,   53,    0,    0,    0,
- -189,    0,    0,    0,    0,    0,    0,    0,    0,    0,
-    0,    0,    0,    0,    0, -261,    0,    0,    0,    0,
-    0,    0,   54,    0,    0,    0,    0,    0,    0,    0,
+ -187,    0,    0,    0,    0,    0,    0,    0,    0,    0,
+    0,    0,    0, -172,  -15,    0,  -14,    0,    0,    0,
+    0,    0,    0,    0,   87,    0, -170,   49,    0,    0,
+    0, -192,    0,    0,    0,    0,    0,    0,    0,    0,
+    0,    0,    0,    0, -259,    0,    0,    0,    0,    0,
+    0,   50,    0,    0,    0,    0,    0,    0,    0,    0,
     0,    0,    0,    0,    0,    0,    0,    0,    0,    0,
-    0,    0,  -29,  -28,    0,    0,    0,    0,    0,    0,
-    0,    0,    0,    0,    0,  -27,    0,  -26,    0,    0,
-    0,    0,    0,
+    0,  -32,  -30,    0,    0,    0,    0,    0,    0,    0,
+    0,    0,    0,    0,  -29,    0,  -28,    0,    0,    0,
+    0,    0,
 };
 #if YYBTYACC
 static const YYINT yycindex[] = {                         0,
@@ -212,68 +219,68 @@ static const YYINT yycindex[] = {                         0,
     0,    0,    0,    0,    0,    0,    0,    0,    0,    0,
     0,    0,    0,    0,    0,    0,    0,    0,    0,    0,
     0,    0,    0,    0,    0,    0,    0,    0,    0,    0,
-    0,    0,    0,
+    0,    0,
 };
 #endif
 static const YYINT yygindex[] = {                         0,
-  -32,   99,    0,   86,    0,  -13,    0,    0,    0,   10,
-    0,    0,  -48,    0,  -25,  -38,   52,   57,  -46,    0,
-   41,    0,  -33,    0,   36,    0,
+    4,   91,    0,   79,    0,  -21,    0,    0,    0,   73,
+    0,    0,    8,    0,  -34,    0,  -35,   51,   54,  -58,
+    0,   39,    0,  -33,    0,   34,    0,    0,
 };
 #define YYTABLESIZE 244
-static const YYINT yytable[] = {                         51,
-   55,   71,   59,   60,   53,   52,   73,   63,   27,   47,
-   25,   48,   78,    4,    5,    6,   41,   41,   32,   10,
-   11,   28,   72,   28,   73,   73,   42,   50,   35,   34,
-   62,   36,   37,   38,   65,   53,   52,   42,   40,   86,
-   72,   72,   92,   50,   93,   49,   42,   82,   83,   58,
-   86,   58,   86,    1,    2,    3,    4,    5,    6,    7,
-    8,    9,   10,   11,    1,    2,    3,    4,    5,    6,
-    7,    8,    9,   10,   11,   61,   66,   68,   69,   70,
-   77,   42,   78,   81,   85,   84,   37,   89,   90,   91,
-   36,   35,   22,   24,   21,   17,   16,   33,   30,   26,
-   33,   67,   64,   79,   80,    0,    0,    0,    0,    0,
+static const YYINT yytable[] = {                         50,
+   54,   70,   52,   13,   58,   59,   62,   23,   28,   46,
+   26,   47,   77,    4,    5,    6,   33,   40,   40,   10,
+   11,   61,   31,   35,   31,   64,   45,   53,   13,   91,
+   36,   92,   23,   39,   52,   48,   41,   81,   82,   51,
+   49,   85,   57,   68,   60,   65,   67,   41,   76,   69,
+   77,   41,   85,   57,   85,    1,    2,    3,    4,    5,
+    6,    7,    8,    9,   10,   11,   80,   83,   88,   89,
+   40,   51,    1,    2,    3,    4,    5,    6,    7,    8,
+    9,   10,   11,   84,   90,   39,    3,   38,   25,   27,
+   24,   27,   20,   34,   19,   36,   33,   38,   63,   66,
+   78,   79,    0,    0,    0,    0,    0,    0,    0,    0,
     0,    0,    0,    0,    0,    0,    0,    0,    0,    0,
     0,    0,    0,    0,    0,    0,    0,    0,    0,    0,
-    0,    0,    0,   58,    0,    1,    2,    3,    4,    5,
-    6,    7,    8,    9,   10,   11,   58,    0,    0,    0,
+    0,    0,    0,   57,    0,    1,    2,    3,    4,    5,
+    6,    7,    8,    9,   10,   11,   57,    0,    0,    0,
+    0,    0,    0,    0,    0,    0,    0,    0,    0,   55,
     0,    0,    0,    0,    0,    0,    0,    0,    0,    0,
-   56,    0,    0,    0,    0,    0,    0,    0,    0,    0,
     0,    0,    0,    0,    0,    0,    0,    0,    0,    0,
     0,    0,    0,    0,    0,    0,    0,    0,    0,    0,
     0,    0,    0,    0,    0,    0,    0,    0,    0,    0,
     0,    0,    0,    0,    0,    0,    0,    0,    0,    0,
     0,    0,    0,    0,    0,    0,    0,    1,    2,    3,
     4,    5,    6,    7,    8,    9,   10,   11,    2,    3,
-    4,    5,    6,    7,    8,    9,   10,   11,   43,   43,
-   44,   44,   42,   50,
+    4,    5,    6,    7,    8,    9,   10,   11,   42,   42,
+   43,   43,   45,   53,
 };
 static const YYINT yycheck[] = {                         41,
-  123,  125,   41,   42,   38,   38,   55,   61,  258,  283,
-   42,  285,  123,  262,  263,  264,   61,   61,   42,  268,
-  269,  283,   55,  285,   73,   74,   42,   42,   19,  269,
-   44,   22,   23,   40,   48,   69,   69,   91,   42,   78,
-   73,   74,   89,  285,   91,  283,   91,   73,   74,  257,
-   89,  257,   91,  259,  260,  261,  262,  263,  264,  265,
-  266,  267,  268,  269,  259,  260,  261,  262,  263,  264,
-  265,  266,  267,  268,  269,  258,  258,  258,  285,   41,
-   93,   91,  123,  258,  283,  125,  258,  285,  125,  285,
-  258,  258,   40,  283,   41,  125,  125,  125,  125,    1,
-   15,   50,   46,   63,   69,   -1,   -1,   -1,   -1,   -1,
+  123,  125,   36,    0,   40,   41,   61,    0,  258,  282,
+   42,  284,  123,  262,  263,  264,   42,   61,   61,  268,
+  269,   43,  282,  269,  284,   47,   42,   42,   25,   88,
+   40,   90,   25,   42,   68,  282,   91,   72,   73,   36,
+  284,   77,  257,  284,  258,  258,  258,   91,   93,   41,
+  123,   91,   88,  257,   90,  259,  260,  261,  262,  263,
+  264,  265,  266,  267,  268,  269,  258,  125,  284,  125,
+  258,   68,  259,  260,  261,  262,  263,  264,  265,  266,
+  267,  268,  269,  282,  284,  258,    0,  258,   40,  282,
+   41,    1,  125,   15,  125,  125,  125,   25,   45,   49,
+   62,   68,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,
    -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,
    -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,
    -1,   -1,   -1,  257,   -1,  259,  260,  261,  262,  263,
   264,  265,  266,  267,  268,  269,  257,   -1,   -1,   -1,
+   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,  282,
    -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,
-  283,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,
    -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,
    -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,
    -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,
    -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,
    -1,   -1,   -1,   -1,   -1,   -1,   -1,  259,  260,  261,
   262,  263,  264,  265,  266,  267,  268,  269,  260,  261,
-  262,  263,  264,  265,  266,  267,  268,  269,  283,  283,
-  285,  285,  258,  258,
+  262,  263,  264,  265,  266,  267,  268,  269,  282,  282,
+  284,  284,  258,  258,
 };
 #if YYBTYACC
 static const YYINT yyctable[] = {                        -1,
@@ -308,8 +315,8 @@ static const YYINT yyctable[] = {                        -1,
 #ifndef YYDEBUG
 #define YYDEBUG 0
 #endif
-#define YYMAXTOKEN 285
-#define YYUNDFTOKEN 314
+#define YYMAXTOKEN 284
+#define YYUNDFTOKEN 315
 #define YYTRANSLATE(a) ((a) > YYMAXTOKEN ? YYUNDFTOKEN : (a))
 #if YYDEBUG
 static const char *const yyname[] = {
@@ -323,19 +330,21 @@ static const char *const yyname[] = {
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 "error","NUM","ID","CONST","SIGN","USIGN","LONG","LLONG","SHRT","FLOAT",
 "DOUBLE","VOID","CHAR","INT","FOR","DO","WHILE","BREAK","CONTINUE","IF","ELSE",
-"RETURN","STRUCT","SWITCH","CASE","DEFALUT","stmt","SEMICOLON","ENTER","COMMA",
+"RETURN","STRUCT","SWITCH","CASE","DEFALUT","SEMICOLON","ENTER","COMMA",
 "$accept","init","type_decl","type_layer","sign_usgn","int_char","long_shrt",
 "ident","var_init","scalar_decl","func_decl","program","array_decl","func_def",
-"var_decl","expr_stmt","compound_stmt_content","expr","arr_ident","arr_tag",
-"arr_content","box","arr_cnt_fmt","arr_id","type_ident","parameter_info",
-"parameters","compound_stmt","illegal-symbol",
+"var_decl","expr_stmt","compound_stmt_content","stmt","expr","arr_ident",
+"arr_tag","arr_content","box","arr_cnt_fmt","arr_id","type_ident",
+"parameter_info","parameters","compound_stmt","section","illegal-symbol",
 };
 static const char *const yyrule[] = {
 "$accept : init",
 "init : program",
-"program : var_decl program",
-"program : func_decl program",
-"program : func_def program",
+"program : section program",
+"program : section",
+"section : var_decl",
+"section : func_decl",
+"section : func_def",
 "var_decl : scalar_decl",
 "var_decl : array_decl",
 "scalar_decl : type_decl ident",
@@ -343,6 +352,7 @@ static const char *const yyrule[] = {
 "func_decl : type_ident parameter_info SEMICOLON",
 "func_def : type_ident parameter_info compound_stmt",
 "expr_stmt : expr SEMICOLON",
+"stmt : compound_stmt",
 "compound_stmt : '{' compound_stmt_content '}'",
 "compound_stmt : '{' '}'",
 "compound_stmt_content : expr_stmt compound_stmt_content",
@@ -524,7 +534,7 @@ static YYINT  *yylexp = 0;
 
 static YYINT  *yylexemes = 0;
 #endif /* YYBTYACC */
-#line 656 "parser.y"
+#line 277 "parser.y"
 
 int yylex(void);
 
@@ -536,7 +546,7 @@ int main(int argc, char* argv[]) {
 }
 
 int yyerror(char *s){
-    //printf("oops!\n");
+    printf("oops!\n");
     fprintf(stderr, "%s\n", s);
     return 0;
 }
@@ -556,6 +566,89 @@ char* install_id(char* tok){
     return symbol_table[top-1].name;
 }
 
+char* reduce_nonterminal(char* r1){
+    size_t buffer_size = strlen(r1)+1;
+    char* buffer = (char*)malloc(buffer_size);
+    strcpy(buffer,r1);
+    free(r1);
+    if(tkn) printf("%s", buffer);
+    return buffer;                           
+}
+
+char* reduce_terminal(char* r1){
+    size_t buffer_size = strlen(r1)+1;
+    char* buffer = (char*)malloc(buffer_size);
+    strcpy(buffer,r1);
+    if(tkn) printf("%s", buffer);
+    return buffer;                           
+}
+
+char* reduce_terminal_nonterminal_terminal(char* r1, char* r2, char* r3){
+    size_t buffer_size = strlen(r1) + strlen(r2) + strlen(r3) + 1;
+    char* buffer = (char*)malloc(buffer_size);
+    strcpy(buffer, r1);
+    strcat(buffer, r2);
+    strcat(buffer, r3);
+    free(r2);
+    return buffer;
+}
+
+char* reduce_nonterminal_nonterminal(char* r1, char* r2){
+    size_t buffer_size = strlen(r1) + strlen(r2) + 1;
+    char* buffer = (char*)malloc(buffer_size);
+    strcpy(buffer, r1);
+    strcat(buffer, r2);
+    free(r1);
+    free(r2);
+    return buffer;
+}
+
+char* reduce_nonterminal_terminal_nonterminal(char* r1, char* r2, char* r3){
+    size_t buffer_size = strlen(r1) + strlen(r2) + strlen(r3) + 1;
+    char* buffer = (char*)malloc(buffer_size);
+    strcpy(buffer, r1);
+    strcat(buffer, r2);
+    strcat(buffer, r3);
+    free(r1);
+    free(r3);
+    return buffer;
+}
+
+char* reduce_terminal_terminal(char* r1, char* r2){
+    size_t buffer_size = strlen(r1) + strlen(r2) + 1;
+    char* buffer = (char*)malloc(buffer_size);
+    strcpy(buffer, r1);
+    strcat(buffer, r2);
+    return buffer;
+}
+
+char* reduce_nonterminal_terminal(char* r1, char* r2){
+    size_t buffer_size = strlen(r1) + strlen(r2) + 1;
+    char* buffer = (char*)malloc(buffer_size);
+    strcpy(buffer, r1);
+    strcat(buffer, r2);
+    free(r1);
+    return buffer;
+}
+
+char* reduce_terminal_nonterminal(char* r1, char* r2){
+    size_t buffer_size = strlen(r1) + strlen(r2) + 1;
+    char* buffer = (char*)malloc(buffer_size);
+    strcpy(buffer, r1);
+    strcat(buffer, r2);
+    free(r2);
+    return buffer;
+}
+
+char* reduce_terminal_terminal_nonterminal(char* r1, char* r2, char* r3){
+    size_t buffer_size = strlen(r1) + strlen(r2) + strlen(r3) + 1;
+    char* buffer = (char*)malloc(buffer_size);
+    strcpy(buffer, r1);
+    strcat(buffer, r2);
+    strcat(buffer, r3);
+    free(r3);
+    return buffer;
+}
 /*
 if_else_stmt: if_stmt else_stmt
             | if_stmt
@@ -589,7 +682,7 @@ return_stmt: RETURN expr_stmt
             | break_stmt
             | continue_stmt
             */
-#line 593 "y.tab.c"
+#line 686 "y.tab.c"
 
 /* For use in generated program */
 #define yydepth (int)(yystack.s_mark - yystack.s_base)
@@ -1259,77 +1352,55 @@ yyreduce:
 
     switch (yyn)
     {
-case 2:
-#line 51 "parser.y"
+case 1:
+#line 57 "parser.y"
 	{
-                                size_t n1 = strlen(yystack.l_mark[-1].charv);
-                                size_t n2 = strlen(yystack.l_mark[0].charv);
-                                char* buffer = (char*)malloc(n1+n2+1);
-                                strcpy(buffer,yystack.l_mark[-1].charv);
-                                strcat(buffer,yystack.l_mark[0].charv);
-                                yyval.charv = buffer; 
-                                free(yystack.l_mark[-1].charv);
+                                size_t n1 = strlen(yystack.l_mark[0].charv);
+                                char* buffer = (char*)malloc(n1+1);
+                                strcpy(buffer,yystack.l_mark[0].charv);
+                                printf("%s", buffer);   
                                 free(yystack.l_mark[0].charv);
+                                free(buffer);
                             }
-#line 1275 "y.tab.c"
+#line 1366 "y.tab.c"
+break;
+case 2:
+#line 66 "parser.y"
+	{   yyval.charv = reduce_nonterminal_nonterminal(yystack.l_mark[-1].charv, yystack.l_mark[0].charv);    }
+#line 1371 "y.tab.c"
 break;
 case 3:
-#line 61 "parser.y"
-	{
-                                size_t n1 = strlen(yystack.l_mark[-1].charv);
-                                size_t n2 = strlen(yystack.l_mark[0].charv);
-                                char* buffer = (char*)malloc(n1+n2+1);
-                                strcpy(buffer,yystack.l_mark[-1].charv);
-                                strcat(buffer,yystack.l_mark[0].charv);
-                                yyval.charv = buffer;
-                                printf("%s", buffer);  
-                                free(yystack.l_mark[-1].charv);
-                                free(yystack.l_mark[0].charv);
-                            }
-#line 1290 "y.tab.c"
+#line 67 "parser.y"
+	{   yyval.charv = reduce_nonterminal(yystack.l_mark[0].charv);    }
+#line 1376 "y.tab.c"
 break;
 case 4:
-#line 72 "parser.y"
-	{
-                                size_t n1 = strlen(yystack.l_mark[-1].charv);
-                                size_t n2 = strlen(yystack.l_mark[0].charv);
-                                char* buffer = (char*)malloc(n1+n2+1);
-                                strcpy(buffer,yystack.l_mark[-1].charv);
-                                strcat(buffer,yystack.l_mark[0].charv);
-                                yyval.charv = buffer;
-                                printf("%s", buffer);  
-                                free(yystack.l_mark[-1].charv);
-                                free(yystack.l_mark[0].charv);
-                            }
-#line 1305 "y.tab.c"
+#line 70 "parser.y"
+	{   yyval.charv = reduce_nonterminal(yystack.l_mark[0].charv);    }
+#line 1381 "y.tab.c"
 break;
 case 5:
-#line 85 "parser.y"
-	{
-                                    
-                                    size_t n1 = strlen(yystack.l_mark[0].charv);
-                                    char* buffer = (char*)malloc(n1+1);/*free_at_next_reduction*/
-                                    strcpy(buffer,yystack.l_mark[0].charv);
-                                    yyval.charv = buffer;
-                                    printf("%s",buffer);
-                                    free(yystack.l_mark[0].charv);   
-                                }
-#line 1318 "y.tab.c"
+#line 71 "parser.y"
+	{   yyval.charv = reduce_nonterminal(yystack.l_mark[0].charv);    }
+#line 1386 "y.tab.c"
 break;
 case 6:
-#line 94 "parser.y"
-	{
-                                    size_t n1 = strlen(yystack.l_mark[0].charv);
-                                    char* buffer = (char*)malloc(n1+1);/*free_at_next_reduction*/
-                                    strcpy(buffer,yystack.l_mark[0].charv);
-                                    yyval.charv = buffer;
-                                    printf("%s",buffer);
-                                    free(yystack.l_mark[0].charv);   
-                                }
-#line 1330 "y.tab.c"
+#line 72 "parser.y"
+	{   yyval.charv = reduce_nonterminal(yystack.l_mark[0].charv);    }
+#line 1391 "y.tab.c"
 break;
 case 7:
-#line 104 "parser.y"
+#line 75 "parser.y"
+	{   yyval.charv = reduce_nonterminal(yystack.l_mark[0].charv);    }
+#line 1396 "y.tab.c"
+break;
+case 8:
+#line 76 "parser.y"
+	{   yyval.charv = reduce_nonterminal(yystack.l_mark[0].charv);    }
+#line 1401 "y.tab.c"
+break;
+case 9:
+#line 79 "parser.y"
 	{
                                     size_t l = strlen("<scalar_decl>");
                                     size_t n1 = strlen(yystack.l_mark[-1].charv);
@@ -1344,10 +1415,10 @@ case 7:
                                     free(yystack.l_mark[-1].charv);
                                     free(yystack.l_mark[0].charv);
                                 }
-#line 1348 "y.tab.c"
+#line 1419 "y.tab.c"
 break;
-case 8:
-#line 119 "parser.y"
+case 10:
+#line 94 "parser.y"
 	{
                                                 size_t l = strlen("<array_decl>");
                                                 size_t n1 = strlen(yystack.l_mark[-2].charv);
@@ -1364,10 +1435,10 @@ case 8:
                                                 free(yystack.l_mark[-2].charv);
                                                 free(yystack.l_mark[-1].charv);
                                             }
-#line 1368 "y.tab.c"
+#line 1439 "y.tab.c"
 break;
-case 9:
-#line 137 "parser.y"
+case 11:
+#line 112 "parser.y"
 	{
                                                     size_t l = strlen("<func_decl>");
                                                     size_t n1 = strlen(yystack.l_mark[-2].charv);
@@ -1381,14 +1452,14 @@ case 9:
                                                     strcat(buffer,yystack.l_mark[0].charv);
                                                     strcat(buffer,"</func_decl>");
                                                     yyval.charv = buffer;
-                                                    printf("%s",buffer);
+                                                    if(tkn) printf("%s",buffer);
                                                     free(yystack.l_mark[-2].charv);
                                                     free(yystack.l_mark[-1].charv);
                                                 }
-#line 1389 "y.tab.c"
+#line 1460 "y.tab.c"
 break;
-case 10:
-#line 155 "parser.y"
+case 12:
+#line 130 "parser.y"
 	{
                                                         size_t l = strlen("<func_def>");
                                                         size_t n1 = strlen(yystack.l_mark[-2].charv);
@@ -1402,55 +1473,15 @@ case 10:
                                                         strcat(buffer,yystack.l_mark[0].charv);
                                                         strcat(buffer,"</func_def>");
                                                         yyval.charv = buffer;
-                                                        printf("%s",buffer);
+                                                        if(tkn) printf("%s",buffer);
                                                         free(yystack.l_mark[-2].charv);
                                                         free(yystack.l_mark[-1].charv);
                                                         free(yystack.l_mark[0].charv);
                                                     }
-#line 1411 "y.tab.c"
-break;
-case 11:
-#line 175 "parser.y"
-	{ 
-                                                        size_t n1 = strlen(yystack.l_mark[-1].charv);
-                                                        size_t n2 = strlen(yystack.l_mark[0].charv);                   
-                                                        char* buffer = (char*)malloc(n1+n2+1);
-                                                        strcpy(buffer,yystack.l_mark[-1].charv);
-                                                        strcat(buffer,yystack.l_mark[0].charv);
-                                                        yyval.charv = buffer;
-                                                        free(yystack.l_mark[-1].charv);
-                                                    }
-#line 1424 "y.tab.c"
-break;
-case 12:
-#line 185 "parser.y"
-	{ 
-                                                    size_t n1 = strlen(yystack.l_mark[-2].charv);
-                                                    size_t n2 = strlen(yystack.l_mark[-1].charv);
-                                                    size_t n3 = strlen(yystack.l_mark[0].charv);                      
-                                                    char* buffer = (char*)malloc(n1+n2+n3+1);
-                                                    strcpy(buffer,yystack.l_mark[-2].charv);
-                                                    strcat(buffer,yystack.l_mark[-1].charv);
-                                                    strcat(buffer,yystack.l_mark[0].charv);
-                                                    yyval.charv = buffer;
-                                                    free(yystack.l_mark[-1].charv);
-                                                }
-#line 1439 "y.tab.c"
+#line 1482 "y.tab.c"
 break;
 case 13:
-#line 196 "parser.y"
-	{ 
-                                                    size_t n1 = strlen(yystack.l_mark[-1].charv);
-                                                    size_t n2 = strlen(yystack.l_mark[0].charv);                   
-                                                    char* buffer = (char*)malloc(n1+n2+1);
-                                                    strcpy(buffer,yystack.l_mark[-1].charv);
-                                                    strcat(buffer,yystack.l_mark[0].charv);
-                                                    yyval.charv = buffer;
-                                                }
-#line 1451 "y.tab.c"
-break;
-case 14:
-#line 206 "parser.y"
+#line 150 "parser.y"
 	{ 
                                                         size_t n1 = strlen(yystack.l_mark[-1].charv);
                                                         size_t n2 = strlen(yystack.l_mark[0].charv);                   
@@ -1459,12 +1490,21 @@ case 14:
                                                         strcat(buffer,yystack.l_mark[0].charv);
                                                         yyval.charv = buffer;
                                                         free(yystack.l_mark[-1].charv);
-                                                        free(yystack.l_mark[0].charv);
                                                     }
-#line 1465 "y.tab.c"
+#line 1495 "y.tab.c"
 break;
 case 15:
-#line 216 "parser.y"
+#line 162 "parser.y"
+	{   yyval.charv = reduce_terminal_nonterminal_terminal(yystack.l_mark[-2].charv, yystack.l_mark[-1].charv, yystack.l_mark[0].charv);    }
+#line 1500 "y.tab.c"
+break;
+case 16:
+#line 163 "parser.y"
+	{   yyval.charv = reduce_terminal_terminal(yystack.l_mark[-1].charv, yystack.l_mark[0].charv);  }
+#line 1505 "y.tab.c"
+break;
+case 17:
+#line 166 "parser.y"
 	{ 
                                                         size_t n1 = strlen(yystack.l_mark[-1].charv);
                                                         size_t n2 = strlen(yystack.l_mark[0].charv);                   
@@ -1475,571 +1515,249 @@ case 15:
                                                         free(yystack.l_mark[-1].charv);
                                                         free(yystack.l_mark[0].charv);
                                                     }
-#line 1479 "y.tab.c"
-break;
-case 16:
-#line 226 "parser.y"
-	{
-                                    size_t n1 = strlen(yystack.l_mark[0].charv);
-                                    char* buffer = (char*)malloc(n1+1);/*free_at_next_reduction*/
-                                    strcpy(buffer,yystack.l_mark[0].charv);
-                                    yyval.charv = buffer;
-                                    free(yystack.l_mark[0].charv);   
-                                }
-#line 1490 "y.tab.c"
-break;
-case 17:
-#line 233 "parser.y"
-	{
-                                    size_t n1 = strlen(yystack.l_mark[0].charv);
-                                    char* buffer = (char*)malloc(n1+1);/*free_at_next_reduction*/
-                                    strcpy(buffer,yystack.l_mark[0].charv);
-                                    yyval.charv = buffer;
-                                    free(yystack.l_mark[0].charv);   
-                                }
-#line 1501 "y.tab.c"
+#line 1519 "y.tab.c"
 break;
 case 18:
-#line 247 "parser.y"
-	{
-                                        size_t n1 = strlen(yystack.l_mark[-2].charv);
-                                        size_t n2 = strlen(yystack.l_mark[-1].charv);
-                                        size_t n3 = strlen(yystack.l_mark[0].charv);
-                                        char* buffer = (char*)malloc(n1+n2+n3+1);
-                                        strcpy(buffer,yystack.l_mark[-2].charv);
-                                        strcat(buffer,yystack.l_mark[-1].charv);
-                                        strcat(buffer,yystack.l_mark[0].charv);
-                                        yyval.charv = buffer;
-                                        free(yystack.l_mark[-1].charv);
-                                    }
-#line 1516 "y.tab.c"
+#line 176 "parser.y"
+	{ 
+                                                        size_t n1 = strlen(yystack.l_mark[-1].charv);
+                                                        size_t n2 = strlen(yystack.l_mark[0].charv);                   
+                                                        char* buffer = (char*)malloc(n1+n2+1);
+                                                        strcpy(buffer,yystack.l_mark[-1].charv);
+                                                        strcat(buffer,yystack.l_mark[0].charv);
+                                                        yyval.charv = buffer;
+                                                        free(yystack.l_mark[-1].charv);
+                                                        free(yystack.l_mark[0].charv);
+                                                    }
+#line 1533 "y.tab.c"
 break;
 case 19:
-#line 258 "parser.y"
-	{
-                                        size_t n1 = strlen(yystack.l_mark[-1].charv);
-                                        size_t n2 = strlen(yystack.l_mark[0].charv);
-                                        char* buffer = (char*)malloc(n1+n2+1);
-                                        strcpy(buffer,yystack.l_mark[-1].charv);
-                                        strcat(buffer,yystack.l_mark[0].charv);
-                                        yyval.charv = buffer;                                        
-                                    }
-#line 1528 "y.tab.c"
+#line 186 "parser.y"
+	{   yyval.charv = reduce_nonterminal(yystack.l_mark[0].charv);    }
+#line 1538 "y.tab.c"
 break;
 case 20:
-#line 268 "parser.y"
-	{
-                                            size_t n1 = strlen(yystack.l_mark[-2].charv);
-                                            size_t n2 = strlen(yystack.l_mark[-1].charv);
-                                            size_t n3 = strlen(yystack.l_mark[0].charv);
-                                            char* buffer = (char*)malloc(n1+n2+n3+1);
-                                            strcpy(buffer,yystack.l_mark[-2].charv);
-                                            strcat(buffer,yystack.l_mark[-1].charv);
-                                            strcat(buffer,yystack.l_mark[0].charv);
-                                            yyval.charv = buffer;
-                                            free(yystack.l_mark[-2].charv);
-                                            free(yystack.l_mark[0].charv);
-                                        }
-#line 1544 "y.tab.c"
+#line 187 "parser.y"
+	{   yyval.charv = reduce_nonterminal(yystack.l_mark[0].charv);    }
+#line 1543 "y.tab.c"
 break;
 case 21:
-#line 280 "parser.y"
-	{
-                                    size_t n1 = strlen(yystack.l_mark[0].charv);
-                                    char* buffer = (char*)malloc(n1+1);/*free_at_next_reduction*/
-                                    strcpy(buffer,yystack.l_mark[0].charv);
-                                    yyval.charv = buffer;
-                                    free(yystack.l_mark[0].charv);   
-                                }
-#line 1555 "y.tab.c"
+#line 195 "parser.y"
+	{   yyval.charv = reduce_terminal_nonterminal_terminal(yystack.l_mark[-2].charv, yystack.l_mark[-1].charv, yystack.l_mark[0].charv);    }
+#line 1548 "y.tab.c"
 break;
 case 22:
-#line 289 "parser.y"
-	{
-                            size_t n1 = strlen(yystack.l_mark[-1].charv);
-                            size_t n2 = strlen(yystack.l_mark[0].charv);
-                            char* buffer = (char*)malloc(n1+n2+1);
-                            strcpy(buffer,yystack.l_mark[-1].charv);
-                            strcat(buffer,yystack.l_mark[0].charv);
-                            yyval.charv = buffer;
-                            free(yystack.l_mark[-1].charv);                        
-                       }
-#line 1568 "y.tab.c"
+#line 196 "parser.y"
+	{   yyval.charv = reduce_terminal_terminal(yystack.l_mark[-1].charv, yystack.l_mark[0].charv);  }
+#line 1553 "y.tab.c"
 break;
 case 23:
-#line 299 "parser.y"
-	{
-                                    size_t n1 = strlen(yystack.l_mark[-2].charv);
-                                    size_t n2 = strlen(yystack.l_mark[-1].charv);
-                                    size_t n3 = strlen(yystack.l_mark[0].charv);
-                                    char* buffer = (char*)malloc(n1+n2+n3+1);
-                                    strcpy(buffer,yystack.l_mark[-2].charv);
-                                    strcat(buffer,yystack.l_mark[-1].charv);
-                                    strcat(buffer,yystack.l_mark[0].charv);
-                                    yyval.charv = buffer;
-                                    free(yystack.l_mark[-2].charv);
-                                    free(yystack.l_mark[0].charv);
-                                }
-#line 1584 "y.tab.c"
+#line 199 "parser.y"
+	{   yyval.charv = reduce_nonterminal_terminal_nonterminal(yystack.l_mark[-2].charv, yystack.l_mark[-1].charv, yystack.l_mark[0].charv);   }
+#line 1558 "y.tab.c"
 break;
 case 24:
-#line 311 "parser.y"
-	{
-                                    size_t n1 = strlen(yystack.l_mark[0].charv);
-                                    char* buffer = (char*)malloc(n1+1);/*free_at_next_reduction*/
-                                    strcpy(buffer,yystack.l_mark[0].charv);
-                                    yyval.charv = buffer;
-                                    free(yystack.l_mark[0].charv);   
-                                }
-#line 1595 "y.tab.c"
+#line 200 "parser.y"
+	{   yyval.charv = reduce_nonterminal(yystack.l_mark[0].charv);    }
+#line 1563 "y.tab.c"
 break;
 case 25:
-#line 320 "parser.y"
-	{
-                                    size_t n1 = strlen(yystack.l_mark[-1].charv);
-                                    size_t n2 = strlen(yystack.l_mark[0].charv);
-                                    char* buffer = (char*)malloc(n1+n2+1);
-                                    strcpy(buffer,yystack.l_mark[-1].charv);
-                                    strcat(buffer,yystack.l_mark[0].charv);
-                                    yyval.charv = buffer;
-                                    free(yystack.l_mark[0].charv);
-                                }
-#line 1608 "y.tab.c"
+#line 203 "parser.y"
+	{   yyval.charv = reduce_nonterminal_terminal(yystack.l_mark[-1].charv, yystack.l_mark[0].charv);   }
+#line 1568 "y.tab.c"
 break;
 case 26:
-#line 330 "parser.y"
-	{
-                                    size_t n1 = strlen(yystack.l_mark[-1].charv);
-                                    size_t n2 = strlen(yystack.l_mark[0].charv);
-                                    char* buffer = (char*)malloc(n1+n2+1);
-                                    strcpy(buffer,yystack.l_mark[-1].charv);
-                                    strcat(buffer,yystack.l_mark[0].charv);
-                                    yyval.charv = buffer;
-                                    free(yystack.l_mark[-1].charv);
-                                    free(yystack.l_mark[0].charv);
-                                }
-#line 1622 "y.tab.c"
+#line 205 "parser.y"
+	{   yyval.charv = reduce_nonterminal_terminal_nonterminal(yystack.l_mark[-2].charv, yystack.l_mark[-1].charv, yystack.l_mark[0].charv);   }
+#line 1573 "y.tab.c"
 break;
 case 27:
-#line 340 "parser.y"
-	{
-                                    size_t n1 = strlen(yystack.l_mark[-2].charv);
-                                    size_t n2 = strlen(yystack.l_mark[-1].charv);
-                                    size_t n3 = strlen(yystack.l_mark[0].charv);
-                                    char* buffer = (char*)malloc(n1+n2+n3+1);
-                                    strcpy(buffer,yystack.l_mark[-2].charv);
-                                    strcat(buffer,yystack.l_mark[-1].charv);
-                                    strcat(buffer,yystack.l_mark[0].charv);
-                                    yyval.charv = buffer;
-                                    free(yystack.l_mark[-2].charv);
-                                    free(yystack.l_mark[0].charv);
-                                }
-#line 1638 "y.tab.c"
+#line 206 "parser.y"
+	{   yyval.charv = reduce_nonterminal(yystack.l_mark[0].charv);    }
+#line 1578 "y.tab.c"
 break;
 case 28:
-#line 352 "parser.y"
-	{
-                                    size_t n1 = strlen(yystack.l_mark[0].charv);
-                                    char* buffer = (char*)malloc(n1+1);/*free_at_next_reduction*/
-                                    strcpy(buffer,yystack.l_mark[0].charv);
-                                    yyval.charv = buffer;
-                                    free(yystack.l_mark[0].charv);   
-                                }
-#line 1649 "y.tab.c"
+#line 209 "parser.y"
+	{   yyval.charv = reduce_terminal_nonterminal(yystack.l_mark[-1].charv, yystack.l_mark[0].charv);   }
+#line 1583 "y.tab.c"
 break;
 case 29:
-#line 361 "parser.y"
-	{
-                                            size_t n1 = strlen(yystack.l_mark[-2].charv);
-                                            size_t n2 = strlen(yystack.l_mark[-1].charv);
-                                            size_t n3 = strlen(yystack.l_mark[0].charv);
-                                            char* buffer = (char*)malloc(n1+n2+n3+1);
-                                            strcpy(buffer,yystack.l_mark[-2].charv);
-                                            strcat(buffer,yystack.l_mark[-1].charv);
-                                            strcat(buffer,yystack.l_mark[0].charv);
-                                            yyval.charv = buffer;
-                                            free(yystack.l_mark[-1].charv);
-                                        }
-#line 1664 "y.tab.c"
+#line 211 "parser.y"
+	{   yyval.charv = reduce_nonterminal_nonterminal(yystack.l_mark[-1].charv, yystack.l_mark[0].charv);    }
+#line 1588 "y.tab.c"
 break;
 case 30:
-#line 374 "parser.y"
-	{
-                                            size_t n1 = strlen(yystack.l_mark[0].charv);
-                                            char* buffer = (char*)malloc(n1+1);/*free_at_next_reduction*/
-                                            strcpy(buffer,yystack.l_mark[0].charv);
-                                            yyval.charv = buffer;
-                                            free(yystack.l_mark[0].charv);   
-                                        }
-#line 1675 "y.tab.c"
+#line 212 "parser.y"
+	{   yyval.charv = reduce_nonterminal_terminal_nonterminal(yystack.l_mark[-2].charv, yystack.l_mark[-1].charv, yystack.l_mark[0].charv);   }
+#line 1593 "y.tab.c"
 break;
 case 31:
-#line 381 "parser.y"
-	{
-                                            size_t n1 = strlen(yystack.l_mark[-2].charv);
-                                            size_t n2 = strlen(yystack.l_mark[-1].charv);
-                                            size_t n3 = strlen(yystack.l_mark[0].charv);
-                                            char* buffer = (char*)malloc(n1+n2+n3+1);/*free_at_next_reduction*/
-                                            strcpy(buffer,yystack.l_mark[-2].charv);
-                                            strcat(buffer,yystack.l_mark[-1].charv);
-                                            strcat(buffer,yystack.l_mark[0].charv);
-                                            yyval.charv = buffer;
-                                            free(yystack.l_mark[-2].charv);
-                                            free(yystack.l_mark[0].charv);
-                                        }
-#line 1691 "y.tab.c"
+#line 213 "parser.y"
+	{   yyval.charv = reduce_nonterminal(yystack.l_mark[0].charv);    }
+#line 1598 "y.tab.c"
 break;
 case 32:
-#line 393 "parser.y"
-	{
-                                            size_t n1 = strlen(yystack.l_mark[-2].charv);
-                                            size_t n2 = strlen(yystack.l_mark[-1].charv);
-                                            size_t n3 = strlen(yystack.l_mark[0].charv);
-                                            char* buffer = (char*)malloc(n1+n2+n3+1);
-                                            strcpy(buffer,yystack.l_mark[-2].charv);
-                                            strcat(buffer,yystack.l_mark[-1].charv);
-                                            strcat(buffer,yystack.l_mark[0].charv);
-                                            yyval.charv = buffer;
-                                            free(yystack.l_mark[-2].charv);
-                                            free(yystack.l_mark[0].charv);
-                                        }
-#line 1707 "y.tab.c"
+#line 216 "parser.y"
+	{   yyval.charv = reduce_terminal_nonterminal_terminal(yystack.l_mark[-2].charv, yystack.l_mark[-1].charv, yystack.l_mark[0].charv);    }
+#line 1603 "y.tab.c"
 break;
 case 33:
-#line 405 "parser.y"
-	{
-                                    size_t n1 = strlen(yystack.l_mark[0].charv);
-                                    char* buffer = (char*)malloc(n1+1);
-                                    strcpy(buffer,yystack.l_mark[0].charv);
-                                    yyval.charv = buffer;
-                                    free(yystack.l_mark[0].charv);
-                                }
-#line 1718 "y.tab.c"
+#line 218 "parser.y"
+	{   yyval.charv = reduce_nonterminal(yystack.l_mark[0].charv);    }
+#line 1608 "y.tab.c"
 break;
 case 34:
-#line 414 "parser.y"
-	{
-                                    size_t n1 = strlen(yystack.l_mark[-2].charv);
-                                    size_t n2 = strlen(yystack.l_mark[-1].charv);
-                                    size_t n3 = strlen(yystack.l_mark[0].charv);
-                                    char* buffer = (char*)malloc(n1+n2+n3+1);
-                                    strcpy(buffer,yystack.l_mark[-2].charv);
-                                    strcat(buffer,yystack.l_mark[-1].charv);
-                                    strcat(buffer,yystack.l_mark[0].charv);
-                                    yyval.charv = buffer;
-                                    free(yystack.l_mark[-1].charv);
-                                }
-#line 1733 "y.tab.c"
+#line 219 "parser.y"
+	{   yyval.charv = reduce_nonterminal_terminal_nonterminal(yystack.l_mark[-2].charv, yystack.l_mark[-1].charv, yystack.l_mark[0].charv);   }
+#line 1613 "y.tab.c"
 break;
 case 35:
-#line 427 "parser.y"
-	{
-                                    size_t n1 = strlen(type_table[yystack.l_mark[-1].token]);
-                                    size_t n2 = strlen(yystack.l_mark[0].charv);
-                                    char* buffer = (char*)malloc(n1+n2+1);
-                                    strcpy(buffer,type_table[yystack.l_mark[-1].token]);
-                                    strcat(buffer,yystack.l_mark[0].charv);
-                                    yyval.charv = buffer;
-                                }
-#line 1745 "y.tab.c"
+#line 220 "parser.y"
+	{   yyval.charv = reduce_nonterminal_terminal_nonterminal(yystack.l_mark[-2].charv, yystack.l_mark[-1].charv, yystack.l_mark[0].charv);   }
+#line 1618 "y.tab.c"
 break;
 case 36:
-#line 435 "parser.y"
-	{
-                                    size_t n1 = strlen(yystack.l_mark[0].charv);
-                                    char* buffer = (char*)malloc(n1+1);
-                                    strcpy(buffer,yystack.l_mark[0].charv);
-                                    yyval.charv = buffer;
-                                    free(yystack.l_mark[0].charv);
-                                }
-#line 1756 "y.tab.c"
+#line 221 "parser.y"
+	{   yyval.charv = reduce_nonterminal(yystack.l_mark[0].charv);    }
+#line 1623 "y.tab.c"
 break;
 case 37:
-#line 442 "parser.y"
-	{
-                                    size_t n1 = strlen(type_table[yystack.l_mark[0].token]);
-                                    char* buffer = (char*)malloc(n1+1);
-                                    strcpy(buffer,type_table[yystack.l_mark[0].token]);
-                                    yyval.charv = buffer;
-                                }
-#line 1766 "y.tab.c"
+#line 224 "parser.y"
+	{   yyval.charv = reduce_terminal_nonterminal_terminal(yystack.l_mark[-2].charv, yystack.l_mark[-1].charv, yystack.l_mark[0].charv);    }
+#line 1628 "y.tab.c"
 break;
 case 38:
-#line 448 "parser.y"
-	{
-                                    size_t n1 = strlen(type_table[yystack.l_mark[-2].token]);
-                                    size_t n2 = strlen(yystack.l_mark[-1].charv);
-                                    size_t n3 = strlen(yystack.l_mark[0].charv);
-                                    char* buffer = (char*)malloc(n1+n2+n3+1);
-                                    strcpy(buffer,type_table[yystack.l_mark[-2].token]);
-                                    strcat(buffer,yystack.l_mark[-1].charv);
-                                    strcat(buffer,yystack.l_mark[0].charv);
-                                    yyval.charv = buffer;
-                                    free(yystack.l_mark[-1].charv);
-                                }
-#line 1781 "y.tab.c"
+#line 226 "parser.y"
+	{   yyval.charv = reduce_terminal_nonterminal(type_table[yystack.l_mark[-1].token], yystack.l_mark[0].charv);   }
+#line 1633 "y.tab.c"
 break;
 case 39:
-#line 459 "parser.y"
-	{
-                                    size_t n1 = strlen(yystack.l_mark[-1].charv);
-                                    size_t n2 = strlen(yystack.l_mark[0].charv);
-                                    char* buffer = (char*)malloc(n1+n2+1);
-                                    strcpy(buffer,yystack.l_mark[-1].charv);
-                                    strcat(buffer,yystack.l_mark[0].charv);
-                                    yyval.charv = buffer;
-                                    free(yystack.l_mark[-1].charv);
-                                }
-#line 1794 "y.tab.c"
+#line 227 "parser.y"
+	{   yyval.charv = reduce_nonterminal(yystack.l_mark[0].charv);    }
+#line 1638 "y.tab.c"
 break;
 case 40:
-#line 468 "parser.y"
-	{
-                                    size_t n1 = strlen(type_table[yystack.l_mark[-1].token]);
-                                    size_t n2 = strlen(yystack.l_mark[0].charv);
-                                    char* buffer = (char*)malloc(n1+n2+1);
-                                    strcpy(buffer,type_table[yystack.l_mark[-1].token]);
-                                    strcat(buffer,yystack.l_mark[0].charv);
-                                    yyval.charv = buffer;
-                                }
-#line 1806 "y.tab.c"
+#line 228 "parser.y"
+	{   yyval.charv = reduce_terminal(type_table[yystack.l_mark[0].token]);   }
+#line 1643 "y.tab.c"
 break;
 case 41:
-#line 478 "parser.y"
-	{   
-                                    size_t n1 = strlen(yystack.l_mark[-1].charv);
-                                    size_t n2 = strlen(yystack.l_mark[0].charv);
-                                    char* buffer = (char*)malloc(n1+n2+1);
-                                    strcpy(buffer,yystack.l_mark[-1].charv);
-                                    strcat(buffer,yystack.l_mark[0].charv);
-                                    yyval.charv = buffer;
-                                    free(yystack.l_mark[-1].charv);
-                                    free(yystack.l_mark[0].charv);                     
-                                }
-#line 1820 "y.tab.c"
+#line 229 "parser.y"
+	{   yyval.charv = reduce_terminal_nonterminal_terminal(type_table[yystack.l_mark[-2].token], yystack.l_mark[-1].charv, yystack.l_mark[0].charv);    }
+#line 1648 "y.tab.c"
 break;
 case 42:
-#line 488 "parser.y"
-	{ 
-                                    size_t n1 = strlen(yystack.l_mark[0].charv);             
-                                    char* buffer = (char*)malloc(n1+1);
-                                    strcpy(buffer, yystack.l_mark[0].charv);
-                                    yyval.charv = buffer;
-                                    free(yystack.l_mark[0].charv);
-                                }
-#line 1831 "y.tab.c"
+#line 230 "parser.y"
+	{   yyval.charv = reduce_nonterminal_terminal(yystack.l_mark[-1].charv, yystack.l_mark[0].charv);   }
+#line 1653 "y.tab.c"
 break;
 case 43:
-#line 495 "parser.y"
-	{ 
-                                    size_t n1 = strlen(yystack.l_mark[0].charv);             
-                                    char* buffer = (char*)malloc(n1+1);
-                                    strcpy(buffer, yystack.l_mark[0].charv);
-                                    yyval.charv = buffer;
-                                    free(yystack.l_mark[0].charv);
-                                }
-#line 1842 "y.tab.c"
+#line 231 "parser.y"
+	{   yyval.charv = reduce_terminal_terminal(type_table[yystack.l_mark[-1].token], yystack.l_mark[0].charv);  }
+#line 1658 "y.tab.c"
 break;
 case 44:
-#line 502 "parser.y"
-	{ 
-                                    size_t n1 = strlen(type_table[yystack.l_mark[0].token]);             
-                                    char* buffer = (char*)malloc(n1+1);
-                                    strcpy(buffer,type_table[yystack.l_mark[0].token]);
-                                    yyval.charv = buffer;
-                                }
-#line 1852 "y.tab.c"
+#line 234 "parser.y"
+	{   yyval.charv = reduce_nonterminal_nonterminal(yystack.l_mark[-1].charv, yystack.l_mark[0].charv);    }
+#line 1663 "y.tab.c"
 break;
 case 45:
-#line 508 "parser.y"
-	{ 
-                                    size_t n1 = strlen(type_table[yystack.l_mark[0].token]);             
-                                    char* buffer = (char*)malloc(n1+1);
-                                    strcpy(buffer,type_table[yystack.l_mark[0].token]);
-                                    yyval.charv = buffer;
-                                }
-#line 1862 "y.tab.c"
+#line 235 "parser.y"
+	{   yyval.charv = reduce_nonterminal(yystack.l_mark[0].charv);    }
+#line 1668 "y.tab.c"
 break;
 case 46:
-#line 514 "parser.y"
-	{ 
-                                    size_t n1 = strlen(type_table[yystack.l_mark[0].token]);             
-                                    char* buffer = (char*)malloc(n1+1);
-                                    strcpy(buffer,type_table[yystack.l_mark[0].token]);
-                                    yyval.charv = buffer;
-                                }
-#line 1872 "y.tab.c"
+#line 236 "parser.y"
+	{   yyval.charv = reduce_nonterminal(yystack.l_mark[0].charv);    }
+#line 1673 "y.tab.c"
 break;
 case 47:
-#line 522 "parser.y"
-	{ 
-                                size_t n1 = strlen(type_table[yystack.l_mark[0].token]);             
-                                char* buffer = (char*)malloc(n1+1);
-                                strcpy(buffer,type_table[yystack.l_mark[0].token]);
-                                yyval.charv = buffer;
-                            }
-#line 1882 "y.tab.c"
+#line 237 "parser.y"
+	{   yyval.charv = reduce_terminal(type_table[yystack.l_mark[0].token]);   }
+#line 1678 "y.tab.c"
 break;
 case 48:
-#line 528 "parser.y"
-	{ 
-                                size_t n1 = strlen(type_table[yystack.l_mark[0].token]);             
-                                char* buffer = (char*)malloc(n1+1);
-                                strcpy(buffer,type_table[yystack.l_mark[0].token]);
-                                yyval.charv = buffer;
-                            }
-#line 1892 "y.tab.c"
+#line 238 "parser.y"
+	{   yyval.charv = reduce_terminal(type_table[yystack.l_mark[0].token]);   }
+#line 1683 "y.tab.c"
 break;
 case 49:
-#line 536 "parser.y"
-	{
-                                size_t n1 = strlen(yystack.l_mark[-1].charv);
-                                size_t n2 = strlen(type_table[yystack.l_mark[0].token]);
-                                char* buffer = (char*)malloc(n1+n2+1);
-                                strcpy(buffer,yystack.l_mark[-1].charv);
-                                strcat(buffer,type_table[yystack.l_mark[0].token]);
-                                yyval.charv = buffer;
-                                free(yystack.l_mark[-1].charv);  
-                            }
-#line 1905 "y.tab.c"
+#line 239 "parser.y"
+	{   yyval.charv = reduce_terminal(type_table[yystack.l_mark[0].token]);   }
+#line 1688 "y.tab.c"
 break;
 case 50:
-#line 545 "parser.y"
-	{ 
-                                size_t n1 = strlen(yystack.l_mark[0].charv);             
-                                char* buffer = (char*)malloc(n1+1);
-                                strcpy(buffer, yystack.l_mark[0].charv);
-                                yyval.charv = buffer;
-                                free(yystack.l_mark[0].charv);
-                            }
-#line 1916 "y.tab.c"
+#line 242 "parser.y"
+	{   yyval.charv = reduce_terminal(type_table[yystack.l_mark[0].token]);   }
+#line 1693 "y.tab.c"
 break;
 case 51:
-#line 552 "parser.y"
-	{ 
-                                size_t n1 = strlen(type_table[yystack.l_mark[0].token]);             
-                                char* buffer = (char*)malloc(n1+1);
-                                strcpy(buffer,type_table[yystack.l_mark[0].token]);
-                                yyval.charv = buffer;
-                            }
-#line 1926 "y.tab.c"
+#line 243 "parser.y"
+	{   yyval.charv = reduce_terminal(type_table[yystack.l_mark[0].token]);   }
+#line 1698 "y.tab.c"
 break;
 case 52:
-#line 558 "parser.y"
-	{ 
-                                size_t n1 = strlen(type_table[yystack.l_mark[0].token]);             
-                                char* buffer = (char*)malloc(n1+1);
-                                strcpy(buffer,type_table[yystack.l_mark[0].token]);
-                                yyval.charv = buffer;
-                            }
-#line 1936 "y.tab.c"
+#line 246 "parser.y"
+	{   yyval.charv = reduce_nonterminal_terminal(yystack.l_mark[-1].charv, type_table[yystack.l_mark[0].token]);   }
+#line 1703 "y.tab.c"
 break;
 case 53:
-#line 566 "parser.y"
-	{ 
-                                size_t n1 = strlen(type_table[yystack.l_mark[0].token]);             
-                                char* buffer = (char*)malloc(n1+1);
-                                strcpy(buffer,type_table[yystack.l_mark[0].token]);
-                                yyval.charv = buffer;
-                            }
-#line 1946 "y.tab.c"
+#line 247 "parser.y"
+	{   yyval.charv = reduce_nonterminal(yystack.l_mark[0].charv);    }
+#line 1708 "y.tab.c"
 break;
 case 54:
-#line 572 "parser.y"
-	{ 
-                                size_t n1 = strlen(type_table[yystack.l_mark[0].token]);             
-                                char* buffer = (char*)malloc(n1+1);
-                                strcpy(buffer,type_table[yystack.l_mark[0].token]);
-                                yyval.charv = buffer;
-                            }
-#line 1956 "y.tab.c"
+#line 248 "parser.y"
+	{   yyval.charv = reduce_terminal(type_table[yystack.l_mark[0].token]);   }
+#line 1713 "y.tab.c"
 break;
 case 55:
-#line 578 "parser.y"
-	{ 
-                                size_t n1 = strlen(type_table[yystack.l_mark[0].token]);             
-                                char* buffer = (char*)malloc(n1+1);
-                                strcpy(buffer,type_table[yystack.l_mark[0].token]);
-                                yyval.charv = buffer;
-                            }
-#line 1966 "y.tab.c"
+#line 249 "parser.y"
+	{   yyval.charv = reduce_terminal(type_table[yystack.l_mark[0].token]);   }
+#line 1718 "y.tab.c"
 break;
 case 56:
-#line 586 "parser.y"
-	{
-                                strcpy(yyval.charv,yystack.l_mark[-2].charv);
-                                strcat(yyval.charv,yystack.l_mark[-1].charv);
-                                strcat(yyval.charv,yystack.l_mark[0].charv);   
-                                size_t n1 = strlen(yystack.l_mark[-2].charv);
-                                size_t n2 = strlen(yystack.l_mark[-1].charv);
-                                size_t n3 = strlen(yystack.l_mark[0].charv);               
-                                char* buffer = (char*)malloc(n1+n2+n3+1);
-                                strcpy(buffer,yystack.l_mark[-2].charv);
-                                strcat(buffer,yystack.l_mark[-1].charv);
-                                strcat(buffer,yystack.l_mark[0].charv);
-                                yyval.charv = buffer;
-                                free(yystack.l_mark[-2].charv);
-                                free(yystack.l_mark[0].charv);
-                            }
-#line 1985 "y.tab.c"
+#line 252 "parser.y"
+	{   yyval.charv = reduce_terminal(type_table[yystack.l_mark[0].token]);   }
+#line 1723 "y.tab.c"
 break;
 case 57:
-#line 601 "parser.y"
-	{
-                                size_t n1 = strlen(yystack.l_mark[-1].charv);
-                                size_t n2 = strlen(yystack.l_mark[0].charv);            
-                                char* buffer = (char*)malloc(n1+n2+1);                        
-                                strcpy(buffer,yystack.l_mark[-1].charv);
-                                strcat(buffer,yystack.l_mark[0].charv);
-                                yyval.charv = buffer;
-                                free(yystack.l_mark[-1].charv);
-                            }
-#line 1998 "y.tab.c"
+#line 253 "parser.y"
+	{   yyval.charv = reduce_terminal(type_table[yystack.l_mark[0].token]);   }
+#line 1728 "y.tab.c"
 break;
 case 58:
-#line 610 "parser.y"
-	{
-                                size_t n1 = strlen(yystack.l_mark[-1].charv);
-                                size_t n2 = strlen(yystack.l_mark[0].charv);            
-                                char* buffer = (char*)malloc(n1+n2+1);
-                                strcpy(buffer,yystack.l_mark[-1].charv);
-                                strcat(buffer,yystack.l_mark[0].charv);
-                                yyval.charv = buffer;
-                            }
-#line 2010 "y.tab.c"
+#line 254 "parser.y"
+	{   yyval.charv = reduce_terminal(type_table[yystack.l_mark[0].token]);   }
+#line 1733 "y.tab.c"
 break;
 case 59:
-#line 618 "parser.y"
-	{
-                                size_t n1 = strlen(yystack.l_mark[-2].charv);
-                                size_t n2 = strlen(yystack.l_mark[-1].charv);     
-                                size_t n3 = strlen(yystack.l_mark[0].charv);       
-                                char* buffer = (char*)malloc(n1+n2+n3+1);
-                                strcpy(buffer,yystack.l_mark[-2].charv);
-                                strcat(buffer,yystack.l_mark[-1].charv);
-                                strcat(buffer,yystack.l_mark[0].charv);
-                                yyval.charv = buffer;
-                                free(yystack.l_mark[0].charv);
-                            }
-#line 2025 "y.tab.c"
+#line 257 "parser.y"
+	{   yyval.charv = reduce_nonterminal_terminal_nonterminal(yystack.l_mark[-2].charv, yystack.l_mark[-1].charv, yystack.l_mark[0].charv);   }
+#line 1738 "y.tab.c"
 break;
 case 60:
-#line 631 "parser.y"
-	{
-                            size_t n1 = strlen(yystack.l_mark[-2].charv);
-                            size_t n2 = strlen(yystack.l_mark[-1].charv);     
-                            size_t n3 = strlen(yystack.l_mark[0].charv);       
-                            char* buffer = (char*)malloc(n1+n2+n3+1);
-                            strcpy(buffer,yystack.l_mark[-2].charv);
-                            strcat(buffer,yystack.l_mark[-1].charv);
-                            strcat(buffer,yystack.l_mark[0].charv);
-                            yyval.charv = buffer;
-                            free(yystack.l_mark[0].charv);
-                        }
-#line 2040 "y.tab.c"
+#line 258 "parser.y"
+	{   yyval.charv = reduce_nonterminal_terminal(yystack.l_mark[-1].charv, yystack.l_mark[0].charv);   }
+#line 1743 "y.tab.c"
 break;
 case 61:
-#line 644 "parser.y"
+#line 259 "parser.y"
+	{   yyval.charv = reduce_terminal_terminal(yystack.l_mark[-1].charv, yystack.l_mark[0].charv);  }
+#line 1748 "y.tab.c"
+break;
+case 62:
+#line 260 "parser.y"
+	{   yyval.charv = reduce_terminal_terminal_nonterminal(yystack.l_mark[-2].charv, yystack.l_mark[-1].charv, yystack.l_mark[0].charv);  }
+#line 1753 "y.tab.c"
+break;
+case 63:
+#line 263 "parser.y"
+	{   yyval.charv = reduce_terminal_terminal_nonterminal(yystack.l_mark[-2].charv, yystack.l_mark[-1].charv, yystack.l_mark[0].charv);  }
+#line 1758 "y.tab.c"
+break;
+case 64:
+#line 265 "parser.y"
 	{ 
                         size_t n1 = strlen("<expr>");
                         size_t n2 = strlen(yystack.l_mark[0].charv);
@@ -2050,9 +1768,9 @@ case 61:
                         strcat(num,"</expr>");
                         yyval.charv = num;
                     }
-#line 2054 "y.tab.c"
+#line 1772 "y.tab.c"
 break;
-#line 2056 "y.tab.c"
+#line 1774 "y.tab.c"
     default:
         break;
     }

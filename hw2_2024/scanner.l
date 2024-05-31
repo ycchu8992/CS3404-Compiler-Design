@@ -6,53 +6,40 @@ int num_lines  = 0;
 int num_chars = 0;
 
 char* line_content;
-typedef struct{
-    int seq_num;
-    char* name;
-    int scope;
-    int type;
-    int parameter;
-}symbol;
+
 int* sw;
 int tkn=0;
 int src=0;
 int cmt = 0;
-
+int key = -1;
 int type_hash_table[11] = { CONST, SIGN, USIGN, LLONG, LONG, SHRT, INT, FLOAT, DOUBLE, VOID, CHAR };
 int keyword_hash_table[12] = { FOR, DO, WHILE, BREAK, CONTINUE, IF, ELSE, RETURN, STRUCT, SWITCH, CASE, DEFALUT };
-int key = -1;
 
 void TypeHash(char* yytext);
 void KeyWordHash(char* yytext);
-
-
 extern char* check_id_exist(char* tok);
-void key_reset();
 
 %}
 
-Line_Pattern	((.){0,298}\n)|((.){1,299})
-Source_Control 	(#pragma)(" "|"\t")+source(" "|"\t")+
-Token_Control 	(#pragma)(" "|"\t")+token(" "|"\t")+
+Line_Pattern	    ((.){0,298}\n)|((.){1,299})
+Source_Control 	    (#pragma)(" "|"\t")+source(" "|"\t")+
+Token_Control 	    (#pragma)(" "|"\t")+token(" "|"\t")+
 
-Keyword_Token	  "for"|"do"|"while"|"break"|"continue"|"if"|"else"|"return"|"struct"|"switch"|"case"|"default"
-Type_Token      "const"|"signed"|"unsigned"|"long long"|"long"|"short"|"int"|"float"|"double"|"void"|"char"
+Keyword_Token	    "for"|"do"|"while"|"break"|"continue"|"if"|"else"|"return"|"struct"|"switch"|"case"|"default"
+Type_Token          "const"|"signed"|"unsigned"|"long long"|"long"|"short"|"int"|"float"|"double"|"void"|"char"
 
-Macro_Token		("NULL"|"__COUNTER__"|"__LINE__"|"INT_MAX"|"INT_MIN"|"CHAR_MIN"|"CHAR_MAX"|"MIN"|"MAX")
-Identifier_Token (_|[a-zA-Z])[_a-zA-Z0-9]*
-Operator_Token	(\+|\-|\*|\/|%|"\+\+"|"\-\-"|"<"|">"|"<="|">="|"=="|"!="|"&"|"&&"|"\|\|"|"!"|"&"|"\|")
-Punc_Token		(\:|\.|\(|\)|\{|\})
-Empty_Token		(" "|"\t")
-Char_Token		(\'(.|"\\a"|"\\b"|"\\e"|"\\f"|"\\n"|"\\r"|"\\t"|"\\v"|"\\\\"|"\\\'"|"\\\""|"\\\?")\')
-Escape_Token	(\'\\[01234567]+\')
-Escape_Token2	(\'\\x[0-9a-fA-F]+\')
-Escape_Token3	(\'\\u[0-9a-fA-F]{1,4}\')
-Escape_Token4	(\'\\U[0-9a-fA-F]{1,8}\')
-String_Token 	(\"(.|"\\a"|"\\b"|"\\e"|"\\f"|"\\n"|"\\r"|"\\t"|"\\v"|"\\\\"|"\\\'"|"\\\""|"\\\?")*\")
-Integer_Token	(\+|\-)?[0-9]+
-Float_Token		(\+|\-)?((\.[0-9]+)|([0-9]+\.)|([0-9]+\.[0-9]+))
-EOL_Token		"\n"
-Comment_Token 	\/\/(.)*
+Macro_Token		    ("NULL"|"__COUNTER__"|"__LINE__"|"INT_MAX"|"INT_MIN"|"CHAR_MIN"|"CHAR_MAX"|"MIN"|"MAX")
+Identifier_Token    (_|[a-zA-Z])[_a-zA-Z0-9]*
+Operator_Token	    (\+|\-|\*|\/|%|"\+\+"|"\-\-"|"<"|">"|"<="|">="|"=="|"!="|"&"|"&&"|"\|\|"|"!"|"&"|"\|")
+Punc_Token		    (\:|\.)
+Empty_Token		    (" "|"\t")
+Char_Token		    (\'(.|"\\a"|"\\b"|"\\e"|"\\f"|"\\n"|"\\r"|"\\t"|"\\v"|"\\\\"|"\\\'"|"\\\""|"\\\?")\')
+Escape_Token	    (\'\\[01234567]+\')|(\'\\x[0-9a-fA-F]+\')|(\'\\u[0-9a-fA-F]{1,4}\')|(\'\\U[0-9a-fA-F]{1,8}\')
+String_Token 	    (\"(.|"\\a"|"\\b"|"\\e"|"\\f"|"\\n"|"\\r"|"\\t"|"\\v"|"\\\\"|"\\\'"|"\\\""|"\\\?")*\")
+Integer_Token	    (\+|\-)?[0-9]+
+Float_Token		    (\+|\-)?((\.[0-9]+)|([0-9]+\.)|([0-9]+\.[0-9]+))
+EOL_Token		    "\n"
+Comment_Token 	    \/\/(.)*
 	
 %x	LINE
 %x	CTRL
@@ -60,31 +47,29 @@ Comment_Token 	\/\/(.)*
 
 %%
 
-{Line_Pattern}			{
-							line_content = (char*) malloc(yyleng+1);
-							num_chars = yyleng;
-							strcpy(line_content, yytext);
-							yyless(0);
-							if(cmt) BEGIN CMT;
-							else BEGIN LINE;
-						}
+{Line_Pattern}			    {
+							    line_content = (char*) malloc(yyleng+1);
+							    num_chars = yyleng;
+						    	strcpy(line_content, yytext);
+					    		yyless(0);
+			    				if(cmt) BEGIN CMT;
+				    			else BEGIN LINE;
+						    }
 
-<LINE>{Source_Control}	{ sw = &src;  BEGIN CTRL;	}
+<LINE>{Source_Control}	    { sw = &src;  BEGIN CTRL;	}
 
-<LINE>{Token_Control}	{ sw = &tkn;  BEGIN CTRL; 	}
+<LINE>{Token_Control}	    { sw = &tkn;  BEGIN CTRL; 	}
 
 <LINE>{Keyword_Token}       {  
-                                key_reset(); 
                                 KeyWordHash(yytext);
                                 yylval.token = key; 
                                 if(tkn) printf("\n#KEYWORD: %s\n", yytext); 
                                 return keyword_hash_table[key];  
                             }
 
-<LINE>{Macro_Token}		      { if(tkn) printf("#macro:%s\n",yytext); }
+<LINE>{Macro_Token}		    { if(tkn) printf("#macro:%s\n",yytext); }
 
 <LINE>{Type_Token}          {  
-                                key_reset(); 
                                 TypeHash(yytext);
                                 yylval.token = key; 
                                 if(tkn) printf("\n#TYPE: %s\n", yytext); 
@@ -138,22 +123,19 @@ Comment_Token 	\/\/(.)*
                                 if(tkn) printf("\n#SEMICOLON: %s\n", yytext); 
                                 return ']';
                             }
-<LINE>"{"		              {  
+<LINE>"{"		            {  
                                 yylval.charv="{"; 
                                 if(tkn) printf("\n#SEMICOLON: %s\n", yytext); 
                                 return '{';
-                          }
-<LINE>"}"		              {  
+                            }
+<LINE>"}"		            {  
                                 yylval.charv="}"; 
                                 if(tkn) printf("\n#SEMICOLON: %s\n", yytext); 
                                 return '}';
-                          }
+                            }
 <LINE>{Punc_Token}		    {  yylval.charv=yytext; if(tkn) printf("#punc:%s\n", yytext); return yytext[0];}
 
 <LINE>{Escape_Token}		{ if(tkn) printf("#char:%s\n", yytext); }
-<LINE>{Escape_Token2}		{ if(tkn) printf("#char:%s\n", yytext); }
-<LINE>{Escape_Token3}		{ if(tkn) printf("#char:%s\n", yytext); }
-<LINE>{Escape_Token4}		{ if(tkn) printf("#char:%s\n", yytext); }
 
 <LINE>{Integer_Token}	    {   
                                 yylval.charv=yytext;
@@ -177,11 +159,7 @@ Comment_Token 	\/\/(.)*
 								printf("%d:%s", num_lines, line_content);
 								free(line_content);
 							}
-                            
-                            
-                            
 							BEGIN 0;
-                            
 						}
 
 <CTRL>on|off			{ *sw= (int)(*(yytext+1)=='n');  BEGIN LINE; }
@@ -189,13 +167,8 @@ Comment_Token 	\/\/(.)*
 <CMT>\*\/				{ cmt = 0; BEGIN LINE;}
 <CMT>.					{}
 <CMT>{EOL_Token}		{ yyless(0); BEGIN LINE; }
-			
 
 %%
-void key_reset(){
-	key = -1;
-	return;
-}
 
 void TypeHash(char* yytext){
     if(!strcmp(yytext,"const")){
@@ -220,7 +193,7 @@ void TypeHash(char* yytext){
 		  key = 9;
     }else if(!strcmp(yytext,"char")){
 		  key = 10;
-    }else key = -2;
+    }else key = -1;
 }
 
 void KeyWordHash(char* yytext){
@@ -248,5 +221,5 @@ void KeyWordHash(char* yytext){
 		  key = 10;
     }else if(!strcmp(yytext,"default")){
 		  key = 11;
-    }else key = -2;
+    }else key = -1;
 }

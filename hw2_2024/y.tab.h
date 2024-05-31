@@ -26,10 +26,9 @@
 #define SWITCH 279
 #define CASE 280
 #define DEFALUT 281
-#define stmt 282
-#define SEMICOLON 283
-#define ENTER 284
-#define COMMA 285
+#define SEMICOLON 282
+#define ENTER 283
+#define COMMA 284
 #ifdef YYSTYPE
 #undef  YYSTYPE_IS_DECLARED
 #define YYSTYPE_IS_DECLARED 1
