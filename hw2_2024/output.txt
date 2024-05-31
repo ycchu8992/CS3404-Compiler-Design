@@ -1,7 +1,7 @@
 
 #TYPE: int
 intintsymbol_table[0].name: main
-symbol_table[0].name: 0x5559efb1b184
+symbol_table[0].name: 0x5645c6b56184
 
 #IDENTIFIER: main
 int
@@ -13,7 +13,7 @@ int
 
 #TYPE: int
 intintsymbol_table[1].name: arr
-symbol_table[1].name: 0x5559efb1b1c4
+symbol_table[1].name: 0x5645c6b561c4
 
 #IDENTIFIER: arr
 int
@@ -29,7 +29,7 @@ int
 <array_decl>intarr[<expr>2</expr>];</array_decl><func_def>intmain(){<array_decl>intarr[<expr>2</expr>];</array_decl>}</func_def><func_def>intmain(){<array_decl>intarr[<expr>2</expr>];</array_decl>}</func_def>
 #TYPE: int
 intintsymbol_table[2].name: w
-symbol_table[2].name: 0x5559efb1b204
+symbol_table[2].name: 0x5645c6b56204
 
 #IDENTIFIER: w
 int
@@ -41,7 +41,7 @@ int
 <scalar_decl>intw=<expr>0</expr>;</scalar_decl><scalar_decl>intw=<expr>0</expr>;</scalar_decl>
 #TYPE: int
 intintsymbol_table[3].name: a
-symbol_table[3].name: 0x5559efb1b244
+symbol_table[3].name: 0x5645c6b56244
 
 #IDENTIFIER: a
 int
@@ -99,7 +99,7 @@ int
 a[<expr>0</expr>]={<expr>1</expr>,{<expr>2</expr>},{<expr>3</expr>,<expr>4</expr>,{<expr>5</expr>},{<expr>6</expr>}}}<array_decl>inta[<expr>0</expr>]={<expr>1</expr>,{<expr>2</expr>},{<expr>3</expr>,<expr>4</expr>,{<expr>5</expr>},{<expr>6</expr>}}};</array_decl><array_decl>inta[<expr>0</expr>]={<expr>1</expr>,{<expr>2</expr>},{<expr>3</expr>,<expr>4</expr>,{<expr>5</expr>},{<expr>6</expr>}}};</array_decl>
 #TYPE: int
 intintsymbol_table[4].name: y
-symbol_table[4].name: 0x5559efb1b284
+symbol_table[4].name: 0x5645c6b56284
 
 #IDENTIFIER: y
 int
@@ -111,7 +111,7 @@ int
 <scalar_decl>inty=<expr>1</expr>;</scalar_decl><scalar_decl>inty=<expr>1</expr>;</scalar_decl>
 #TYPE: int
 intintsymbol_table[5].name: x
-symbol_table[5].name: 0x5559efb1b2c4
+symbol_table[5].name: 0x5645c6b562c4
 
 #IDENTIFIER: x
 int
@@ -177,7 +177,7 @@ int
 x[<expr>0</expr>]={<expr>1</expr>,<expr>1</expr>,{<expr>2</expr>},{<expr>3</expr>,<expr>4</expr>,{<expr>5</expr>},{<expr>6</expr>}},<expr>7</expr>}<array_decl>intx[<expr>0</expr>]={<expr>1</expr>,<expr>1</expr>,{<expr>2</expr>},{<expr>3</expr>,<expr>4</expr>,{<expr>5</expr>},{<expr>6</expr>}},<expr>7</expr>};</array_decl><array_decl>intx[<expr>0</expr>]={<expr>1</expr>,<expr>1</expr>,{<expr>2</expr>},{<expr>3</expr>,<expr>4</expr>,{<expr>5</expr>},{<expr>6</expr>}},<expr>7</expr>};</array_decl>
 #TYPE: int
 intintsymbol_table[6].name: e
-symbol_table[6].name: 0x5559efb1b304
+symbol_table[6].name: 0x5645c6b56304
 
 #IDENTIFIER: e
 int
@@ -195,7 +195,7 @@ int
 
 #COMMA: ,
 [<expr>3</expr>]symbol_table[7].name: p
-symbol_table[7].name: 0x5559efb1b344
+symbol_table[7].name: 0x5645c6b56344
 
 #IDENTIFIER: p
 
@@ -215,7 +215,7 @@ symbol_table[7].name: 0x5559efb1b344
 [<expr>3</expr>]p[<expr>1</expr>][<expr>3</expr>]<array_decl>inte[<expr>1</expr>][<expr>3</expr>],p[<expr>1</expr>][<expr>3</expr>];</array_decl><array_decl>inte[<expr>1</expr>][<expr>3</expr>],p[<expr>1</expr>][<expr>3</expr>];</array_decl>
 #TYPE: char
 charcharsymbol_table[8].name: f
-symbol_table[8].name: 0x5559efb1b384
+symbol_table[8].name: 0x5645c6b56384
 
 #IDENTIFIER: f
 char
@@ -235,7 +235,7 @@ char
 [<expr>4</expr>]f[<expr>1</expr>][<expr>4</expr>]<array_decl>charf[<expr>1</expr>][<expr>4</expr>];</array_decl><array_decl>charf[<expr>1</expr>][<expr>4</expr>];</array_decl>
 #TYPE: float
 floatsymbol_table[9].name: k
-symbol_table[9].name: 0x5559efb1b3c4
+symbol_table[9].name: 0x5645c6b563c4
 
 #IDENTIFIER: k
 float
@@ -247,7 +247,7 @@ float
 
 #COMMA: ,
 [<expr>1</expr>]symbol_table[10].name: b
-symbol_table[10].name: 0x5559efb1b404
+symbol_table[10].name: 0x5645c6b56404
 
 #IDENTIFIER: b
 
@@ -303,7 +303,7 @@ symbol_table[10].name: 0x5559efb1b404
 b[<expr>2</expr>][<expr>3</expr>]={{<expr>0</expr>,<expr>1</expr>,<expr>2</expr>},{<expr>3</expr>,<expr>4</expr>,<expr>5</expr>}}<array_decl>floatk[<expr>1</expr>],b[<expr>2</expr>][<expr>3</expr>]={{<expr>0</expr>,<expr>1</expr>,<expr>2</expr>},{<expr>3</expr>,<expr>4</expr>,<expr>5</expr>}};</array_decl><array_decl>floatk[<expr>1</expr>],b[<expr>2</expr>][<expr>3</expr>]={{<expr>0</expr>,<expr>1</expr>,<expr>2</expr>},{<expr>3</expr>,<expr>4</expr>,<expr>5</expr>}};</array_decl>
 #TYPE: int
 intintsymbol_table[11].name: indd
-symbol_table[11].name: 0x5559efb1b444
+symbol_table[11].name: 0x5645c6b56444
 
 #IDENTIFIER: indd
 int
@@ -313,7 +313,7 @@ int
 intint
 #OPERATOR: *
 symbol_table[12].name: sdf
-symbol_table[12].name: 0x5559efb1b484
+symbol_table[12].name: 0x5645c6b56484
 
 #IDENTIFIER: sdf
 
@@ -323,7 +323,7 @@ int*sdf
 <func_decl>intindd(int*sdf);</func_decl><func_decl>intindd(int*sdf);</func_decl>
 #TYPE: const
 symbol_table[13].name: var_01
-symbol_table[13].name: 0x5559efb1b4c4
+symbol_table[13].name: 0x5645c6b564c4
 
 #IDENTIFIER: var_01
 const
@@ -337,7 +337,7 @@ const
 
 #TYPE: signed
 signedsymbol_table[14].name: var_02
-symbol_table[14].name: 0x5559efb1b504
+symbol_table[14].name: 0x5645c6b56504
 
 #IDENTIFIER: var_02
 signed
@@ -347,553 +347,9 @@ signed
 
 #SEMICOLON: ;
 <scalar_decl>constsignedvar_02=<expr>5</expr>;</scalar_decl><scalar_decl>constsignedvar_02=<expr>5</expr>;</scalar_decl>
-#TYPE: const
-
-#TYPE: unsigned
-unsignedsymbol_table[15].name: var_03
-symbol_table[15].name: 0x5559efb1b544
-
-#IDENTIFIER: var_03
-unsigned
-#OPERATOR: =
-
-#INTEGER: 5
-
-#SEMICOLON: ;
-<scalar_decl>constunsignedvar_03=<expr>5</expr>;</scalar_decl><scalar_decl>constunsignedvar_03=<expr>5</expr>;</scalar_decl>
-#TYPE: const
-
-#TYPE: float
-floatsymbol_table[16].name: var_04
-symbol_table[16].name: 0x5559efb1b584
-
-#IDENTIFIER: var_04
-
-#OPERATOR: =
-
-#INTEGER: 5
-
-#SEMICOLON: ;
-<scalar_decl>constfloatvar_04=<expr>5</expr>;</scalar_decl><scalar_decl>constfloatvar_04=<expr>5</expr>;</scalar_decl>
-#TYPE: const
-
-#TYPE: double
-doublesymbol_table[17].name: var_05
-symbol_table[17].name: 0x5559efb1b5c4
-
-#IDENTIFIER: var_05
-
-#OPERATOR: =
-
-#INTEGER: 5
-
-#SEMICOLON: ;
-<scalar_decl>constdoublevar_05=<expr>5</expr>;</scalar_decl><scalar_decl>constdoublevar_05=<expr>5</expr>;</scalar_decl>
-#TYPE: const
-
-#TYPE: void
-voidsymbol_table[18].name: var_06
-symbol_table[18].name: 0x5559efb1b604
-
-#IDENTIFIER: var_06
-
-#OPERATOR: =
-
-#INTEGER: 5
-
-#SEMICOLON: ;
-<scalar_decl>constvoidvar_06=<expr>5</expr>;</scalar_decl><scalar_decl>constvoidvar_06=<expr>5</expr>;</scalar_decl>
-#TYPE: signed
-signedsymbol_table[19].name: var_07
-symbol_table[19].name: 0x5559efb1b644
-
-#IDENTIFIER: var_07
-signedsigned
-#OPERATOR: =
-
-#INTEGER: 5
-
-#SEMICOLON: ;
-<scalar_decl>signedvar_07=<expr>5</expr>;</scalar_decl><scalar_decl>signedvar_07=<expr>5</expr>;</scalar_decl>
-#TYPE: unsigned
-unsignedsymbol_table[20].name: var_08
-symbol_table[20].name: 0x5559efb1b684
-
-#IDENTIFIER: var_08
-unsignedunsigned
-#OPERATOR: =
-
-#INTEGER: 5
-
-#SEMICOLON: ;
-<scalar_decl>unsignedvar_08=<expr>5</expr>;</scalar_decl><scalar_decl>unsignedvar_08=<expr>5</expr>;</scalar_decl>
-#TYPE: float
-floatsymbol_table[21].name: var_09
-symbol_table[21].name: 0x5559efb1b6c4
-
-#IDENTIFIER: var_09
-float
-#OPERATOR: =
-
-#INTEGER: 5
-
-#SEMICOLON: ;
-<scalar_decl>floatvar_09=<expr>5</expr>;</scalar_decl><scalar_decl>floatvar_09=<expr>5</expr>;</scalar_decl>
-#TYPE: double
-doublesymbol_table[22].name: var_10
-symbol_table[22].name: 0x5559efb1b704
-
-#IDENTIFIER: var_10
-double
-#OPERATOR: =
-
-#INTEGER: 5
-
-#SEMICOLON: ;
-<scalar_decl>doublevar_10=<expr>5</expr>;</scalar_decl><scalar_decl>doublevar_10=<expr>5</expr>;</scalar_decl>
-#TYPE: void
-voidsymbol_table[23].name: var_11
-symbol_table[23].name: 0x5559efb1b744
-
-#IDENTIFIER: var_11
-void
-#OPERATOR: =
-
-#INTEGER: 5
-
-#SEMICOLON: ;
-<scalar_decl>voidvar_11=<expr>5</expr>;</scalar_decl><scalar_decl>voidvar_11=<expr>5</expr>;</scalar_decl>
-#TYPE: long long
-longlongsymbol_table[24].name: var_12
-symbol_table[24].name: 0x5559efb1b784
-
-#IDENTIFIER: var_12
-longlonglonglonglonglong
-#OPERATOR: =
-
-#INTEGER: 5
-
-#SEMICOLON: ;
-<scalar_decl>longlongvar_12=<expr>5</expr>;</scalar_decl><scalar_decl>longlongvar_12=<expr>5</expr>;</scalar_decl>
-#TYPE: long
-longsymbol_table[25].name: var_13
-symbol_table[25].name: 0x5559efb1b7c4
-
-#IDENTIFIER: var_13
-longlonglong
-#OPERATOR: =
-
-#INTEGER: 5
-
-#SEMICOLON: ;
-<scalar_decl>longvar_13=<expr>5</expr>;</scalar_decl><scalar_decl>longvar_13=<expr>5</expr>;</scalar_decl>
-#TYPE: short
-shortsymbol_table[26].name: var_14
-symbol_table[26].name: 0x5559efb1b804
-
-#IDENTIFIER: var_14
-shortshortshort
-#OPERATOR: =
-
-#INTEGER: 5
-
-#SEMICOLON: ;
-<scalar_decl>shortvar_14=<expr>5</expr>;</scalar_decl><scalar_decl>shortvar_14=<expr>5</expr>;</scalar_decl>
-#TYPE: char
-charcharsymbol_table[27].name: var_15
-symbol_table[27].name: 0x5559efb1b844
-
-#IDENTIFIER: var_15
-char
-#OPERATOR: =
-
-#INTEGER: 5
-
-#SEMICOLON: ;
-<scalar_decl>charvar_15=<expr>5</expr>;</scalar_decl><scalar_decl>charvar_15=<expr>5</expr>;</scalar_decl>
-#TYPE: const
-
-#TYPE: long long
-longlongsymbol_table[28].name: var_16
-symbol_table[28].name: 0x5559efb1b884
-
-#IDENTIFIER: var_16
-longlonglonglong
-#OPERATOR: =
-
-#INTEGER: 5
-
-#SEMICOLON: ;
-<scalar_decl>constlonglongvar_16=<expr>5</expr>;</scalar_decl><scalar_decl>constlonglongvar_16=<expr>5</expr>;</scalar_decl>
-#TYPE: const
-
-#TYPE: long
-longsymbol_table[29].name: var_17
-symbol_table[29].name: 0x5559efb1b8c4
-
-#IDENTIFIER: var_17
-longlong
-#OPERATOR: =
-
-#INTEGER: 5
-
-#SEMICOLON: ;
-<scalar_decl>constlongvar_17=<expr>5</expr>;</scalar_decl><scalar_decl>constlongvar_17=<expr>5</expr>;</scalar_decl>
-#TYPE: const
-
-#TYPE: short
-shortsymbol_table[30].name: var_18
-symbol_table[30].name: 0x5559efb1b904
-
-#IDENTIFIER: var_18
-shortshort
-#OPERATOR: =
-
-#INTEGER: 5
-
-#SEMICOLON: ;
-<scalar_decl>constshortvar_18=<expr>5</expr>;</scalar_decl><scalar_decl>constshortvar_18=<expr>5</expr>;</scalar_decl>
-#TYPE: const
-
-#TYPE: char
-charcharsymbol_table[31].name: var_19
-symbol_table[31].name: 0x5559efb1b944
-
-#IDENTIFIER: var_19
-
-#OPERATOR: =
-
-#INTEGER: 5
-
-#SEMICOLON: ;
-<scalar_decl>constcharvar_19=<expr>5</expr>;</scalar_decl><scalar_decl>constcharvar_19=<expr>5</expr>;</scalar_decl>
-#TYPE: signed
-signed
-#TYPE: long long
-longlongsymbol_table[32].name: var_20
-symbol_table[32].name: 0x5559efb1b984
-
-#IDENTIFIER: var_20
-longlongsignedlonglong
-#OPERATOR: =
-
-#INTEGER: 5
-
-#SEMICOLON: ;
-<scalar_decl>signedlonglongvar_20=<expr>5</expr>;</scalar_decl><scalar_decl>signedlonglongvar_20=<expr>5</expr>;</scalar_decl>
-#TYPE: signed
-signed
-#TYPE: long
-longsymbol_table[33].name: var_21
-symbol_table[33].name: 0x5559efb1b9c4
-
-#IDENTIFIER: var_21
-longsignedlong
-#OPERATOR: =
-
-#INTEGER: 5
-
-#SEMICOLON: ;
-<scalar_decl>signedlongvar_21=<expr>5</expr>;</scalar_decl><scalar_decl>signedlongvar_21=<expr>5</expr>;</scalar_decl>
-#TYPE: signed
-signed
-#TYPE: short
-shortsymbol_table[34].name: var_22
-symbol_table[34].name: 0x5559efb1ba04
-
-#IDENTIFIER: var_22
-shortsignedshort
-#OPERATOR: =
-
-#INTEGER: 5
-
-#SEMICOLON: ;
-<scalar_decl>signedshortvar_22=<expr>5</expr>;</scalar_decl><scalar_decl>signedshortvar_22=<expr>5</expr>;</scalar_decl>
-#TYPE: signed
-signed
-#TYPE: char
-charsymbol_table[35].name: var_23
-symbol_table[35].name: 0x5559efb1ba44
-
-#IDENTIFIER: var_23
-signedchar
-#OPERATOR: =
-
-#INTEGER: 5
-
-#SEMICOLON: ;
-<scalar_decl>signedcharvar_23=<expr>5</expr>;</scalar_decl><scalar_decl>signedcharvar_23=<expr>5</expr>;</scalar_decl>
-#TYPE: unsigned
-unsigned
-#TYPE: long long
-longlongsymbol_table[36].name: var_24
-symbol_table[36].name: 0x5559efb1ba84
-
-#IDENTIFIER: var_24
-longlongunsignedlonglong
-#OPERATOR: =
-
-#INTEGER: 5
-
-#SEMICOLON: ;
-<scalar_decl>unsignedlonglongvar_24=<expr>5</expr>;</scalar_decl><scalar_decl>unsignedlonglongvar_24=<expr>5</expr>;</scalar_decl>
-#TYPE: unsigned
-unsigned
-#TYPE: long
-longsymbol_table[37].name: var_25
-symbol_table[37].name: 0x5559efb1bac4
-
-#IDENTIFIER: var_25
-longunsignedlong
-#OPERATOR: =
-
-#INTEGER: 5
-
-#SEMICOLON: ;
-<scalar_decl>unsignedlongvar_25=<expr>5</expr>;</scalar_decl><scalar_decl>unsignedlongvar_25=<expr>5</expr>;</scalar_decl>
-#TYPE: unsigned
-unsigned
-#TYPE: short
-shortsymbol_table[38].name: var_26
-symbol_table[38].name: 0x5559efb1bb04
-
-#IDENTIFIER: var_26
-shortunsignedshort
-#OPERATOR: =
-
-#INTEGER: 5
-
-#SEMICOLON: ;
-<scalar_decl>unsignedshortvar_26=<expr>5</expr>;</scalar_decl><scalar_decl>unsignedshortvar_26=<expr>5</expr>;</scalar_decl>
-#TYPE: unsigned
-unsigned
-#TYPE: char
-charsymbol_table[39].name: var_27
-symbol_table[39].name: 0x5559efb1bb44
-
-#IDENTIFIER: var_27
-unsignedchar
-#OPERATOR: =
-
-#INTEGER: 5
-
-#SEMICOLON: ;
-<scalar_decl>unsignedcharvar_27=<expr>5</expr>;</scalar_decl><scalar_decl>unsignedcharvar_27=<expr>5</expr>;</scalar_decl>
-#TYPE: const
-
-#TYPE: signed
-signed
-#TYPE: long long
-longlongsymbol_table[40].name: var_28
-symbol_table[40].name: 0x5559efb1bb84
-
-#IDENTIFIER: var_28
-longlong
-#OPERATOR: =
-
-#INTEGER: 5
-
-#SEMICOLON: ;
-<scalar_decl>constsignedlonglongvar_28=<expr>5</expr>;</scalar_decl><scalar_decl>constsignedlonglongvar_28=<expr>5</expr>;</scalar_decl>
-#TYPE: const
-
-#TYPE: signed
-signed
-#TYPE: long
-longsymbol_table[41].name: var_29
-symbol_table[41].name: 0x5559efb1bbc4
-
-#IDENTIFIER: var_29
-long
-#OPERATOR: =
-
-#INTEGER: 5
-
-#SEMICOLON: ;
-<scalar_decl>constsignedlongvar_29=<expr>5</expr>;</scalar_decl><scalar_decl>constsignedlongvar_29=<expr>5</expr>;</scalar_decl>
-#TYPE: const
-
-#TYPE: signed
-signed
-#TYPE: short
-shortsymbol_table[42].name: var_30
-symbol_table[42].name: 0x5559efb1bc04
-
-#IDENTIFIER: var_30
-short
-#OPERATOR: =
-
-#INTEGER: 5
-
-#SEMICOLON: ;
-<scalar_decl>constsignedshortvar_30=<expr>5</expr>;</scalar_decl><scalar_decl>constsignedshortvar_30=<expr>5</expr>;</scalar_decl>
-#TYPE: const
-
-#TYPE: signed
-signed
-#TYPE: char
-charsymbol_table[43].name: var_31
-symbol_table[43].name: 0x5559efb1bc44
-
-#IDENTIFIER: var_31
-
-#OPERATOR: =
-
-#INTEGER: 5
-
-#SEMICOLON: ;
-<scalar_decl>constsignedcharvar_31=<expr>5</expr>;</scalar_decl><scalar_decl>constsignedcharvar_31=<expr>5</expr>;</scalar_decl>
-#TYPE: const
-
-#TYPE: unsigned
-unsigned
-#TYPE: long long
-longlongsymbol_table[44].name: var_32
-symbol_table[44].name: 0x5559efb1bc84
-
-#IDENTIFIER: var_32
-longlong
-#OPERATOR: =
-
-#INTEGER: 5
-
-#SEMICOLON: ;
-<scalar_decl>constunsignedlonglongvar_32=<expr>5</expr>;</scalar_decl><scalar_decl>constunsignedlonglongvar_32=<expr>5</expr>;</scalar_decl>
-#TYPE: const
-
-#TYPE: unsigned
-unsigned
-#TYPE: long
-longsymbol_table[45].name: var_33
-symbol_table[45].name: 0x5559efb1bcc4
-
-#IDENTIFIER: var_33
-long
-#OPERATOR: =
-
-#INTEGER: 5
-
-#SEMICOLON: ;
-<scalar_decl>constunsignedlongvar_33=<expr>5</expr>;</scalar_decl><scalar_decl>constunsignedlongvar_33=<expr>5</expr>;</scalar_decl>
-#TYPE: const
-
-#TYPE: unsigned
-unsigned
-#TYPE: short
-shortsymbol_table[46].name: var_34
-symbol_table[46].name: 0x5559efb1bd04
-
-#IDENTIFIER: var_34
-short
-#OPERATOR: =
-
-#INTEGER: 5
-
-#SEMICOLON: ;
-<scalar_decl>constunsignedshortvar_34=<expr>5</expr>;</scalar_decl><scalar_decl>constunsignedshortvar_34=<expr>5</expr>;</scalar_decl>
-#TYPE: const
-
-#TYPE: unsigned
-unsigned
-#TYPE: char
-charsymbol_table[47].name: var_35
-symbol_table[47].name: 0x5559efb1bd44
-
-#IDENTIFIER: var_35
-
-#OPERATOR: =
-
-#INTEGER: 5
-
-#SEMICOLON: ;
-<scalar_decl>constunsignedcharvar_35=<expr>5</expr>;</scalar_decl><scalar_decl>constunsignedcharvar_35=<expr>5</expr>;</scalar_decl>
-#TYPE: const
-
 #TYPE: int
-intintsymbol_table[48].name: var_36
-symbol_table[48].name: 0x5559efb1bd84
-
-#IDENTIFIER: var_36
-
-#OPERATOR: =
-
-#INTEGER: 5
-
-#SEMICOLON: ;
-<scalar_decl>constintvar_36=<expr>5</expr>;</scalar_decl><scalar_decl>constintvar_36=<expr>5</expr>;</scalar_decl>
-#TYPE: signed
-signed
-#TYPE: int
-intsymbol_table[49].name: var_37
-symbol_table[49].name: 0x5559efb1bdc4
-
-#IDENTIFIER: var_37
-signedint
-#OPERATOR: =
-
-#INTEGER: 5
-
-#SEMICOLON: ;
-<scalar_decl>signedintvar_37=<expr>5</expr>;</scalar_decl><scalar_decl>signedintvar_37=<expr>5</expr>;</scalar_decl>
-#TYPE: unsigned
-unsigned
-#TYPE: int
-intsymbol_table[50].name: var_38
-symbol_table[50].name: 0x5559efb1be04
-
-#IDENTIFIER: var_38
-unsignedint
-#OPERATOR: =
-
-#INTEGER: 5
-
-#SEMICOLON: ;
-<scalar_decl>unsignedintvar_38=<expr>5</expr>;</scalar_decl><scalar_decl>unsignedintvar_38=<expr>5</expr>;</scalar_decl>
-#TYPE: long long
-longlong
-#TYPE: int
-longlongintsymbol_table[51].name: var_39
-symbol_table[51].name: 0x5559efb1be44
-
-#IDENTIFIER: var_39
-longlongint
-#OPERATOR: =
-
-#INTEGER: 5
-
-#SEMICOLON: ;
-<scalar_decl>longlongintvar_39=<expr>5</expr>;</scalar_decl><scalar_decl>longlongintvar_39=<expr>5</expr>;</scalar_decl>
-#TYPE: long
-long
-#TYPE: int
-longintsymbol_table[52].name: var_40
-symbol_table[52].name: 0x5559efb1be84
-
-#IDENTIFIER: var_40
-longint
-#OPERATOR: =
-
-#INTEGER: 5
-
-#SEMICOLON: ;
-<scalar_decl>longintvar_40=<expr>5</expr>;</scalar_decl><scalar_decl>longintvar_40=<expr>5</expr>;</scalar_decl>
-#TYPE: short
-short
-#TYPE: int
-shortintsymbol_table[53].name: var_41
-symbol_table[53].name: 0x5559efb1bec4
-
-#IDENTIFIER: var_41
-shortint
-#OPERATOR: =
-
-#INTEGER: 5
-
-#SEMICOLON: ;
-<scalar_decl>shortintvar_41=<expr>5</expr>;</scalar_decl><scalar_decl>shortintvar_41=<expr>5</expr>;</scalar_decl>
-#TYPE: int
-intintsymbol_table[54].name: var_42
-symbol_table[54].name: 0x5559efb1bf04
+intintsymbol_table[15].name: var_42
+symbol_table[15].name: 0x5645c6b56544
 
 #IDENTIFIER: var_42
 int
@@ -908,8 +364,8 @@ int
 #TYPE: signed
 signed
 #TYPE: int
-intsymbol_table[55].name: var_43
-symbol_table[55].name: 0x5559efb1bf44
+intsymbol_table[16].name: var_43
+symbol_table[16].name: 0x5645c6b56584
 
 #IDENTIFIER: var_43
 
@@ -921,277 +377,9 @@ symbol_table[55].name: 0x5559efb1bf44
 <scalar_decl>constsignedintvar_43=<expr>5</expr>;</scalar_decl><scalar_decl>constsignedintvar_43=<expr>5</expr>;</scalar_decl>
 #TYPE: const
 
-#TYPE: unsigned
-unsigned
-#TYPE: int
-intsymbol_table[56].name: var_44
-symbol_table[56].name: 0x5559efb1bf84
-
-#IDENTIFIER: var_44
-
-#OPERATOR: =
-
-#INTEGER: 5
-
-#SEMICOLON: ;
-<scalar_decl>constunsignedintvar_44=<expr>5</expr>;</scalar_decl><scalar_decl>constunsignedintvar_44=<expr>5</expr>;</scalar_decl>
-#TYPE: const
-
-#TYPE: long long
-longlong
-#TYPE: int
-longlongintsymbol_table[57].name: var_45
-symbol_table[57].name: 0x5559efb1bfc4
-
-#IDENTIFIER: var_45
-
-#OPERATOR: =
-
-#INTEGER: 5
-
-#SEMICOLON: ;
-<scalar_decl>constlonglongintvar_45=<expr>5</expr>;</scalar_decl><scalar_decl>constlonglongintvar_45=<expr>5</expr>;</scalar_decl>
-#TYPE: const
-
-#TYPE: long
-long
-#TYPE: int
-longintsymbol_table[58].name: var_46
-symbol_table[58].name: 0x5559efb1c004
-
-#IDENTIFIER: var_46
-
-#OPERATOR: =
-
-#INTEGER: 5
-
-#SEMICOLON: ;
-<scalar_decl>constlongintvar_46=<expr>5</expr>;</scalar_decl><scalar_decl>constlongintvar_46=<expr>5</expr>;</scalar_decl>
-#TYPE: const
-
-#TYPE: short
-short
-#TYPE: int
-shortintsymbol_table[59].name: var_47
-symbol_table[59].name: 0x5559efb1c044
-
-#IDENTIFIER: var_47
-
-#OPERATOR: =
-
-#INTEGER: 5
-
-#SEMICOLON: ;
-<scalar_decl>constshortintvar_47=<expr>5</expr>;</scalar_decl><scalar_decl>constshortintvar_47=<expr>5</expr>;</scalar_decl>
-#TYPE: signed
-signed
-#TYPE: long long
-longlong
-#TYPE: int
-symbol_table[60].name: var_48
-symbol_table[60].name: 0x5559efb1c084
-
-#IDENTIFIER: var_48
-signedlonglongint
-#OPERATOR: =
-
-#INTEGER: 5
-
-#SEMICOLON: ;
-<scalar_decl>signedlonglongintvar_48=<expr>5</expr>;</scalar_decl><scalar_decl>signedlonglongintvar_48=<expr>5</expr>;</scalar_decl>
-#TYPE: signed
-signed
-#TYPE: long
-long
-#TYPE: int
-symbol_table[61].name: var_49
-symbol_table[61].name: 0x5559efb1c0c4
-
-#IDENTIFIER: var_49
-signedlongint
-#OPERATOR: =
-
-#INTEGER: 5
-
-#SEMICOLON: ;
-<scalar_decl>signedlongintvar_49=<expr>5</expr>;</scalar_decl><scalar_decl>signedlongintvar_49=<expr>5</expr>;</scalar_decl>
-#TYPE: signed
-signed
-#TYPE: short
-short
-#TYPE: int
-symbol_table[62].name: var_50
-symbol_table[62].name: 0x5559efb1c104
-
-#IDENTIFIER: var_50
-signedshortint
-#OPERATOR: =
-
-#INTEGER: 5
-
-#SEMICOLON: ;
-<scalar_decl>signedshortintvar_50=<expr>5</expr>;</scalar_decl><scalar_decl>signedshortintvar_50=<expr>5</expr>;</scalar_decl>
-#TYPE: unsigned
-unsigned
-#TYPE: long long
-longlong
-#TYPE: int
-symbol_table[63].name: var_51
-symbol_table[63].name: 0x5559efb1c144
-
-#IDENTIFIER: var_51
-unsignedlonglongint
-#OPERATOR: =
-
-#INTEGER: 5
-
-#SEMICOLON: ;
-<scalar_decl>unsignedlonglongintvar_51=<expr>5</expr>;</scalar_decl><scalar_decl>unsignedlonglongintvar_51=<expr>5</expr>;</scalar_decl>
-#TYPE: unsigned
-unsigned
-#TYPE: long
-long
-#TYPE: int
-symbol_table[64].name: var_52
-symbol_table[64].name: 0x5559efb1c184
-
-#IDENTIFIER: var_52
-unsignedlongint
-#OPERATOR: =
-
-#INTEGER: 5
-
-#SEMICOLON: ;
-<scalar_decl>unsignedlongintvar_52=<expr>5</expr>;</scalar_decl><scalar_decl>unsignedlongintvar_52=<expr>5</expr>;</scalar_decl>
-#TYPE: unsigned
-unsigned
-#TYPE: short
-short
-#TYPE: int
-symbol_table[65].name: var_53
-symbol_table[65].name: 0x5559efb1c1c4
-
-#IDENTIFIER: var_53
-unsignedshortint
-#OPERATOR: =
-
-#INTEGER: 5
-
-#SEMICOLON: ;
-<scalar_decl>unsignedshortintvar_53=<expr>5</expr>;</scalar_decl><scalar_decl>unsignedshortintvar_53=<expr>5</expr>;</scalar_decl>
-#TYPE: const
-
-#TYPE: signed
-signed
-#TYPE: long long
-longlong
-#TYPE: int
-symbol_table[66].name: var_54
-symbol_table[66].name: 0x5559efb1c204
-
-#IDENTIFIER: var_54
-
-#OPERATOR: =
-
-#INTEGER: 5
-
-#SEMICOLON: ;
-<scalar_decl>constsignedlonglongintvar_54=<expr>5</expr>;</scalar_decl><scalar_decl>constsignedlonglongintvar_54=<expr>5</expr>;</scalar_decl>
-#TYPE: const
-
-#TYPE: signed
-signed
-#TYPE: long
-long
-#TYPE: int
-symbol_table[67].name: var_55
-symbol_table[67].name: 0x5559efb1c244
-
-#IDENTIFIER: var_55
-
-#OPERATOR: =
-
-#INTEGER: 5
-
-#SEMICOLON: ;
-<scalar_decl>constsignedlongintvar_55=<expr>5</expr>;</scalar_decl><scalar_decl>constsignedlongintvar_55=<expr>5</expr>;</scalar_decl>
-#TYPE: const
-
-#TYPE: signed
-signed
-#TYPE: short
-short
-#TYPE: int
-symbol_table[68].name: var_56
-symbol_table[68].name: 0x5559efb1c284
-
-#IDENTIFIER: var_56
-
-#OPERATOR: =
-
-#INTEGER: 5
-
-#SEMICOLON: ;
-<scalar_decl>constsignedshortintvar_56=<expr>5</expr>;</scalar_decl><scalar_decl>constsignedshortintvar_56=<expr>5</expr>;</scalar_decl>
-#TYPE: const
-
-#TYPE: unsigned
-unsigned
-#TYPE: long long
-longlong
-#TYPE: int
-symbol_table[69].name: var_57
-symbol_table[69].name: 0x5559efb1c2c4
-
-#IDENTIFIER: var_57
-
-#OPERATOR: =
-
-#INTEGER: 5
-
-#SEMICOLON: ;
-<scalar_decl>constunsignedlonglongintvar_57=<expr>5</expr>;</scalar_decl><scalar_decl>constunsignedlonglongintvar_57=<expr>5</expr>;</scalar_decl>
-#TYPE: const
-
-#TYPE: unsigned
-unsigned
-#TYPE: long
-long
-#TYPE: int
-symbol_table[70].name: var_58
-symbol_table[70].name: 0x5559efb1c304
-
-#IDENTIFIER: var_58
-
-#OPERATOR: =
-
-#INTEGER: 5
-
-#SEMICOLON: ;
-<scalar_decl>constunsignedlongintvar_58=<expr>5</expr>;</scalar_decl><scalar_decl>constunsignedlongintvar_58=<expr>5</expr>;</scalar_decl>
-#TYPE: const
-
-#TYPE: unsigned
-unsigned
-#TYPE: short
-short
-#TYPE: int
-symbol_table[71].name: var_59
-symbol_table[71].name: 0x5559efb1c344
-
-#IDENTIFIER: var_59
-
-#OPERATOR: =
-
-#INTEGER: 5
-
-#SEMICOLON: ;
-<scalar_decl>constunsignedshortintvar_59=<expr>5</expr>;</scalar_decl><scalar_decl>constunsignedshortintvar_59=<expr>5</expr>;</scalar_decl>
-#TYPE: const
-
 #OPERATOR: *
-symbol_table[72].name: ptr_01
-symbol_table[72].name: 0x5559efb1c384
+symbol_table[17].name: ptr_01
+symbol_table[17].name: 0x5645c6b565c4
 
 #IDENTIFIER: ptr_01
 
@@ -1203,800 +391,6 @@ symbol_table[72].name: 0x5559efb1c384
 <scalar_decl>const*ptr_01=<expr>5</expr>;</scalar_decl><scalar_decl>const*ptr_01=<expr>5</expr>;</scalar_decl>
 #TYPE: const
 
-#TYPE: signed
-signed
-#OPERATOR: *
-signedsymbol_table[73].name: ptr_02
-symbol_table[73].name: 0x5559efb1c3c4
-
-#IDENTIFIER: ptr_02
-
-#OPERATOR: =
-
-#INTEGER: 5
-
-#SEMICOLON: ;
-<scalar_decl>constsigned*ptr_02=<expr>5</expr>;</scalar_decl><scalar_decl>constsigned*ptr_02=<expr>5</expr>;</scalar_decl>
-#TYPE: const
-
-#TYPE: unsigned
-unsigned
-#OPERATOR: *
-unsignedsymbol_table[74].name: ptr_03
-symbol_table[74].name: 0x5559efb1c404
-
-#IDENTIFIER: ptr_03
-
-#OPERATOR: =
-
-#INTEGER: 5
-
-#SEMICOLON: ;
-<scalar_decl>constunsigned*ptr_03=<expr>5</expr>;</scalar_decl><scalar_decl>constunsigned*ptr_03=<expr>5</expr>;</scalar_decl>
-#TYPE: const
-
-#TYPE: float
-float
-#OPERATOR: *
-symbol_table[75].name: ptr_04
-symbol_table[75].name: 0x5559efb1c444
-
-#IDENTIFIER: ptr_04
-
-#OPERATOR: =
-
-#INTEGER: 5
-
-#SEMICOLON: ;
-<scalar_decl>constfloat*ptr_04=<expr>5</expr>;</scalar_decl><scalar_decl>constfloat*ptr_04=<expr>5</expr>;</scalar_decl>
-#TYPE: const
-
-#TYPE: double
-double
-#OPERATOR: *
-symbol_table[76].name: ptr_05
-symbol_table[76].name: 0x5559efb1c484
-
-#IDENTIFIER: ptr_05
-
-#OPERATOR: =
-
-#INTEGER: 5
-
-#SEMICOLON: ;
-<scalar_decl>constdouble*ptr_05=<expr>5</expr>;</scalar_decl><scalar_decl>constdouble*ptr_05=<expr>5</expr>;</scalar_decl>
-#TYPE: const
-
-#TYPE: void
-void
-#OPERATOR: *
-symbol_table[77].name: ptr_06
-symbol_table[77].name: 0x5559efb1c4c4
-
-#IDENTIFIER: ptr_06
-
-#OPERATOR: =
-
-#INTEGER: 5
-
-#SEMICOLON: ;
-<scalar_decl>constvoid*ptr_06=<expr>5</expr>;</scalar_decl><scalar_decl>constvoid*ptr_06=<expr>5</expr>;</scalar_decl>
-#TYPE: signed
-signed
-#OPERATOR: *
-signedsymbol_table[78].name: ptr_07
-symbol_table[78].name: 0x5559efb1c504
-
-#IDENTIFIER: ptr_07
-
-#OPERATOR: =
-
-#INTEGER: 5
-
-#SEMICOLON: ;
-<scalar_decl>signed*ptr_07=<expr>5</expr>;</scalar_decl><scalar_decl>signed*ptr_07=<expr>5</expr>;</scalar_decl>
-#TYPE: unsigned
-unsigned
-#OPERATOR: *
-unsignedsymbol_table[79].name: ptr_08
-symbol_table[79].name: 0x5559efb1c544
-
-#IDENTIFIER: ptr_08
-
-#OPERATOR: =
-
-#INTEGER: 5
-
-#SEMICOLON: ;
-<scalar_decl>unsigned*ptr_08=<expr>5</expr>;</scalar_decl><scalar_decl>unsigned*ptr_08=<expr>5</expr>;</scalar_decl>
-#TYPE: float
-float
-#OPERATOR: *
-symbol_table[80].name: ptr_09
-symbol_table[80].name: 0x5559efb1c584
-
-#IDENTIFIER: ptr_09
-
-#OPERATOR: =
-
-#INTEGER: 5
-
-#SEMICOLON: ;
-<scalar_decl>float*ptr_09=<expr>5</expr>;</scalar_decl><scalar_decl>float*ptr_09=<expr>5</expr>;</scalar_decl>
-#TYPE: double
-double
-#OPERATOR: *
-symbol_table[81].name: ptr_10
-symbol_table[81].name: 0x5559efb1c5c4
-
-#IDENTIFIER: ptr_10
-
-#OPERATOR: =
-
-#INTEGER: 5
-
-#SEMICOLON: ;
-<scalar_decl>double*ptr_10=<expr>5</expr>;</scalar_decl><scalar_decl>double*ptr_10=<expr>5</expr>;</scalar_decl>
-#TYPE: void
-void
-#OPERATOR: *
-symbol_table[82].name: ptr_11
-symbol_table[82].name: 0x5559efb1c604
-
-#IDENTIFIER: ptr_11
-
-#OPERATOR: =
-
-#INTEGER: 5
-
-#SEMICOLON: ;
-<scalar_decl>void*ptr_11=<expr>5</expr>;</scalar_decl><scalar_decl>void*ptr_11=<expr>5</expr>;</scalar_decl>
-#TYPE: long long
-longlong
-#OPERATOR: *
-longlonglonglongsymbol_table[83].name: ptr_12
-symbol_table[83].name: 0x5559efb1c644
-
-#IDENTIFIER: ptr_12
-
-#OPERATOR: =
-
-#INTEGER: 5
-
-#SEMICOLON: ;
-<scalar_decl>longlong*ptr_12=<expr>5</expr>;</scalar_decl><scalar_decl>longlong*ptr_12=<expr>5</expr>;</scalar_decl>
-#TYPE: long
-long
-#OPERATOR: *
-longlongsymbol_table[84].name: ptr_13
-symbol_table[84].name: 0x5559efb1c684
-
-#IDENTIFIER: ptr_13
-
-#OPERATOR: =
-
-#INTEGER: 5
-
-#SEMICOLON: ;
-<scalar_decl>long*ptr_13=<expr>5</expr>;</scalar_decl><scalar_decl>long*ptr_13=<expr>5</expr>;</scalar_decl>
-#TYPE: short
-short
-#OPERATOR: *
-shortshortsymbol_table[85].name: ptr_14
-symbol_table[85].name: 0x5559efb1c6c4
-
-#IDENTIFIER: ptr_14
-
-#OPERATOR: =
-
-#INTEGER: 5
-
-#SEMICOLON: ;
-<scalar_decl>short*ptr_14=<expr>5</expr>;</scalar_decl><scalar_decl>short*ptr_14=<expr>5</expr>;</scalar_decl>
-#TYPE: char
-charchar
-#OPERATOR: *
-symbol_table[86].name: ptr_15
-symbol_table[86].name: 0x5559efb1c704
-
-#IDENTIFIER: ptr_15
-
-#OPERATOR: =
-
-#INTEGER: 5
-
-#SEMICOLON: ;
-<scalar_decl>char*ptr_15=<expr>5</expr>;</scalar_decl><scalar_decl>char*ptr_15=<expr>5</expr>;</scalar_decl>
-#TYPE: const
-
-#TYPE: long long
-longlong
-#OPERATOR: *
-longlonglonglongsymbol_table[87].name: ptr_16
-symbol_table[87].name: 0x5559efb1c744
-
-#IDENTIFIER: ptr_16
-
-#OPERATOR: =
-
-#INTEGER: 5
-
-#SEMICOLON: ;
-<scalar_decl>constlonglong*ptr_16=<expr>5</expr>;</scalar_decl><scalar_decl>constlonglong*ptr_16=<expr>5</expr>;</scalar_decl>
-#TYPE: const
-
-#TYPE: long
-long
-#OPERATOR: *
-longlongsymbol_table[88].name: ptr_17
-symbol_table[88].name: 0x5559efb1c784
-
-#IDENTIFIER: ptr_17
-
-#OPERATOR: =
-
-#INTEGER: 5
-
-#SEMICOLON: ;
-<scalar_decl>constlong*ptr_17=<expr>5</expr>;</scalar_decl><scalar_decl>constlong*ptr_17=<expr>5</expr>;</scalar_decl>
-#TYPE: const
-
-#TYPE: short
-short
-#OPERATOR: *
-shortshortsymbol_table[89].name: ptr_18
-symbol_table[89].name: 0x5559efb1c7c4
-
-#IDENTIFIER: ptr_18
-
-#OPERATOR: =
-
-#INTEGER: 5
-
-#SEMICOLON: ;
-<scalar_decl>constshort*ptr_18=<expr>5</expr>;</scalar_decl><scalar_decl>constshort*ptr_18=<expr>5</expr>;</scalar_decl>
-#TYPE: const
-
-#TYPE: char
-charchar
-#OPERATOR: *
-symbol_table[90].name: ptr_19
-symbol_table[90].name: 0x5559efb1c804
-
-#IDENTIFIER: ptr_19
-
-#OPERATOR: =
-
-#INTEGER: 5
-
-#SEMICOLON: ;
-<scalar_decl>constchar*ptr_19=<expr>5</expr>;</scalar_decl><scalar_decl>constchar*ptr_19=<expr>5</expr>;</scalar_decl>
-#TYPE: signed
-signed
-#TYPE: long long
-longlong
-#OPERATOR: *
-longlongsymbol_table[91].name: ptr_20
-symbol_table[91].name: 0x5559efb1c844
-
-#IDENTIFIER: ptr_20
-
-#OPERATOR: =
-
-#INTEGER: 5
-
-#SEMICOLON: ;
-<scalar_decl>signedlonglong*ptr_20=<expr>5</expr>;</scalar_decl><scalar_decl>signedlonglong*ptr_20=<expr>5</expr>;</scalar_decl>
-#TYPE: signed
-signed
-#TYPE: long
-long
-#OPERATOR: *
-longsymbol_table[92].name: ptr_21
-symbol_table[92].name: 0x5559efb1c884
-
-#IDENTIFIER: ptr_21
-
-#OPERATOR: =
-
-#INTEGER: 5
-
-#SEMICOLON: ;
-<scalar_decl>signedlong*ptr_21=<expr>5</expr>;</scalar_decl><scalar_decl>signedlong*ptr_21=<expr>5</expr>;</scalar_decl>
-#TYPE: signed
-signed
-#TYPE: short
-short
-#OPERATOR: *
-shortsymbol_table[93].name: ptr_22
-symbol_table[93].name: 0x5559efb1c8c4
-
-#IDENTIFIER: ptr_22
-
-#OPERATOR: =
-
-#INTEGER: 5
-
-#SEMICOLON: ;
-<scalar_decl>signedshort*ptr_22=<expr>5</expr>;</scalar_decl><scalar_decl>signedshort*ptr_22=<expr>5</expr>;</scalar_decl>
-#TYPE: signed
-signed
-#TYPE: char
-char
-#OPERATOR: *
-symbol_table[94].name: ptr_23
-symbol_table[94].name: 0x5559efb1c904
-
-#IDENTIFIER: ptr_23
-
-#OPERATOR: =
-
-#INTEGER: 5
-
-#SEMICOLON: ;
-<scalar_decl>signedchar*ptr_23=<expr>5</expr>;</scalar_decl><scalar_decl>signedchar*ptr_23=<expr>5</expr>;</scalar_decl>
-#TYPE: unsigned
-unsigned
-#TYPE: long long
-longlong
-#OPERATOR: *
-longlongsymbol_table[95].name: ptr_24
-symbol_table[95].name: 0x5559efb1c944
-
-#IDENTIFIER: ptr_24
-
-#OPERATOR: =
-
-#INTEGER: 5
-
-#SEMICOLON: ;
-<scalar_decl>unsignedlonglong*ptr_24=<expr>5</expr>;</scalar_decl><scalar_decl>unsignedlonglong*ptr_24=<expr>5</expr>;</scalar_decl>
-#TYPE: unsigned
-unsigned
-#TYPE: long
-long
-#OPERATOR: *
-longsymbol_table[96].name: ptr_25
-symbol_table[96].name: 0x5559efb1c984
-
-#IDENTIFIER: ptr_25
-
-#OPERATOR: =
-
-#INTEGER: 5
-
-#SEMICOLON: ;
-<scalar_decl>unsignedlong*ptr_25=<expr>5</expr>;</scalar_decl><scalar_decl>unsignedlong*ptr_25=<expr>5</expr>;</scalar_decl>
-#TYPE: unsigned
-unsigned
-#TYPE: short
-short
-#OPERATOR: *
-shortsymbol_table[97].name: ptr_26
-symbol_table[97].name: 0x5559efb1c9c4
-
-#IDENTIFIER: ptr_26
-
-#OPERATOR: =
-
-#INTEGER: 5
-
-#SEMICOLON: ;
-<scalar_decl>unsignedshort*ptr_26=<expr>5</expr>;</scalar_decl><scalar_decl>unsignedshort*ptr_26=<expr>5</expr>;</scalar_decl>
-#TYPE: unsigned
-unsigned
-#TYPE: char
-char
-#OPERATOR: *
-symbol_table[98].name: ptr_27
-symbol_table[98].name: 0x5559efb1ca04
-
-#IDENTIFIER: ptr_27
-
-#OPERATOR: =
-
-#INTEGER: 5
-
-#SEMICOLON: ;
-<scalar_decl>unsignedchar*ptr_27=<expr>5</expr>;</scalar_decl><scalar_decl>unsignedchar*ptr_27=<expr>5</expr>;</scalar_decl>
-#TYPE: const
-
-#TYPE: signed
-signed
-#TYPE: long long
-longlong
-#OPERATOR: *
-longlongsymbol_table[99].name: ptr_28
-symbol_table[99].name: 0x5559efb1ca44
-
-#IDENTIFIER: ptr_28
-
-#OPERATOR: =
-
-#INTEGER: 5
-
-#SEMICOLON: ;
-<scalar_decl>constsignedlonglong*ptr_28=<expr>5</expr>;</scalar_decl><scalar_decl>constsignedlonglong*ptr_28=<expr>5</expr>;</scalar_decl>
-#TYPE: const
-
-#TYPE: signed
-signed
-#TYPE: long
-long
-#OPERATOR: *
-longsymbol_table[100].name: ptr_29
-symbol_table[100].name: 0x5559efb1ca84
-
-#IDENTIFIER: ptr_29
-
-#OPERATOR: =
-
-#INTEGER: 5
-
-#SEMICOLON: ;
-<scalar_decl>constsignedlong*ptr_29=<expr>5</expr>;</scalar_decl><scalar_decl>constsignedlong*ptr_29=<expr>5</expr>;</scalar_decl>
-#TYPE: const
-
-#TYPE: signed
-signed
-#TYPE: short
-short
-#OPERATOR: *
-shortsymbol_table[101].name: ptr_30
-symbol_table[101].name: 0x5559efb1cac4
-
-#IDENTIFIER: ptr_30
-
-#OPERATOR: =
-
-#INTEGER: 5
-
-#SEMICOLON: ;
-<scalar_decl>constsignedshort*ptr_30=<expr>5</expr>;</scalar_decl><scalar_decl>constsignedshort*ptr_30=<expr>5</expr>;</scalar_decl>
-#TYPE: const
-
-#TYPE: signed
-signed
-#TYPE: char
-char
-#OPERATOR: *
-symbol_table[102].name: ptr_31
-symbol_table[102].name: 0x5559efb1cb04
-
-#IDENTIFIER: ptr_31
-
-#OPERATOR: =
-
-#INTEGER: 5
-
-#SEMICOLON: ;
-<scalar_decl>constsignedchar*ptr_31=<expr>5</expr>;</scalar_decl><scalar_decl>constsignedchar*ptr_31=<expr>5</expr>;</scalar_decl>
-#TYPE: const
-
-#TYPE: unsigned
-unsigned
-#TYPE: long long
-longlong
-#OPERATOR: *
-longlongsymbol_table[103].name: ptr_32
-symbol_table[103].name: 0x5559efb1cb44
-
-#IDENTIFIER: ptr_32
-
-#OPERATOR: =
-
-#INTEGER: 5
-
-#SEMICOLON: ;
-<scalar_decl>constunsignedlonglong*ptr_32=<expr>5</expr>;</scalar_decl><scalar_decl>constunsignedlonglong*ptr_32=<expr>5</expr>;</scalar_decl>
-#TYPE: const
-
-#TYPE: unsigned
-unsigned
-#TYPE: long
-long
-#OPERATOR: *
-longsymbol_table[104].name: ptr_33
-symbol_table[104].name: 0x5559efb1cb84
-
-#IDENTIFIER: ptr_33
-
-#OPERATOR: =
-
-#INTEGER: 5
-
-#SEMICOLON: ;
-<scalar_decl>constunsignedlong*ptr_33=<expr>5</expr>;</scalar_decl><scalar_decl>constunsignedlong*ptr_33=<expr>5</expr>;</scalar_decl>
-#TYPE: const
-
-#TYPE: unsigned
-unsigned
-#TYPE: short
-short
-#OPERATOR: *
-shortsymbol_table[105].name: ptr_34
-symbol_table[105].name: 0x5559efb1cbc4
-
-#IDENTIFIER: ptr_34
-
-#OPERATOR: =
-
-#INTEGER: 5
-
-#SEMICOLON: ;
-<scalar_decl>constunsignedshort*ptr_34=<expr>5</expr>;</scalar_decl><scalar_decl>constunsignedshort*ptr_34=<expr>5</expr>;</scalar_decl>
-#TYPE: const
-
-#TYPE: unsigned
-unsigned
-#TYPE: char
-char
-#OPERATOR: *
-symbol_table[106].name: ptr_35
-symbol_table[106].name: 0x5559efb1cc04
-
-#IDENTIFIER: ptr_35
-
-#OPERATOR: =
-
-#INTEGER: 5
-
-#SEMICOLON: ;
-<scalar_decl>constunsignedchar*ptr_35=<expr>5</expr>;</scalar_decl><scalar_decl>constunsignedchar*ptr_35=<expr>5</expr>;</scalar_decl>
-#TYPE: const
-
-#TYPE: int
-intint
-#OPERATOR: *
-symbol_table[107].name: ptr_36
-symbol_table[107].name: 0x5559efb1cc44
-
-#IDENTIFIER: ptr_36
-
-#OPERATOR: =
-
-#INTEGER: 5
-
-#SEMICOLON: ;
-<scalar_decl>constint*ptr_36=<expr>5</expr>;</scalar_decl><scalar_decl>constint*ptr_36=<expr>5</expr>;</scalar_decl>
-#TYPE: signed
-signed
-#TYPE: int
-int
-#OPERATOR: *
-symbol_table[108].name: ptr_37
-symbol_table[108].name: 0x5559efb1cc84
-
-#IDENTIFIER: ptr_37
-
-#OPERATOR: =
-
-#INTEGER: 5
-
-#SEMICOLON: ;
-<scalar_decl>signedint*ptr_37=<expr>5</expr>;</scalar_decl><scalar_decl>signedint*ptr_37=<expr>5</expr>;</scalar_decl>
-#TYPE: unsigned
-unsigned
-#TYPE: int
-int
-#OPERATOR: *
-symbol_table[109].name: ptr_38
-symbol_table[109].name: 0x5559efb1ccc4
-
-#IDENTIFIER: ptr_38
-
-#OPERATOR: =
-
-#INTEGER: 5
-
-#SEMICOLON: ;
-<scalar_decl>unsignedint*ptr_38=<expr>5</expr>;</scalar_decl><scalar_decl>unsignedint*ptr_38=<expr>5</expr>;</scalar_decl>
-#TYPE: long long
-longlong
-#TYPE: int
-longlongint
-#OPERATOR: *
-symbol_table[110].name: ptr_39
-symbol_table[110].name: 0x5559efb1cd04
-
-#IDENTIFIER: ptr_39
-
-#OPERATOR: =
-
-#INTEGER: 5
-
-#SEMICOLON: ;
-<scalar_decl>longlongint*ptr_39=<expr>5</expr>;</scalar_decl><scalar_decl>longlongint*ptr_39=<expr>5</expr>;</scalar_decl>
-#TYPE: long
-long
-#TYPE: int
-longint
-#OPERATOR: *
-symbol_table[111].name: ptr_40
-symbol_table[111].name: 0x5559efb1cd44
-
-#IDENTIFIER: ptr_40
-
-#OPERATOR: =
-
-#INTEGER: 5
-
-#SEMICOLON: ;
-<scalar_decl>longint*ptr_40=<expr>5</expr>;</scalar_decl><scalar_decl>longint*ptr_40=<expr>5</expr>;</scalar_decl>
-#TYPE: short
-short
-#TYPE: int
-shortint
-#OPERATOR: *
-symbol_table[112].name: ptr_41
-symbol_table[112].name: 0x5559efb1cd84
-
-#IDENTIFIER: ptr_41
-
-#OPERATOR: =
-
-#INTEGER: 5
-
-#SEMICOLON: ;
-<scalar_decl>shortint*ptr_41=<expr>5</expr>;</scalar_decl><scalar_decl>shortint*ptr_41=<expr>5</expr>;</scalar_decl>
-#TYPE: int
-intint
-#OPERATOR: *
-symbol_table[113].name: ptr_42
-symbol_table[113].name: 0x5559efb1cdc4
-
-#IDENTIFIER: ptr_42
-
-#OPERATOR: =
-
-#INTEGER: 5
-
-#SEMICOLON: ;
-<scalar_decl>int*ptr_42=<expr>5</expr>;</scalar_decl><scalar_decl>int*ptr_42=<expr>5</expr>;</scalar_decl>
-#TYPE: const
-
-#TYPE: signed
-signed
-#TYPE: int
-int
-#OPERATOR: *
-symbol_table[114].name: ptr_43
-symbol_table[114].name: 0x5559efb1ce04
-
-#IDENTIFIER: ptr_43
-
-#OPERATOR: =
-
-#INTEGER: 5
-
-#SEMICOLON: ;
-<scalar_decl>constsignedint*ptr_43=<expr>5</expr>;</scalar_decl><scalar_decl>constsignedint*ptr_43=<expr>5</expr>;</scalar_decl>
-#TYPE: const
-
-#TYPE: unsigned
-unsigned
-#TYPE: int
-int
-#OPERATOR: *
-symbol_table[115].name: ptr_44
-symbol_table[115].name: 0x5559efb1ce44
-
-#IDENTIFIER: ptr_44
-
-#OPERATOR: =
-
-#INTEGER: 5
-
-#SEMICOLON: ;
-<scalar_decl>constunsignedint*ptr_44=<expr>5</expr>;</scalar_decl><scalar_decl>constunsignedint*ptr_44=<expr>5</expr>;</scalar_decl>
-#TYPE: const
-
-#TYPE: long long
-longlong
-#TYPE: int
-longlongint
-#OPERATOR: *
-symbol_table[116].name: ptr_45
-symbol_table[116].name: 0x5559efb1ce84
-
-#IDENTIFIER: ptr_45
-
-#OPERATOR: =
-
-#INTEGER: 5
-
-#SEMICOLON: ;
-<scalar_decl>constlonglongint*ptr_45=<expr>5</expr>;</scalar_decl><scalar_decl>constlonglongint*ptr_45=<expr>5</expr>;</scalar_decl>
-#TYPE: const
-
-#TYPE: long
-long
-#TYPE: int
-longint
-#OPERATOR: *
-symbol_table[117].name: ptr_46
-symbol_table[117].name: 0x5559efb1cec4
-
-#IDENTIFIER: ptr_46
-
-#OPERATOR: =
-
-#INTEGER: 5
-
-#SEMICOLON: ;
-<scalar_decl>constlongint*ptr_46=<expr>5</expr>;</scalar_decl><scalar_decl>constlongint*ptr_46=<expr>5</expr>;</scalar_decl>
-#TYPE: const
-
-#TYPE: short
-short
-#TYPE: int
-shortint
-#OPERATOR: *
-symbol_table[118].name: ptr_47
-symbol_table[118].name: 0x5559efb1cf04
-
-#IDENTIFIER: ptr_47
-
-#OPERATOR: =
-
-#INTEGER: 5
-
-#SEMICOLON: ;
-<scalar_decl>constshortint*ptr_47=<expr>5</expr>;</scalar_decl><scalar_decl>constshortint*ptr_47=<expr>5</expr>;</scalar_decl>
-#TYPE: signed
-signed
-#TYPE: long long
-longlong
-#TYPE: int
-
-#OPERATOR: *
-symbol_table[119].name: ptr_48
-symbol_table[119].name: 0x5559efb1cf44
-
-#IDENTIFIER: ptr_48
-
-#OPERATOR: =
-
-#INTEGER: 5
-
-#SEMICOLON: ;
-<scalar_decl>signedlonglongint*ptr_48=<expr>5</expr>;</scalar_decl><scalar_decl>signedlonglongint*ptr_48=<expr>5</expr>;</scalar_decl>
-#TYPE: signed
-signed
-#TYPE: long
-long
-#TYPE: int
-
-#OPERATOR: *
-symbol_table[120].name: ptr_49
-symbol_table[120].name: 0x5559efb1cf84
-
-#IDENTIFIER: ptr_49
-
-#OPERATOR: =
-
-#INTEGER: 5
-
-#SEMICOLON: ;
-<scalar_decl>signedlongint*ptr_49=<expr>5</expr>;</scalar_decl><scalar_decl>signedlongint*ptr_49=<expr>5</expr>;</scalar_decl>
-#TYPE: signed
-signed
-#TYPE: short
-short
-#TYPE: int
-
-#OPERATOR: *
-symbol_table[121].name: ptr_50
-symbol_table[121].name: 0x5559efb1cfc4
-
-#IDENTIFIER: ptr_50
-
-#OPERATOR: =
-
-#INTEGER: 5
-
-#SEMICOLON: ;
-<scalar_decl>signedshortint*ptr_50=<expr>5</expr>;</scalar_decl><scalar_decl>signedshortint*ptr_50=<expr>5</expr>;</scalar_decl>
 #TYPE: unsigned
 unsigned
 #TYPE: long long
@@ -2004,124 +398,8 @@ longlong
 #TYPE: int
 
 #OPERATOR: *
-symbol_table[122].name: ptr_51
-symbol_table[122].name: 0x5559efb1d004
-
-#IDENTIFIER: ptr_51
-
-#OPERATOR: =
-
-#INTEGER: 5
-
-#SEMICOLON: ;
-<scalar_decl>unsignedlonglongint*ptr_51=<expr>5</expr>;</scalar_decl><scalar_decl>unsignedlonglongint*ptr_51=<expr>5</expr>;</scalar_decl>
-#TYPE: unsigned
-unsigned
-#TYPE: long
-long
-#TYPE: int
-
-#OPERATOR: *
-symbol_table[123].name: ptr_52
-symbol_table[123].name: 0x5559efb1d044
-
-#IDENTIFIER: ptr_52
-
-#OPERATOR: =
-
-#INTEGER: 5
-
-#SEMICOLON: ;
-<scalar_decl>unsignedlongint*ptr_52=<expr>5</expr>;</scalar_decl><scalar_decl>unsignedlongint*ptr_52=<expr>5</expr>;</scalar_decl>
-#TYPE: unsigned
-unsigned
-#TYPE: short
-short
-#TYPE: int
-
-#OPERATOR: *
-symbol_table[124].name: ptr_53
-symbol_table[124].name: 0x5559efb1d084
-
-#IDENTIFIER: ptr_53
-
-#OPERATOR: =
-
-#INTEGER: 5
-
-#SEMICOLON: ;
-<scalar_decl>unsignedshortint*ptr_53=<expr>5</expr>;</scalar_decl><scalar_decl>unsignedshortint*ptr_53=<expr>5</expr>;</scalar_decl>
-#TYPE: const
-
-#TYPE: signed
-signed
-#TYPE: long long
-longlong
-#TYPE: int
-
-#OPERATOR: *
-symbol_table[125].name: ptr_54
-symbol_table[125].name: 0x5559efb1d0c4
-
-#IDENTIFIER: ptr_54
-
-#OPERATOR: =
-
-#INTEGER: 5
-
-#SEMICOLON: ;
-<scalar_decl>constsignedlonglongint*ptr_54=<expr>5</expr>;</scalar_decl><scalar_decl>constsignedlonglongint*ptr_54=<expr>5</expr>;</scalar_decl>
-#TYPE: const
-
-#TYPE: signed
-signed
-#TYPE: long
-long
-#TYPE: int
-
-#OPERATOR: *
-symbol_table[126].name: ptr_55
-symbol_table[126].name: 0x5559efb1d104
-
-#IDENTIFIER: ptr_55
-
-#OPERATOR: =
-
-#INTEGER: 5
-
-#SEMICOLON: ;
-<scalar_decl>constsignedlongint*ptr_55=<expr>5</expr>;</scalar_decl><scalar_decl>constsignedlongint*ptr_55=<expr>5</expr>;</scalar_decl>
-#TYPE: const
-
-#TYPE: signed
-signed
-#TYPE: short
-short
-#TYPE: int
-
-#OPERATOR: *
-symbol_table[127].name: ptr_56
-symbol_table[127].name: 0x5559efb1d144
-
-#IDENTIFIER: ptr_56
-
-#OPERATOR: =
-
-#INTEGER: 5
-
-#SEMICOLON: ;
-<scalar_decl>constsignedshortint*ptr_56=<expr>5</expr>;</scalar_decl><scalar_decl>constsignedshortint*ptr_56=<expr>5</expr>;</scalar_decl>
-#TYPE: const
-
-#TYPE: unsigned
-unsigned
-#TYPE: long long
-longlong
-#TYPE: int
-
-#OPERATOR: *
-symbol_table[128].name: ptr_57
-symbol_table[128].name: 0x5559efb1d184
+symbol_table[18].name: ptr_57
+symbol_table[18].name: 0x5645c6b56604
 
 #IDENTIFIER: ptr_57
 
@@ -2131,43 +409,61 @@ symbol_table[128].name: 0x5559efb1d184
 
 #SEMICOLON: ;
 <scalar_decl>constunsignedlonglongint*ptr_57=<expr>5</expr>;</scalar_decl><scalar_decl>constunsignedlonglongint*ptr_57=<expr>5</expr>;</scalar_decl>
-#TYPE: const
+#TYPE: int
+intint
+#IDENTIFIER: main
+int
+#SEMICOLON: (
 
+#SEMICOLON: )
+
+#SEMICOLON: {
+
+#TYPE: int
+intint
+#IDENTIFIER: arr
+int
+#SEMICOLON: [
+
+#INTEGER: 2
+
+#SEMICOLON: ]
+
+#SEMICOLON: ;
+[<expr>2</expr>]arr[<expr>2</expr>]<array_decl>intarr[<expr>2</expr>];</array_decl>
+#KEYWORD: if
+
+#SEMICOLON: (
+
+#INTEGER: 1
+
+#SEMICOLON: )
+
+#SEMICOLON: {
+
+#INTEGER: 2
+
+#SEMICOLON: ;
+
+#SEMICOLON: }
+<stmt><expr>2</expr>;</stmt>
+#TYPE: const
+if(<expr>1</expr>){<stmt><expr>2</expr>;</stmt>}
 #TYPE: unsigned
 unsigned
-#TYPE: long
-long
+#TYPE: long long
+longlong
 #TYPE: int
 
 #OPERATOR: *
-symbol_table[129].name: ptr_58
-symbol_table[129].name: 0x5559efb1d1c4
 
-#IDENTIFIER: ptr_58
+#IDENTIFIER: ptr_57
 
 #OPERATOR: =
 
 #INTEGER: 5
 
 #SEMICOLON: ;
-<scalar_decl>constunsignedlongint*ptr_58=<expr>5</expr>;</scalar_decl><scalar_decl>constunsignedlongint*ptr_58=<expr>5</expr>;</scalar_decl>
-#TYPE: const
-
-#TYPE: unsigned
-unsigned
-#TYPE: short
-short
-#TYPE: int
-
-#OPERATOR: *
-symbol_table[130].name: ptr_59
-symbol_table[130].name: 0x5559efb1d204
-
-#IDENTIFIER: ptr_59
-
-#OPERATOR: =
-
-#INTEGER: 5
-
-#SEMICOLON: ;
-<scalar_decl>constunsignedshortint*ptr_59=<expr>5</expr>;</scalar_decl><scalar_decl>constunsignedshortint*ptr_59=<expr>5</expr>;</scalar_decl><scalar_decl>constunsignedshortint*ptr_59=<expr>5</expr>;</scalar_decl><func_def>intmain(){<array_decl>intarr[<expr>2</expr>];</array_decl>}</func_def><scalar_decl>intw=<expr>0</expr>;</scalar_decl><array_decl>inta[<expr>0</expr>]={<expr>1</expr>,{<expr>2</expr>},{<expr>3</expr>,<expr>4</expr>,{<expr>5</expr>},{<expr>6</expr>}}};</array_decl><scalar_decl>inty=<expr>1</expr>;</scalar_decl><array_decl>intx[<expr>0</expr>]={<expr>1</expr>,<expr>1</expr>,{<expr>2</expr>},{<expr>3</expr>,<expr>4</expr>,{<expr>5</expr>},{<expr>6</expr>}},<expr>7</expr>};</array_decl><array_decl>inte[<expr>1</expr>][<expr>3</expr>],p[<expr>1</expr>][<expr>3</expr>];</array_decl><array_decl>charf[<expr>1</expr>][<expr>4</expr>];</array_decl><array_decl>floatk[<expr>1</expr>],b[<expr>2</expr>][<expr>3</expr>]={{<expr>0</expr>,<expr>1</expr>,<expr>2</expr>},{<expr>3</expr>,<expr>4</expr>,<expr>5</expr>}};</array_decl><func_decl>intindd(int*sdf);</func_decl><scalar_decl>constvar_01=<expr>5</expr>;</scalar_decl><scalar_decl>constsignedvar_02=<expr>5</expr>;</scalar_decl><scalar_decl>constunsignedvar_03=<expr>5</expr>;</scalar_decl><scalar_decl>constfloatvar_04=<expr>5</expr>;</scalar_decl><scalar_decl>constdoublevar_05=<expr>5</expr>;</scalar_decl><scalar_decl>constvoidvar_06=<expr>5</expr>;</scalar_decl><scalar_decl>signedvar_07=<expr>5</expr>;</scalar_decl><scalar_decl>unsignedvar_08=<expr>5</expr>;</scalar_decl><scalar_decl>floatvar_09=<expr>5</expr>;</scalar_decl><scalar_decl>doublevar_10=<expr>5</expr>;</scalar_decl><scalar_decl>voidvar_11=<expr>5</expr>;</scalar_decl><scalar_decl>longlongvar_12=<expr>5</expr>;</scalar_decl><scalar_decl>longvar_13=<expr>5</expr>;</scalar_decl><scalar_decl>shortvar_14=<expr>5</expr>;</scalar_decl><scalar_decl>charvar_15=<expr>5</expr>;</scalar_decl><scalar_decl>constlonglongvar_16=<expr>5</expr>;</scalar_decl><scalar_decl>constlongvar_17=<expr>5</expr>;</scalar_decl><scalar_decl>constshortvar_18=<expr>5</expr>;</scalar_decl><scalar_decl>constcharvar_19=<expr>5</expr>;</scalar_decl><scalar_decl>signedlonglongvar_20=<expr>5</expr>;</scalar_decl><scalar_decl>signedlongvar_21=<expr>5</expr>;</scalar_decl><scalar_decl>signedshortvar_22=<expr>5</expr>;</scalar_decl><scalar_decl>signedcharvar_23=<expr>5</expr>;</scalar_decl><scalar_decl>unsignedlonglongvar_24=<expr>5</expr>;</scalar_decl><scalar_decl>unsignedlongvar_25=<expr>5</expr>;</scalar_decl><scalar_decl>unsignedshortvar_26=<expr>5</expr>;</scalar_decl><scalar_decl>unsignedcharvar_27=<expr>5</expr>;</scalar_decl><scalar_decl>constsignedlonglongvar_28=<expr>5</expr>;</scalar_decl><scalar_decl>constsignedlongvar_29=<expr>5</expr>;</scalar_decl><scalar_decl>constsignedshortvar_30=<expr>5</expr>;</scalar_decl><scalar_decl>constsignedcharvar_31=<expr>5</expr>;</scalar_decl><scalar_decl>constunsignedlonglongvar_32=<expr>5</expr>;</scalar_decl><scalar_decl>constunsignedlongvar_33=<expr>5</expr>;</scalar_decl><scalar_decl>constunsignedshortvar_34=<expr>5</expr>;</scalar_decl><scalar_decl>constunsignedcharvar_35=<expr>5</expr>;</scalar_decl><scalar_decl>constintvar_36=<expr>5</expr>;</scalar_decl><scalar_decl>signedintvar_37=<expr>5</expr>;</scalar_decl><scalar_decl>unsignedintvar_38=<expr>5</expr>;</scalar_decl><scalar_decl>longlongintvar_39=<expr>5</expr>;</scalar_decl><scalar_decl>longintvar_40=<expr>5</expr>;</scalar_decl><scalar_decl>shortintvar_41=<expr>5</expr>;</scalar_decl><scalar_decl>intvar_42=<expr>5</expr>;</scalar_decl><scalar_decl>constsignedintvar_43=<expr>5</expr>;</scalar_decl><scalar_decl>constunsignedintvar_44=<expr>5</expr>;</scalar_decl><scalar_decl>constlonglongintvar_45=<expr>5</expr>;</scalar_decl><scalar_decl>constlongintvar_46=<expr>5</expr>;</scalar_decl><scalar_decl>constshortintvar_47=<expr>5</expr>;</scalar_decl><scalar_decl>signedlonglongintvar_48=<expr>5</expr>;</scalar_decl><scalar_decl>signedlongintvar_49=<expr>5</expr>;</scalar_decl><scalar_decl>signedshortintvar_50=<expr>5</expr>;</scalar_decl><scalar_decl>unsignedlonglongintvar_51=<expr>5</expr>;</scalar_decl><scalar_decl>unsignedlongintvar_52=<expr>5</expr>;</scalar_decl><scalar_decl>unsignedshortintvar_53=<expr>5</expr>;</scalar_decl><scalar_decl>constsignedlonglongintvar_54=<expr>5</expr>;</scalar_decl><scalar_decl>constsignedlongintvar_55=<expr>5</expr>;</scalar_decl><scalar_decl>constsignedshortintvar_56=<expr>5</expr>;</scalar_decl><scalar_decl>constunsignedlonglongintvar_57=<expr>5</expr>;</scalar_decl><scalar_decl>constunsignedlongintvar_58=<expr>5</expr>;</scalar_decl><scalar_decl>constunsignedshortintvar_59=<expr>5</expr>;</scalar_decl><scalar_decl>const*ptr_01=<expr>5</expr>;</scalar_decl><scalar_decl>constsigned*ptr_02=<expr>5</expr>;</scalar_decl><scalar_decl>constunsigned*ptr_03=<expr>5</expr>;</scalar_decl><scalar_decl>constfloat*ptr_04=<expr>5</expr>;</scalar_decl><scalar_decl>constdouble*ptr_05=<expr>5</expr>;</scalar_decl><scalar_decl>constvoid*ptr_06=<expr>5</expr>;</scalar_decl><scalar_decl>signed*ptr_07=<expr>5</expr>;</scalar_decl><scalar_decl>unsigned*ptr_08=<expr>5</expr>;</scalar_decl><scalar_decl>float*ptr_09=<expr>5</expr>;</scalar_decl><scalar_decl>double*ptr_10=<expr>5</expr>;</scalar_decl><scalar_decl>void*ptr_11=<expr>5</expr>;</scalar_decl><scalar_decl>longlong*ptr_12=<expr>5</expr>;</scalar_decl><scalar_decl>long*ptr_13=<expr>5</expr>;</scalar_decl><scalar_decl>short*ptr_14=<expr>5</expr>;</scalar_decl><scalar_decl>char*ptr_15=<expr>5</expr>;</scalar_decl><scalar_decl>constlonglong*ptr_16=<expr>5</expr>;</scalar_decl><scalar_decl>constlong*ptr_17=<expr>5</expr>;</scalar_decl><scalar_decl>constshort*ptr_18=<expr>5</expr>;</scalar_decl><scalar_decl>constchar*ptr_19=<expr>5</expr>;</scalar_decl><scalar_decl>signedlonglong*ptr_20=<expr>5</expr>;</scalar_decl><scalar_decl>signedlong*ptr_21=<expr>5</expr>;</scalar_decl><scalar_decl>signedshort*ptr_22=<expr>5</expr>;</scalar_decl><scalar_decl>signedchar*ptr_23=<expr>5</expr>;</scalar_decl><scalar_decl>unsignedlonglong*ptr_24=<expr>5</expr>;</scalar_decl><scalar_decl>unsignedlong*ptr_25=<expr>5</expr>;</scalar_decl><scalar_decl>unsignedshort*ptr_26=<expr>5</expr>;</scalar_decl><scalar_decl>unsignedchar*ptr_27=<expr>5</expr>;</scalar_decl><scalar_decl>constsignedlonglong*ptr_28=<expr>5</expr>;</scalar_decl><scalar_decl>constsignedlong*ptr_29=<expr>5</expr>;</scalar_decl><scalar_decl>constsignedshort*ptr_30=<expr>5</expr>;</scalar_decl><scalar_decl>constsignedchar*ptr_31=<expr>5</expr>;</scalar_decl><scalar_decl>constunsignedlonglong*ptr_32=<expr>5</expr>;</scalar_decl><scalar_decl>constunsignedlong*ptr_33=<expr>5</expr>;</scalar_decl><scalar_decl>constunsignedshort*ptr_34=<expr>5</expr>;</scalar_decl><scalar_decl>constunsignedchar*ptr_35=<expr>5</expr>;</scalar_decl><scalar_decl>constint*ptr_36=<expr>5</expr>;</scalar_decl><scalar_decl>signedint*ptr_37=<expr>5</expr>;</scalar_decl><scalar_decl>unsignedint*ptr_38=<expr>5</expr>;</scalar_decl><scalar_decl>longlongint*ptr_39=<expr>5</expr>;</scalar_decl><scalar_decl>longint*ptr_40=<expr>5</expr>;</scalar_decl><scalar_decl>shortint*ptr_41=<expr>5</expr>;</scalar_decl><scalar_decl>int*ptr_42=<expr>5</expr>;</scalar_decl><scalar_decl>constsignedint*ptr_43=<expr>5</expr>;</scalar_decl><scalar_decl>constunsignedint*ptr_44=<expr>5</expr>;</scalar_decl><scalar_decl>constlonglongint*ptr_45=<expr>5</expr>;</scalar_decl><scalar_decl>constlongint*ptr_46=<expr>5</expr>;</scalar_decl><scalar_decl>constshortint*ptr_47=<expr>5</expr>;</scalar_decl><scalar_decl>signedlonglongint*ptr_48=<expr>5</expr>;</scalar_decl><scalar_decl>signedlongint*ptr_49=<expr>5</expr>;</scalar_decl><scalar_decl>signedshortint*ptr_50=<expr>5</expr>;</scalar_decl><scalar_decl>unsignedlonglongint*ptr_51=<expr>5</expr>;</scalar_decl><scalar_decl>unsignedlongint*ptr_52=<expr>5</expr>;</scalar_decl><scalar_decl>unsignedshortint*ptr_53=<expr>5</expr>;</scalar_decl><scalar_decl>constsignedlonglongint*ptr_54=<expr>5</expr>;</scalar_decl><scalar_decl>constsignedlongint*ptr_55=<expr>5</expr>;</scalar_decl><scalar_decl>constsignedshortint*ptr_56=<expr>5</expr>;</scalar_decl><scalar_decl>constunsignedlonglongint*ptr_57=<expr>5</expr>;</scalar_decl><scalar_decl>constunsignedlongint*ptr_58=<expr>5</expr>;</scalar_decl><scalar_decl>constunsignedshortint*ptr_59=<expr>5</expr>;</scalar_decl>
+<scalar_decl>constunsignedlonglongint*ptr_57=<expr>5</expr>;</scalar_decl>
+#SEMICOLON: }
+<scalar_decl>constunsignedlonglongint*ptr_57=<expr>5</expr>;</scalar_decl><func_def>intmain(){<array_decl>intarr[<expr>2</expr>];</array_decl><stmt>if(<expr>1</expr>){<stmt><expr>2</expr>;</stmt>}</stmt><scalar_decl>constunsignedlonglongint*ptr_57=<expr>5</expr>;</scalar_decl>}</func_def><func_def>intmain(){<array_decl>intarr[<expr>2</expr>];</array_decl><stmt>if(<expr>1</expr>){<stmt><expr>2</expr>;</stmt>}</stmt><scalar_decl>constunsignedlonglongint*ptr_57=<expr>5</expr>;</scalar_decl>}</func_def><func_def>intmain(){<array_decl>intarr[<expr>2</expr>];</array_decl><stmt>if(<expr>1</expr>){<stmt><expr>2</expr>;</stmt>}</stmt><scalar_decl>constunsignedlonglongint*ptr_57=<expr>5</expr>;</scalar_decl>}</func_def><func_def>intmain(){<array_decl>intarr[<expr>2</expr>];</array_decl>}</func_def><scalar_decl>intw=<expr>0</expr>;</scalar_decl><array_decl>inta[<expr>0</expr>]={<expr>1</expr>,{<expr>2</expr>},{<expr>3</expr>,<expr>4</expr>,{<expr>5</expr>},{<expr>6</expr>}}};</array_decl><scalar_decl>inty=<expr>1</expr>;</scalar_decl><array_decl>intx[<expr>0</expr>]={<expr>1</expr>,<expr>1</expr>,{<expr>2</expr>},{<expr>3</expr>,<expr>4</expr>,{<expr>5</expr>},{<expr>6</expr>}},<expr>7</expr>};</array_decl><array_decl>inte[<expr>1</expr>][<expr>3</expr>],p[<expr>1</expr>][<expr>3</expr>];</array_decl><array_decl>charf[<expr>1</expr>][<expr>4</expr>];</array_decl><array_decl>floatk[<expr>1</expr>],b[<expr>2</expr>][<expr>3</expr>]={{<expr>0</expr>,<expr>1</expr>,<expr>2</expr>},{<expr>3</expr>,<expr>4</expr>,<expr>5</expr>}};</array_decl><func_decl>intindd(int*sdf);</func_decl><scalar_decl>constvar_01=<expr>5</expr>;</scalar_decl><scalar_decl>constsignedvar_02=<expr>5</expr>;</scalar_decl><scalar_decl>intvar_42=<expr>5</expr>;</scalar_decl><scalar_decl>constsignedintvar_43=<expr>5</expr>;</scalar_decl><scalar_decl>const*ptr_01=<expr>5</expr>;</scalar_decl><scalar_decl>constunsignedlonglongint*ptr_57=<expr>5</expr>;</scalar_decl><func_def>intmain(){<array_decl>intarr[<expr>2</expr>];</array_decl><stmt>if(<expr>1</expr>){<stmt><expr>2</expr>;</stmt>}</stmt><scalar_decl>constunsignedlonglongint*ptr_57=<expr>5</expr>;</scalar_decl>}</func_def>

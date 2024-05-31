@@ -18,6 +18,7 @@ char* reduce_terminal_terminal(char* r1, char* r2);
 char* reduce_nonterminal_terminal(char* r1, char* r2);
 char* reduce_terminal_nonterminal(char* r1, char* r2);
 char* reduce_terminal_terminal_nonterminal(char* r1, char* r2, char* r3);
+char* reduce_terminal_nonterminal_nonterminal(char* r1, char* r2, char* r3);
 
 struct symbol{
     int seq_num;
@@ -48,8 +49,8 @@ int cur_scope=0;
 %token<charv> '=' '\n' '[' ']' '{' '}'  '(' ')'
 %left<charv> '*'
 %type<charv>  type_decl type_layer sign_usgn int_char long_shrt
-%type<charv>  ident var_init scalar_decl func_decl program array_decl func_def var_decl expr_stmt compound_stmt_content stmt
-%type<charv> expr arr_ident arr_tag arr_content box arr_cnt_fmt arr_id type_ident parameter_info parameters compound_stmt section init
+%type<charv>  ident var_init scalar_decl func_decl program array_decl func_def var_decl expr_stmt compound_stmt_content stmt condition if_stmt else_stmt
+%type<charv> expr arr_ident arr_tag arr_content box arr_cnt_fmt arr_id type_ident parameter_info parameters compound_stmt section init if_else_stmt
 %token<charv> SEMICOLON ENTER
 %left<charv> COMMA
 %%
@@ -147,23 +148,59 @@ func_def: type_ident parameter_info compound_stmt   {
                                                     }
         ;
 
-expr_stmt: expr SEMICOLON                           { 
+
+stmt: if_else_stmt                                  {
+                                                        size_t l = strlen("<stmt>");
                                                         size_t n1 = strlen($1);
-                                                        size_t n2 = strlen($2);                   
-                                                        char* buffer = (char*)malloc(n1+n2+1);
-                                                        strcpy(buffer,$1);
-                                                        strcat(buffer,$2);
+                                                        size_t r = strlen("</stmt>");
+                                                        char* buffer = (char*)malloc(l+r+n1+1);
+                                                        strcpy(buffer,"<stmt>");
+                                                        strcat(buffer,$1);
+                                                        strcat(buffer,"</stmt>");                                    
                                                         $$ = buffer;
                                                         free($1);
-                                                    } ;
+                                                    };
+    | compound_stmt                                 {
+                                                        size_t l = strlen("<stmt>");
+                                                        size_t n1 = strlen($1);
+                                                        size_t r = strlen("</stmt>");
+                                                        char* buffer = (char*)malloc(l+r+n1+1);
+                                                        strcpy(buffer,"<stmt>");
+                                                        strcat(buffer,$1);
+                                                        strcat(buffer,"</stmt>");                                    
+                                                        $$ = buffer;
+                                                        free($1);
+                                                    }
+    | expr_stmt                                     {
+                                                        size_t l = strlen("<stmt>");
+                                                        size_t n1 = strlen($1);
+                                                        size_t r = strlen("</stmt>");
+                                                        char* buffer = (char*)malloc(l+r+n1+1);
+                                                        strcpy(buffer,"<stmt>");
+                                                        strcat(buffer,$1);
+                                                        strcat(buffer,"</stmt>");                                    
+                                                        $$ = buffer;
+                                                        free($1);
+                                                    }
+    ;
 
-stmt: compound_stmt;
+if_else_stmt: if_stmt else_stmt                     {   $$ = reduce_nonterminal_nonterminal($1, $2);   }
+            | if_stmt                               {   $$ = reduce_nonterminal($1);    }
+            ;
+
+if_stmt: IF condition compound_stmt                 {   $$ = reduce_terminal_nonterminal_nonterminal(keyword_table[$1], $2, $3);   }
+
+else_stmt: ELSE compound_stmt                       {   $$ = reduce_terminal_nonterminal(keyword_table[$1], $2);   }
+
+expr_stmt: expr SEMICOLON                           {   $$ = reduce_nonterminal_terminal($1, $2);   } 
+
+condition: '(' expr ')'                             {   $$ = reduce_terminal_nonterminal_terminal($1, $2, $3);    }
 
 compound_stmt: '{' compound_stmt_content '}'        {   $$ = reduce_terminal_nonterminal_terminal($1, $2, $3);    }
             |  '{' '}'                              {   $$ = reduce_terminal_terminal($1, $2);  }                     
             ;
 
-compound_stmt_content: expr_stmt compound_stmt_content   { 
+compound_stmt_content: stmt compound_stmt_content   { 
                                                         size_t n1 = strlen($1);
                                                         size_t n2 = strlen($2);                   
                                                         char* buffer = (char*)malloc(n1+n2+1);
@@ -183,7 +220,7 @@ compound_stmt_content: expr_stmt compound_stmt_content   {
                                                         free($1);
                                                         free($2);
                                                     } 
-                | expr_stmt                         {   $$ = reduce_nonterminal($1);    }
+                | stmt                              {   $$ = reduce_nonterminal($1);    }
                 | var_decl                          {   $$ = reduce_nonterminal($1);    }
                 ;
 
@@ -261,6 +298,11 @@ ident: var_init COMMA ident                         {   $$ = reduce_nonterminal_
     ;
 
 var_init: ID '=' expr                               {   $$ = reduce_terminal_terminal_nonterminal($1, $2, $3);  }  
+
+
+
+
+
 
 expr:   NUM         { 
                         size_t n1 = strlen("<expr>");
@@ -388,12 +430,19 @@ char* reduce_terminal_terminal_nonterminal(char* r1, char* r2, char* r3){
     free(r3);
     return buffer;
 }
+
+char* reduce_terminal_nonterminal_nonterminal(char* r1, char* r2, char* r3){
+    size_t buffer_size = strlen(r1) + strlen(r2) + strlen(r3) + 1;
+    char* buffer = (char*)malloc(buffer_size);
+    strcpy(buffer, r1);
+    strcat(buffer, r2);
+    strcat(buffer, r3);
+    free(r2);
+    free(r3);
+    return buffer;    
+}
 /*
-if_else_stmt: if_stmt else_stmt
-            | if_stmt
-            ;
-if_stmt: IF condition compound_stmt
-else_stmt: ELSE compound_stmt
+
 switch_stmt: SWITCH condition switch_clause
 switch_clause: '{' switch_content '}'
 switch_content: CASE case_expr
@@ -405,8 +454,10 @@ while_stmt: while_tag stmt
 do_while_stmt:  do_tag while_tag SEMICOLON
 while_tag: WHILE condition 
 do_tag: DO stmt
-condition: '(' expr ')'
-break_stmt: BREAK SEMICOLON
+            | return_stmt
+            | break_stmt
+            | continue_stmt
+break_stmt: BREAK SEMICOLON 
 continue_stmt: CONTINUE SEMICOLON
 return_stmt: RETURN expr_stmt
             | RETURN SEMICOLON
@@ -417,7 +468,5 @@ return_stmt: RETURN expr_stmt
             | switch_stmt
             | while_stmt
             | for_stmt
-            | return_stmt
-            | break_stmt
-            | continue_stmt
+
             */
