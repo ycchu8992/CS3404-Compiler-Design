@@ -639,7 +639,7 @@ static YYINT  *yylexemes = 0;
 int yylex(void);
 
 int main(int argc, char* argv[]) {
-    if(argc ==2 && !strcmp(argv[1],"-d")) yydebug = tkn = 1;
+    if(argc ==2 && !strcmp(argv[1],"-d")) yydebug = 1; //tkn 
     yylval.sym = symbol_table;
     yyparse();
     return 0;
@@ -660,8 +660,8 @@ char* check_id_exist(char* tok){
 char* install_id(char* tok){
     strcpy(symbol_table[top].name,tok);
     symbol_table[top].scope = cur_scope;
-    if(tkn) printf("symbol_table[%d].name: %s\n", top, symbol_table[top].name);
-    if(tkn) printf("symbol_table[%d].name: %p\n", top, symbol_table[top].name);
+    //if(tkn) printf("symbol_table[%d].name: %s\n", top, symbol_table[top].name);
+    //if(tkn) printf("symbol_table[%d].name: %p\n", top, symbol_table[top].name);
     top++;
     return symbol_table[top-1].name;
 }
