@@ -21,6 +21,7 @@ char* reduce_terminal_nonterminal(char* r1, char* r2);
 char* reduce_terminal_terminal_nonterminal(char* r1, char* r2, char* r3);
 char* reduce_terminal_nonterminal_nonterminal(char* r1, char* r2, char* r3);
 char* reduce_nonterminal_nonterminal_terminal(char* r1, char* r2, char* r3);
+char* reduce_nonterminal_nonterminal_nonterminal(char* r1, char* r2, char* r3);
 char* reduce_for_stmt(char* r1);
 char* reduce_for_expr(char* r1, char* r2, char* r3);
 char* reduce_unary_prefix_expr(char* r1, char* r2);
@@ -51,7 +52,7 @@ int cur_scope=0;
 
 %type<charv>  type_decl type_layer sign_usgn int_char long_shrt while_stmt do_while_stmt while_tag do_tag 
 %type<charv>  switch_stmt switch_clause switch_content case_expr default_expr factor if_else_stmt break_stmt
-%type<charv>  ident var_init scalar_decl func_decl program array_decl func_def var_decl 
+%type<charv>  ident var_init scalar_decl func_decl program array_decl func_def var_decl ident_tail
 %type<charv>  expr_stmt compound_stmt_content stmt condition if_stmt else_stmt for_stmt 
 %type<charv>  for_condition for_content for_layer_2 expr arr_ident arr_tag arr_content box arr_cnt_fmt arr_id
 %type<charv>  type_ident parameter_info parameters compound_stmt section init continue_stmt return_stmt
@@ -268,12 +269,13 @@ arr_ident:  arr_id ',' arr_ident                    {   $$ = reduce_nonterminal_
             | arr_id                                {   $$ = reduce_nonterminal($1);    }                       
             ;
 
-arr_id: ID arr_tag                                  {   $$ = reduce_terminal_nonterminal($1, $2);   }
+arr_id:     ID arr_tag                              {   $$ = reduce_terminal_nonterminal($1, $2);   }
 
-arr_tag:  box arr_tag                               {   $$ = reduce_nonterminal_nonterminal($1, $2);    }
-        | box '=' arr_cnt_fmt                       {   $$ = reduce_nonterminal_terminal_nonterminal($1, $2, $3);   }
-        | box                                       {   $$ = reduce_nonterminal($1);    }
-        ;
+
+arr_tag:    box arr_tag                               {   $$ = reduce_nonterminal_nonterminal($1, $2);    }
+            | box '=' arr_cnt_fmt                       {   $$ = reduce_nonterminal_terminal_nonterminal($1, $2, $3);   }
+            | box                                       {   $$ = reduce_nonterminal($1);    }
+            ;
 
 arr_cnt_fmt: '{'arr_content'}'                      {   $$ = reduce_terminal_nonterminal_terminal($1, $2, $3);    }
 
@@ -316,25 +318,16 @@ long_shrt: LLONG                                    {   $$ = reduce_terminal(typ
          | SHRT                                     {   $$ = reduce_terminal(type_table[$1]);   }
          ;
 
-ident: var_init ',' ident                           {   $$ = reduce_nonterminal_terminal_nonterminal($1, $2, $3);   }
-    | var_init ';'                                  {   $$ = reduce_nonterminal_terminal($1, $2);   }
-    | ID ';'                                        {   $$ = reduce_terminal_terminal($1, $2);  }
-    | ID ',' ident                                  {   $$ = reduce_terminal_terminal_nonterminal($1, $2, $3);  }
+ident: var_init expr ident_tail                     {   $$ = reduce_nonterminal_nonterminal_nonterminal($1, $2, $3);   }
+    | ID ident_tail                                 {   $$ = reduce_terminal_nonterminal($1, $2);  }
     ;
 
-var_init: ID '=' expr                               {   $$ = reduce_terminal_terminal_nonterminal($1, $2, $3);  }  
+ident_tail: ',' ident                               {   $$ = reduce_terminal_nonterminal($1, $2);  }
+        | ';'                                       {   $$ = reduce_terminal($1);  }
 
-expr:   factor      { 
-                        size_t n1 = strlen("<expr>");
-                        size_t n2 = strlen($1);
-                        size_t n3 = strlen("</expr>");                      
-                        char* num = (char*)malloc(n1+n2+n3+1);
-                        strcpy(num,"<expr>");
-                        strcat(num,$1);
-                        strcat(num,"</expr>");
-                        $$ = num;
-                    }
-        | expr '+' expr                             {   $$ = reduce_for_expr($1, $2, $3);   }
+var_init: ID '='                                    {   $$ = reduce_terminal_terminal($1, $2);  }  
+
+expr:     expr '+' expr                             {   $$ = reduce_for_expr($1, $2, $3);   }
         | expr '-' expr                             {   $$ = reduce_for_expr($1, $2, $3);   }
         | expr '*' expr                             {   $$ = reduce_for_expr($1, $2, $3);   }
         | expr '/' expr                             {   $$ = reduce_for_expr($1, $2, $3);   }
@@ -347,6 +340,7 @@ expr:   factor      {
         | expr IS_NOT_EQUAL expr                    {   $$ = reduce_for_expr($1, $2, $3);   }
         | expr AND expr                             {   $$ = reduce_for_expr($1, $2, $3);   }
         | expr OR expr                              {   $$ = reduce_for_expr($1, $2, $3);   }
+        | expr '=' expr                              {   $$ = reduce_for_expr($1, $2, $3);   }
         | '!' expr                                  {   $$ = reduce_unary_prefix_expr($1, $2);   }
         | '~' expr                                  {   $$ = reduce_unary_prefix_expr($1, $2);   }
         | expr '^' expr                             {   $$ = reduce_for_expr($1, $2, $3);   }
@@ -362,6 +356,16 @@ expr:   factor      {
         | DECREMENT expr                            {   $$ = reduce_unary_prefix_expr($1, $2);   }
         | expr INCREMENT %prec POSTFIX              {   $$ = reduce_unary_postfix_expr($1, $2);   }
         | expr DECREMENT %prec POSTFIX              {   $$ = reduce_unary_postfix_expr($1, $2);   }
+        | factor                                    { 
+                                                        size_t n1 = strlen("<expr>");
+                                                        size_t n2 = strlen($1);
+                                                        size_t n3 = strlen("</expr>");                      
+                                                        char* num = (char*)malloc(n1+n2+n3+1);
+                                                        strcpy(num,"<expr>");
+                                                        strcat(num,$1);
+                                                        strcat(num,"</expr>");
+                                                        $$ = num;
+                                                    }
         ;
 
 factor: INT_NUM                                     {   $$ = reduce_terminal($1);   }
@@ -377,14 +381,13 @@ factor: INT_NUM                                     {   $$ = reduce_terminal($1)
 int yylex(void);
 
 int main(int argc, char* argv[]) {
-    if(argc ==2 && !strcmp(argv[1],"-d")) yydebug = 1;//= tkn 
+    if(argc ==2 && !strcmp(argv[1],"-d")) yydebug = 1; 
     yylval.sym = symbol_table;
     yyparse();
     return 0;
 }
 
 int yyerror(char *s){
-    printf("oops!\n");
     fprintf(stderr, "%s at line %d\n", s, num_lines);
     return 0;
 }
@@ -505,6 +508,18 @@ char* reduce_nonterminal_nonterminal_terminal(char* r1, char* r2, char* r3){
     strcat(buffer, r3);
     free(r1);
     free(r2);
+    return buffer;    
+}
+
+char* reduce_nonterminal_nonterminal_nonterminal(char* r1, char* r2, char* r3){
+    size_t buffer_size = strlen(r1) + strlen(r2) + strlen(r3) + 1;
+    char* buffer = (char*)malloc(buffer_size);
+    strcpy(buffer, r1);
+    strcat(buffer, r2);
+    strcat(buffer, r3);
+    free(r1);
+    free(r2);
+    free(r3);
     return buffer;    
 }
 

@@ -229,4 +229,6 @@ void KeyWordHash(char* yytext){
         printf("as\n");
     }
     int a = +1;
+    a=1;
+    a+b=1;
 */
