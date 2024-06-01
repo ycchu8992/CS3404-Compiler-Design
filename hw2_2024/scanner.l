@@ -83,13 +83,9 @@ Comment_Token 	    \/\/(.)*
                             }
 
 <LINE>{Identifier_Token}    {   yylval.charv=check_id_exist(yytext); return ID; }
-<LINE>"="                   { 
-                                yylval.charv="="; 
-                                if(tkn) printf("\n#OPERATOR: %s\n",yytext); 
-                                return '='; 
-                            }
-                           
 
+
+<LINE>"="                   {   yylval.charv="=";return '=';  }
 <LINE>"+"	                {   yylval.charv="+"; return '+'; }
 <LINE>"-"	                {   yylval.charv="-"; return '-'; }
 <LINE>"*"	                {   yylval.charv="*"; return '*'; }
@@ -206,6 +202,7 @@ void KeyWordHash(char* yytext){
 		  key = 11;
     }else key = -1;
 }
+
 /*
 <LINE>"<="	                {   yylval.charv="<="; return "<="; }
 <LINE>">="	                {   yylval.charv=">="; return ">="; }
