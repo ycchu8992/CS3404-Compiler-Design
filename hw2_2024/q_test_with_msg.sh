@@ -2,6 +2,6 @@
 make clean
 make all
 
-./parser -d < a.txt  > output.txt
+./parser -d < problem.txt  > output.txt
 exit 0
 

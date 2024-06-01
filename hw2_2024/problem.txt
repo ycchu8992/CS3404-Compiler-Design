@@ -1,12 +1,9 @@
+
+
 int main() {
   "qfwqf"&&"asdv";
 }    
 
-int func(){
-
-  (int)a;
-
-}
 
 
 
