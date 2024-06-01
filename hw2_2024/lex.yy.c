@@ -2810,5 +2810,5 @@ void KeyWordHash(char* yytext){
         &(123);
         printf("as\n");
     }
-    int a = +1;
+
 */
