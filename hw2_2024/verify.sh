@@ -121,6 +121,18 @@ if ! test -s ./test_result/diff_${int}.c
 then
     rm -f ./test_result/diff_${int}.c
 fi
+
+echo test_case_c.c:
+./golden_parser_static < ./test_case_part2/test_case_c.c > sol.txt
+./parser < ./test_case_part2/test_case_c.c > out.txt
+diff out.txt sol.txt > ./test_result/diff_c.c
+rm -f out.txt sol.txt
+
+if ! test -s ./test_result/diff_c.c
+then
+    rm -f ./test_result/diff_c.c
+fi
+
 make clean
 
 exit 0

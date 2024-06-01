@@ -123,7 +123,14 @@ Comment_Token 	    \/\/(.)*
 <LINE>"}"		            {   yylval.charv="}"; num_chars+=yyleng; return '}';   }
 <LINE>":"		            {   yylval.charv=":"; num_chars+=yyleng; return ':';   }
 
-<LINE>{Escape_Token}		{   if(tkn) printf("#char:%s\n", yytext);   }
+<LINE>{Escape_Token}		{   
+                                size_t buffer_size = strlen(yytext);
+                                char* buffer = (char*)malloc(buffer_size);
+                                strcpy(buffer,yytext);
+                                yylval.charv = buffer;
+                                num_chars+=yyleng;
+                                return CHARACTER;
+                            }
 
 
 

@@ -25,16 +25,6 @@ then
     rm -f ./test_result/diff_b.c
 fi
 
-echo test_case_c.c:
-./golden_parser_static < ./test_case/test_case_c.c > sol.txt
-./parser < ./test_case/test_case_c.c > out.txt
-diff out.txt sol.txt > ./test_result/diff_c.c
-rm -f out.txt sol.txt
-
-if ! test -s ./test_result/diff_c.c
-then
-    rm -f ./test_result/diff_c.c
-fi
 
 echo test_case_d.c:
 ./golden_parser_static < ./test_case/test_case_d.c > sol.txt
