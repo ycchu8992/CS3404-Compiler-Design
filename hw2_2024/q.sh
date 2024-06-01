@@ -2,6 +2,6 @@
 make clean
 make all
 
-./parser -d < test_case.txt  > output.txt
+./parser -d < a.txt  > output.txt
 exit 0
 

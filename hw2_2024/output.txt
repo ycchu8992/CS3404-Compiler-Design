@@ -1,1 +1,1 @@
-<func_def>intmain(){<stmt><expr>"\\\'"</expr>;</stmt><stmt><expr><expr>"qfwqf"</expr>&&<expr>"asdv"</expr></expr>;</stmt><stmt><expr><expr>"saca"</expr>||<expr>+<expr>1</expr></expr></expr>;</stmt>}</func_def>
+<func_def>intfunc(){<stmt><expr>&<expr>(<expr>123</expr>)</expr></expr>;</stmt>}</func_def>

@@ -2806,9 +2806,10 @@ void KeyWordHash(char* yytext){
                                 return yytext; 
                             }
     (int)a;
-    while(1){
+    while(j!=0){
         &(123);
         printf("as\n");
+        j++;
     }
 
 */

@@ -26,6 +26,7 @@ char* reduce_for_stmt(char* r1);
 char* reduce_for_expr(char* r1, char* r2, char* r3);
 char* reduce_unary_prefix_expr(char* r1, char* r2);
 char* reduce_unary_postfix_expr(char* r1, char* r2);
+char* reduce_for_parenthesis_expr(char* r1, char* r2, char* r3);
 
 struct symbol{
     int seq_num;
@@ -62,11 +63,7 @@ int cur_scope=0;
 %token<charv> INT_NUM FLOAT_NUM STRING CHARACTER NULL_SIGNAL
 %token<charv> ID
 %token<token> CONST SIGN USIGN LONG LLONG SHRT FLOAT DOUBLE VOID CHAR INT FOR DO WHILE BREAK CONTINUE IF ELSE RETURN STRUCT SWITCH CASE DEFALUT 
-%token<charv> '=' '\n' '[' ']' '{' '}'  '(' ')' ':'
-
-
-
-%token<charv> ';' ENTER
+%token<charv> '\n' '{' '}' ':' ';' ENTER
 
 %left<charv> ','
 %right<charv> '=' 
@@ -84,6 +81,7 @@ int cur_scope=0;
 %right<charv>  INCREMENT DECREMENT '!' '~'
 %nonassoc PTRUSED UMINUS UPLUS ADDRESS
 
+%left<charv>  '[' ']' '(' ')'
 %nonassoc  POSTFIX
 %%
 
@@ -343,7 +341,7 @@ expr:     expr '+' expr                             {   $$ = reduce_for_expr($1,
         | expr IS_NOT_EQUAL expr                    {   $$ = reduce_for_expr($1, $2, $3);   }
         | expr AND expr                             {   $$ = reduce_for_expr($1, $2, $3);   }
         | expr OR expr                              {   $$ = reduce_for_expr($1, $2, $3);   }
-        | expr '=' expr                              {   $$ = reduce_for_expr($1, $2, $3);   }
+        | expr '=' expr                             {   $$ = reduce_for_expr($1, $2, $3);   }
         | '!' expr                                  {   $$ = reduce_unary_prefix_expr($1, $2);   }
         | '~' expr                                  {   $$ = reduce_unary_prefix_expr($1, $2);   }
         | expr '^' expr                             {   $$ = reduce_for_expr($1, $2, $3);   }
@@ -355,6 +353,7 @@ expr:     expr '+' expr                             {   $$ = reduce_for_expr($1,
         | '-' expr  %prec UMINUS                    {   $$ = reduce_unary_prefix_expr($1, $2);   }
         | '&' expr  %prec ADDRESS                   {   $$ = reduce_unary_prefix_expr($1, $2);   }
         | '*' expr  %prec PTRUSED                   {   $$ = reduce_unary_prefix_expr($1, $2);   }
+        | '(' expr ')'                              {   $$ = reduce_for_parenthesis_expr($1, $2, $3);   }
         | INCREMENT expr                            {   $$ = reduce_unary_prefix_expr($1, $2);   }
         | DECREMENT expr                            {   $$ = reduce_unary_prefix_expr($1, $2);   }
         | expr INCREMENT %prec POSTFIX              {   $$ = reduce_unary_postfix_expr($1, $2);   }
@@ -580,5 +579,21 @@ char* reduce_unary_postfix_expr(char* r1, char* r2){
     strcat(buffer,r2);
     strcat(buffer,"</expr>");
     free(r1);
+    return buffer;
+}
+
+char* reduce_for_parenthesis_expr(char* r1, char* r2, char* r3){ 
+    size_t l = strlen("<expr>");
+    size_t n1 = strlen(r1);
+    size_t n2 = strlen(r2);
+    size_t n3 = strlen(r3);
+    size_t r = strlen("</expr>");                      
+    char* buffer = (char*)malloc(l+r+n1+n2+n3+1);
+    strcpy(buffer,"<expr>");
+    strcat(buffer,r1);
+    strcat(buffer,r2);
+    strcat(buffer,r3);
+    strcat(buffer,"</expr>");
+    free(r2);
     return buffer;
 }
