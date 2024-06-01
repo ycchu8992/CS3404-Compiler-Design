@@ -1,5 +1,5 @@
 int main() {
-  
+  int a = b = c;
   -1 && "asdv";
   "saca" || +1;
   a<<vc>>s;

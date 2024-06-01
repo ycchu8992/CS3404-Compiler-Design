@@ -1,0 +1,4 @@
+int a[b] = { b = c} ;
+int func(){
+    a[0];
+}
