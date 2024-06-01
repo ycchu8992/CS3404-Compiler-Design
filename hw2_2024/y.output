@@ -1,0 +1,5497 @@
+   0  $accept : init $end
+
+   1  init : program
+
+   2  program : section program
+   3          | section
+
+   4  section : var_decl
+   5          | func_decl
+   6          | func_def
+
+   7  var_decl : scalar_decl
+   8           | array_decl
+
+   9  scalar_decl : type_decl ident
+
+  10  array_decl : type_decl arr_ident ';'
+
+  11  func_decl : type_ident parameter_info ';'
+
+  12  func_def : type_ident parameter_info compound_stmt
+
+  13  stmt : if_else_stmt
+  14       | compound_stmt
+  15       | expr_stmt
+  16       | return_stmt
+  17       | break_stmt
+  18       | continue_stmt
+  19       | while_stmt
+  20       | do_while_stmt
+  21       | switch_stmt
+  22       | for_stmt
+
+  23  while_stmt : while_tag stmt
+
+  24  for_stmt : FOR for_condition stmt
+
+  25  for_condition : '(' for_content ')'
+
+  26  for_content : expr ';' for_layer_2
+  27              | ';' for_layer_2
+
+  28  for_layer_2 : expr ';'
+  29              | ';'
+  30              | expr ';' expr
+  31              | ';' expr
+
+  32  do_while_stmt : do_tag while_tag ';'
+
+  33  while_tag : WHILE condition
+
+  34  do_tag : DO stmt
+
+  35  switch_stmt : SWITCH condition switch_clause
+
+  36  switch_clause : '{' switch_content '}'
+
+  37  switch_content : CASE case_expr switch_content
+  38                 | DEFALUT default_expr switch_content
+  39                 | CASE case_expr
+  40                 | DEFALUT default_expr
+
+  41  case_expr : expr ':' stmt
+  42            | expr ':'
+
+  43  default_expr : ':' stmt
+  44               | ':'
+
+  45  if_else_stmt : if_stmt else_stmt
+  46               | if_stmt
+
+  47  if_stmt : IF condition compound_stmt
+
+  48  else_stmt : ELSE compound_stmt
+
+  49  expr_stmt : expr ';'
+
+  50  condition : '(' expr ')'
+
+  51  compound_stmt : '{' compound_stmt_content '}'
+  52                | '{' '}'
+
+  53  compound_stmt_content : stmt compound_stmt_content
+  54                        | var_decl compound_stmt_content
+  55                        | stmt
+  56                        | var_decl
+
+  57  break_stmt : BREAK ';'
+
+  58  continue_stmt : CONTINUE ';'
+
+  59  return_stmt : RETURN expr_stmt
+  60              | RETURN ';'
+
+  61  parameter_info : '(' parameters ')'
+  62                 | '(' ')'
+
+  63  parameters : type_ident ',' parameters
+  64             | type_ident
+
+  65  type_ident : type_decl ID
+
+  66  arr_ident : arr_ident_init ',' arr_ident
+  67            | arr_ident_init
+
+  68  arr_ident_init : arr_id '=' arr_cnt_fmt
+  69                 | arr_id
+
+  70  arr_id : ID arr_tag
+
+  71  arr_tag : box arr_tag
+  72          | box
+
+  73  arr_cnt_fmt : '{' arr_content '}'
+
+  74  arr_content : arr_cnt_fmt
+  75              | arr_cnt_fmt ',' arr_content
+  76              | expr ',' arr_content
+  77              | expr
+
+  78  box : '[' expr ']'
+
+  79  type_decl : CONST type_layer
+  80            | type_layer
+  81            | CONST
+  82            | CONST type_layer '*'
+  83            | type_layer '*'
+  84            | CONST '*'
+
+  85  type_layer : sign_usgn int_char
+  86             | sign_usgn
+  87             | int_char
+  88             | FLOAT
+  89             | DOUBLE
+  90             | VOID
+
+  91  sign_usgn : SIGN
+  92            | USIGN
+
+  93  int_char : long_shrt INT
+  94           | long_shrt
+  95           | CHAR
+  96           | INT
+
+  97  long_shrt : LLONG
+  98            | LONG
+  99            | SHRT
+
+ 100  ident : var_init expr ident_tail
+ 101        | ID ident_tail
+
+ 102  ident_tail : ',' ident
+ 103             | ';'
+
+ 104  var_init : ID '='
+
+ 105  expr : expr '+' expr
+ 106       | expr '-' expr
+ 107       | expr '*' expr
+ 108       | expr '/' expr
+ 109       | expr '%' expr
+ 110       | expr '<' expr
+ 111       | expr LESS_OR_EQUAL expr
+ 112       | expr '>' expr
+ 113       | expr GREATER_OR_EQUAL expr
+ 114       | expr IS_EQUAL expr
+ 115       | expr IS_NOT_EQUAL expr
+ 116       | expr AND expr
+ 117       | expr OR expr
+ 118       | expr '=' expr
+ 119       | '!' expr
+ 120       | '~' expr
+ 121       | expr '^' expr
+ 122       | expr '&' expr
+ 123       | expr '|' expr
+ 124       | expr SHIFT_LEFT expr
+ 125       | expr SHIFT_RIGHT expr
+ 126       | '+' expr
+ 127       | '-' expr
+ 128       | '&' expr
+ 129       | '*' expr
+ 130       | INCREMENT expr
+ 131       | DECREMENT expr
+ 132       | expr INCREMENT
+ 133       | expr DECREMENT
+ 134       | factor
+ 135       | expr arglist
+ 136       | type_casting expr
+
+ 137  type_casting : '(' type_decl ')'
+
+ 138  factor : INT_NUM
+ 139         | FLOAT_NUM
+ 140         | STRING
+ 141         | CHARACTER
+ 142         | NULL_SIGNAL
+ 143         | arr_id
+ 144         | ID
+ 145         | '(' expr ')'
+
+ 146  arglist : '(' args ')'
+
+ 147  args : expr ',' args
+ 148       | expr
+
+state 0
+	$accept : . init $end  (0)
+
+	CONST  shift 1
+	SIGN  shift 2
+	USIGN  shift 3
+	LONG  shift 4
+	LLONG  shift 5
+	SHRT  shift 6
+	FLOAT  shift 7
+	DOUBLE  shift 8
+	VOID  shift 9
+	CHAR  shift 10
+	INT  shift 11
+	.  error
+
+	init  goto 12
+	type_decl  goto 13
+	type_layer  goto 14
+	sign_usgn  goto 15
+	int_char  goto 16
+	long_shrt  goto 17
+	scalar_decl  goto 18
+	func_decl  goto 19
+	program  goto 20
+	array_decl  goto 21
+	func_def  goto 22
+	var_decl  goto 23
+	type_ident  goto 24
+	section  goto 25
+
+
+state 1
+	type_decl : CONST . type_layer  (79)
+	type_decl : CONST .  (81)
+	type_decl : CONST . type_layer '*'  (82)
+	type_decl : CONST . '*'  (84)
+
+	SIGN  shift 2
+	USIGN  shift 3
+	LONG  shift 4
+	LLONG  shift 5
+	SHRT  shift 6
+	FLOAT  shift 7
+	DOUBLE  shift 8
+	VOID  shift 9
+	CHAR  shift 10
+	INT  shift 11
+	'*'  shift 26
+	ID  reduce 81
+	')'  reduce 81
+
+	type_layer  goto 27
+	sign_usgn  goto 15
+	int_char  goto 16
+	long_shrt  goto 17
+
+
+state 2
+	sign_usgn : SIGN .  (91)
+
+	.  reduce 91
+
+
+state 3
+	sign_usgn : USIGN .  (92)
+
+	.  reduce 92
+
+
+state 4
+	long_shrt : LONG .  (98)
+
+	.  reduce 98
+
+
+state 5
+	long_shrt : LLONG .  (97)
+
+	.  reduce 97
+
+
+state 6
+	long_shrt : SHRT .  (99)
+
+	.  reduce 99
+
+
+state 7
+	type_layer : FLOAT .  (88)
+
+	.  reduce 88
+
+
+state 8
+	type_layer : DOUBLE .  (89)
+
+	.  reduce 89
+
+
+state 9
+	type_layer : VOID .  (90)
+
+	.  reduce 90
+
+
+state 10
+	int_char : CHAR .  (95)
+
+	.  reduce 95
+
+
+state 11
+	int_char : INT .  (96)
+
+	.  reduce 96
+
+
+state 12
+	$accept : init . $end  (0)
+
+	$end  accept
+
+
+state 13
+	scalar_decl : type_decl . ident  (9)
+	array_decl : type_decl . arr_ident ';'  (10)
+	type_ident : type_decl . ID  (65)
+
+	ID  shift 28
+	.  error
+
+	ident  goto 29
+	var_init  goto 30
+	arr_ident  goto 31
+	arr_id  goto 32
+	arr_ident_init  goto 33
+
+
+state 14
+	type_decl : type_layer .  (80)
+	type_decl : type_layer . '*'  (83)
+
+	'*'  shift 34
+	ID  reduce 80
+	')'  reduce 80
+
+
+state 15
+	type_layer : sign_usgn . int_char  (85)
+	type_layer : sign_usgn .  (86)
+
+	LONG  shift 4
+	LLONG  shift 5
+	SHRT  shift 6
+	CHAR  shift 10
+	INT  shift 11
+	ID  reduce 86
+	'*'  reduce 86
+	')'  reduce 86
+
+	int_char  goto 35
+	long_shrt  goto 17
+
+
+state 16
+	type_layer : int_char .  (87)
+
+	.  reduce 87
+
+
+state 17
+	int_char : long_shrt . INT  (93)
+	int_char : long_shrt .  (94)
+
+	INT  shift 36
+	ID  reduce 94
+	'*'  reduce 94
+	')'  reduce 94
+
+
+state 18
+	var_decl : scalar_decl .  (7)
+
+	.  reduce 7
+
+
+state 19
+	section : func_decl .  (5)
+
+	.  reduce 5
+
+
+state 20
+	init : program .  (1)
+
+	.  reduce 1
+
+
+state 21
+	var_decl : array_decl .  (8)
+
+	.  reduce 8
+
+
+state 22
+	section : func_def .  (6)
+
+	.  reduce 6
+
+
+state 23
+	section : var_decl .  (4)
+
+	.  reduce 4
+
+
+state 24
+	func_decl : type_ident . parameter_info ';'  (11)
+	func_def : type_ident . parameter_info compound_stmt  (12)
+
+	'('  shift 37
+	.  error
+
+	parameter_info  goto 38
+
+
+state 25
+	program : section . program  (2)
+	program : section .  (3)
+
+	CONST  shift 1
+	SIGN  shift 2
+	USIGN  shift 3
+	LONG  shift 4
+	LLONG  shift 5
+	SHRT  shift 6
+	FLOAT  shift 7
+	DOUBLE  shift 8
+	VOID  shift 9
+	CHAR  shift 10
+	INT  shift 11
+	$end  reduce 3
+
+	type_decl  goto 13
+	type_layer  goto 14
+	sign_usgn  goto 15
+	int_char  goto 16
+	long_shrt  goto 17
+	scalar_decl  goto 18
+	func_decl  goto 19
+	program  goto 39
+	array_decl  goto 21
+	func_def  goto 22
+	var_decl  goto 23
+	type_ident  goto 24
+	section  goto 25
+
+
+state 26
+	type_decl : CONST '*' .  (84)
+
+	.  reduce 84
+
+
+state 27
+	type_decl : CONST type_layer .  (79)
+	type_decl : CONST type_layer . '*'  (82)
+
+	'*'  shift 40
+	ID  reduce 79
+	')'  reduce 79
+
+
+state 28
+	type_ident : type_decl ID .  (65)
+	arr_id : ID . arr_tag  (70)
+	ident : ID . ident_tail  (101)
+	var_init : ID . '='  (104)
+
+	';'  shift 41
+	','  shift 42
+	'='  shift 43
+	'['  shift 44
+	'('  reduce 65
+
+	ident_tail  goto 45
+	arr_tag  goto 46
+	box  goto 47
+
+
+state 29
+	scalar_decl : type_decl ident .  (9)
+
+	.  reduce 9
+
+
+state 30
+	ident : var_init . expr ident_tail  (100)
+
+	INT_NUM  shift 48
+	FLOAT_NUM  shift 49
+	STRING  shift 50
+	CHARACTER  shift 51
+	NULL_SIGNAL  shift 52
+	ID  shift 53
+	'&'  shift 54
+	'+'  shift 55
+	'-'  shift 56
+	'*'  shift 57
+	INCREMENT  shift 58
+	DECREMENT  shift 59
+	'!'  shift 60
+	'~'  shift 61
+	'('  shift 62
+	.  error
+
+	factor  goto 63
+	type_casting  goto 64
+	expr  goto 65
+	arr_id  goto 66
+
+
+state 31
+	array_decl : type_decl arr_ident . ';'  (10)
+
+	';'  shift 67
+	.  error
+
+
+state 32
+	arr_ident_init : arr_id . '=' arr_cnt_fmt  (68)
+	arr_ident_init : arr_id .  (69)
+
+	'='  shift 68
+	';'  reduce 69
+	','  reduce 69
+
+
+state 33
+	arr_ident : arr_ident_init . ',' arr_ident  (66)
+	arr_ident : arr_ident_init .  (67)
+
+	','  shift 69
+	';'  reduce 67
+
+
+state 34
+	type_decl : type_layer '*' .  (83)
+
+	.  reduce 83
+
+
+state 35
+	type_layer : sign_usgn int_char .  (85)
+
+	.  reduce 85
+
+
+state 36
+	int_char : long_shrt INT .  (93)
+
+	.  reduce 93
+
+
+state 37
+	parameter_info : '(' . parameters ')'  (61)
+	parameter_info : '(' . ')'  (62)
+
+	CONST  shift 1
+	SIGN  shift 2
+	USIGN  shift 3
+	LONG  shift 4
+	LLONG  shift 5
+	SHRT  shift 6
+	FLOAT  shift 7
+	DOUBLE  shift 8
+	VOID  shift 9
+	CHAR  shift 10
+	INT  shift 11
+	')'  shift 70
+	.  error
+
+	type_decl  goto 71
+	type_layer  goto 14
+	sign_usgn  goto 15
+	int_char  goto 16
+	long_shrt  goto 17
+	type_ident  goto 72
+	parameters  goto 73
+
+
+state 38
+	func_decl : type_ident parameter_info . ';'  (11)
+	func_def : type_ident parameter_info . compound_stmt  (12)
+
+	'{'  shift 74
+	';'  shift 75
+	.  error
+
+	compound_stmt  goto 76
+
+
+state 39
+	program : section program .  (2)
+
+	.  reduce 2
+
+
+state 40
+	type_decl : CONST type_layer '*' .  (82)
+
+	.  reduce 82
+
+
+state 41
+	ident_tail : ';' .  (103)
+
+	.  reduce 103
+
+
+state 42
+	ident_tail : ',' . ident  (102)
+
+	ID  shift 77
+	.  error
+
+	ident  goto 78
+	var_init  goto 30
+
+
+state 43
+	var_init : ID '=' .  (104)
+
+	.  reduce 104
+
+
+state 44
+	box : '[' . expr ']'  (78)
+
+	INT_NUM  shift 48
+	FLOAT_NUM  shift 49
+	STRING  shift 50
+	CHARACTER  shift 51
+	NULL_SIGNAL  shift 52
+	ID  shift 53
+	'&'  shift 54
+	'+'  shift 55
+	'-'  shift 56
+	'*'  shift 57
+	INCREMENT  shift 58
+	DECREMENT  shift 59
+	'!'  shift 60
+	'~'  shift 61
+	'('  shift 62
+	.  error
+
+	factor  goto 63
+	type_casting  goto 64
+	expr  goto 79
+	arr_id  goto 66
+
+
+state 45
+	ident : ID ident_tail .  (101)
+
+	.  reduce 101
+
+
+state 46
+	arr_id : ID arr_tag .  (70)
+
+	.  reduce 70
+
+
+state 47
+	arr_tag : box . arr_tag  (71)
+	arr_tag : box .  (72)
+
+	'['  shift 44
+	'}'  reduce 72
+	':'  reduce 72
+	';'  reduce 72
+	','  reduce 72
+	'='  reduce 72
+	OR  reduce 72
+	AND  reduce 72
+	'|'  reduce 72
+	'^'  reduce 72
+	'&'  reduce 72
+	IS_EQUAL  reduce 72
+	IS_NOT_EQUAL  reduce 72
+	'<'  reduce 72
+	'>'  reduce 72
+	LESS_OR_EQUAL  reduce 72
+	GREATER_OR_EQUAL  reduce 72
+	SHIFT_LEFT  reduce 72
+	SHIFT_RIGHT  reduce 72
+	'+'  reduce 72
+	'-'  reduce 72
+	'*'  reduce 72
+	'/'  reduce 72
+	'%'  reduce 72
+	INCREMENT  reduce 72
+	DECREMENT  reduce 72
+	']'  reduce 72
+	'('  reduce 72
+	')'  reduce 72
+
+	arr_tag  goto 80
+	box  goto 47
+
+
+state 48
+	factor : INT_NUM .  (138)
+
+	.  reduce 138
+
+
+state 49
+	factor : FLOAT_NUM .  (139)
+
+	.  reduce 139
+
+
+state 50
+	factor : STRING .  (140)
+
+	.  reduce 140
+
+
+state 51
+	factor : CHARACTER .  (141)
+
+	.  reduce 141
+
+
+state 52
+	factor : NULL_SIGNAL .  (142)
+
+	.  reduce 142
+
+
+state 53
+	arr_id : ID . arr_tag  (70)
+	factor : ID .  (144)
+
+	'['  shift 44
+	'}'  reduce 144
+	':'  reduce 144
+	';'  reduce 144
+	','  reduce 144
+	'='  reduce 144
+	OR  reduce 144
+	AND  reduce 144
+	'|'  reduce 144
+	'^'  reduce 144
+	'&'  reduce 144
+	IS_EQUAL  reduce 144
+	IS_NOT_EQUAL  reduce 144
+	'<'  reduce 144
+	'>'  reduce 144
+	LESS_OR_EQUAL  reduce 144
+	GREATER_OR_EQUAL  reduce 144
+	SHIFT_LEFT  reduce 144
+	SHIFT_RIGHT  reduce 144
+	'+'  reduce 144
+	'-'  reduce 144
+	'*'  reduce 144
+	'/'  reduce 144
+	'%'  reduce 144
+	INCREMENT  reduce 144
+	DECREMENT  reduce 144
+	']'  reduce 144
+	'('  reduce 144
+	')'  reduce 144
+
+	arr_tag  goto 46
+	box  goto 47
+
+
+state 54
+	expr : '&' . expr  (128)
+
+	INT_NUM  shift 48
+	FLOAT_NUM  shift 49
+	STRING  shift 50
+	CHARACTER  shift 51
+	NULL_SIGNAL  shift 52
+	ID  shift 53
+	'&'  shift 54
+	'+'  shift 55
+	'-'  shift 56
+	'*'  shift 57
+	INCREMENT  shift 58
+	DECREMENT  shift 59
+	'!'  shift 60
+	'~'  shift 61
+	'('  shift 62
+	.  error
+
+	factor  goto 63
+	type_casting  goto 64
+	expr  goto 81
+	arr_id  goto 66
+
+
+state 55
+	expr : '+' . expr  (126)
+
+	INT_NUM  shift 48
+	FLOAT_NUM  shift 49
+	STRING  shift 50
+	CHARACTER  shift 51
+	NULL_SIGNAL  shift 52
+	ID  shift 53
+	'&'  shift 54
+	'+'  shift 55
+	'-'  shift 56
+	'*'  shift 57
+	INCREMENT  shift 58
+	DECREMENT  shift 59
+	'!'  shift 60
+	'~'  shift 61
+	'('  shift 62
+	.  error
+
+	factor  goto 63
+	type_casting  goto 64
+	expr  goto 82
+	arr_id  goto 66
+
+
+state 56
+	expr : '-' . expr  (127)
+
+	INT_NUM  shift 48
+	FLOAT_NUM  shift 49
+	STRING  shift 50
+	CHARACTER  shift 51
+	NULL_SIGNAL  shift 52
+	ID  shift 53
+	'&'  shift 54
+	'+'  shift 55
+	'-'  shift 56
+	'*'  shift 57
+	INCREMENT  shift 58
+	DECREMENT  shift 59
+	'!'  shift 60
+	'~'  shift 61
+	'('  shift 62
+	.  error
+
+	factor  goto 63
+	type_casting  goto 64
+	expr  goto 83
+	arr_id  goto 66
+
+
+state 57
+	expr : '*' . expr  (129)
+
+	INT_NUM  shift 48
+	FLOAT_NUM  shift 49
+	STRING  shift 50
+	CHARACTER  shift 51
+	NULL_SIGNAL  shift 52
+	ID  shift 53
+	'&'  shift 54
+	'+'  shift 55
+	'-'  shift 56
+	'*'  shift 57
+	INCREMENT  shift 58
+	DECREMENT  shift 59
+	'!'  shift 60
+	'~'  shift 61
+	'('  shift 62
+	.  error
+
+	factor  goto 63
+	type_casting  goto 64
+	expr  goto 84
+	arr_id  goto 66
+
+
+state 58
+	expr : INCREMENT . expr  (130)
+
+	INT_NUM  shift 48
+	FLOAT_NUM  shift 49
+	STRING  shift 50
+	CHARACTER  shift 51
+	NULL_SIGNAL  shift 52
+	ID  shift 53
+	'&'  shift 54
+	'+'  shift 55
+	'-'  shift 56
+	'*'  shift 57
+	INCREMENT  shift 58
+	DECREMENT  shift 59
+	'!'  shift 60
+	'~'  shift 61
+	'('  shift 62
+	.  error
+
+	factor  goto 63
+	type_casting  goto 64
+	expr  goto 85
+	arr_id  goto 66
+
+
+state 59
+	expr : DECREMENT . expr  (131)
+
+	INT_NUM  shift 48
+	FLOAT_NUM  shift 49
+	STRING  shift 50
+	CHARACTER  shift 51
+	NULL_SIGNAL  shift 52
+	ID  shift 53
+	'&'  shift 54
+	'+'  shift 55
+	'-'  shift 56
+	'*'  shift 57
+	INCREMENT  shift 58
+	DECREMENT  shift 59
+	'!'  shift 60
+	'~'  shift 61
+	'('  shift 62
+	.  error
+
+	factor  goto 63
+	type_casting  goto 64
+	expr  goto 86
+	arr_id  goto 66
+
+
+state 60
+	expr : '!' . expr  (119)
+
+	INT_NUM  shift 48
+	FLOAT_NUM  shift 49
+	STRING  shift 50
+	CHARACTER  shift 51
+	NULL_SIGNAL  shift 52
+	ID  shift 53
+	'&'  shift 54
+	'+'  shift 55
+	'-'  shift 56
+	'*'  shift 57
+	INCREMENT  shift 58
+	DECREMENT  shift 59
+	'!'  shift 60
+	'~'  shift 61
+	'('  shift 62
+	.  error
+
+	factor  goto 63
+	type_casting  goto 64
+	expr  goto 87
+	arr_id  goto 66
+
+
+state 61
+	expr : '~' . expr  (120)
+
+	INT_NUM  shift 48
+	FLOAT_NUM  shift 49
+	STRING  shift 50
+	CHARACTER  shift 51
+	NULL_SIGNAL  shift 52
+	ID  shift 53
+	'&'  shift 54
+	'+'  shift 55
+	'-'  shift 56
+	'*'  shift 57
+	INCREMENT  shift 58
+	DECREMENT  shift 59
+	'!'  shift 60
+	'~'  shift 61
+	'('  shift 62
+	.  error
+
+	factor  goto 63
+	type_casting  goto 64
+	expr  goto 88
+	arr_id  goto 66
+
+
+state 62
+	type_casting : '(' . type_decl ')'  (137)
+	factor : '(' . expr ')'  (145)
+
+	INT_NUM  shift 48
+	FLOAT_NUM  shift 49
+	STRING  shift 50
+	CHARACTER  shift 51
+	NULL_SIGNAL  shift 52
+	ID  shift 53
+	CONST  shift 1
+	SIGN  shift 2
+	USIGN  shift 3
+	LONG  shift 4
+	LLONG  shift 5
+	SHRT  shift 6
+	FLOAT  shift 7
+	DOUBLE  shift 8
+	VOID  shift 9
+	CHAR  shift 10
+	INT  shift 11
+	'&'  shift 54
+	'+'  shift 55
+	'-'  shift 56
+	'*'  shift 57
+	INCREMENT  shift 58
+	DECREMENT  shift 59
+	'!'  shift 60
+	'~'  shift 61
+	'('  shift 62
+	.  error
+
+	type_decl  goto 89
+	type_layer  goto 14
+	sign_usgn  goto 15
+	int_char  goto 16
+	long_shrt  goto 17
+	factor  goto 63
+	type_casting  goto 64
+	expr  goto 90
+	arr_id  goto 66
+
+
+state 63
+	expr : factor .  (134)
+
+	.  reduce 134
+
+
+state 64
+	expr : type_casting . expr  (136)
+
+	INT_NUM  shift 48
+	FLOAT_NUM  shift 49
+	STRING  shift 50
+	CHARACTER  shift 51
+	NULL_SIGNAL  shift 52
+	ID  shift 53
+	'&'  shift 54
+	'+'  shift 55
+	'-'  shift 56
+	'*'  shift 57
+	INCREMENT  shift 58
+	DECREMENT  shift 59
+	'!'  shift 60
+	'~'  shift 61
+	'('  shift 62
+	.  error
+
+	factor  goto 63
+	type_casting  goto 64
+	expr  goto 91
+	arr_id  goto 66
+
+
+state 65
+	ident : var_init expr . ident_tail  (100)
+	expr : expr . '+' expr  (105)
+	expr : expr . '-' expr  (106)
+	expr : expr . '*' expr  (107)
+	expr : expr . '/' expr  (108)
+	expr : expr . '%' expr  (109)
+	expr : expr . '<' expr  (110)
+	expr : expr . LESS_OR_EQUAL expr  (111)
+	expr : expr . '>' expr  (112)
+	expr : expr . GREATER_OR_EQUAL expr  (113)
+	expr : expr . IS_EQUAL expr  (114)
+	expr : expr . IS_NOT_EQUAL expr  (115)
+	expr : expr . AND expr  (116)
+	expr : expr . OR expr  (117)
+	expr : expr . '=' expr  (118)
+	expr : expr . '^' expr  (121)
+	expr : expr . '&' expr  (122)
+	expr : expr . '|' expr  (123)
+	expr : expr . SHIFT_LEFT expr  (124)
+	expr : expr . SHIFT_RIGHT expr  (125)
+	expr : expr . INCREMENT  (132)
+	expr : expr . DECREMENT  (133)
+	expr : expr . arglist  (135)
+
+	';'  shift 41
+	','  shift 42
+	'='  shift 92
+	OR  shift 93
+	AND  shift 94
+	'|'  shift 95
+	'^'  shift 96
+	'&'  shift 97
+	IS_EQUAL  shift 98
+	IS_NOT_EQUAL  shift 99
+	'<'  shift 100
+	'>'  shift 101
+	LESS_OR_EQUAL  shift 102
+	GREATER_OR_EQUAL  shift 103
+	SHIFT_LEFT  shift 104
+	SHIFT_RIGHT  shift 105
+	'+'  shift 106
+	'-'  shift 107
+	'*'  shift 108
+	'/'  shift 109
+	'%'  shift 110
+	INCREMENT  shift 111
+	DECREMENT  shift 112
+	'('  shift 113
+	.  error
+
+	ident_tail  goto 114
+	arglist  goto 115
+
+
+state 66
+	factor : arr_id .  (143)
+
+	.  reduce 143
+
+
+state 67
+	array_decl : type_decl arr_ident ';' .  (10)
+
+	.  reduce 10
+
+
+state 68
+	arr_ident_init : arr_id '=' . arr_cnt_fmt  (68)
+
+	'{'  shift 116
+	.  error
+
+	arr_cnt_fmt  goto 117
+
+
+state 69
+	arr_ident : arr_ident_init ',' . arr_ident  (66)
+
+	ID  shift 118
+	.  error
+
+	arr_ident  goto 119
+	arr_id  goto 32
+	arr_ident_init  goto 33
+
+
+state 70
+	parameter_info : '(' ')' .  (62)
+
+	.  reduce 62
+
+
+state 71
+	type_ident : type_decl . ID  (65)
+
+	ID  shift 120
+	.  error
+
+
+state 72
+	parameters : type_ident . ',' parameters  (63)
+	parameters : type_ident .  (64)
+
+	','  shift 121
+	')'  reduce 64
+
+
+state 73
+	parameter_info : '(' parameters . ')'  (61)
+
+	')'  shift 122
+	.  error
+
+
+state 74
+	compound_stmt : '{' . compound_stmt_content '}'  (51)
+	compound_stmt : '{' . '}'  (52)
+
+	INT_NUM  shift 48
+	FLOAT_NUM  shift 49
+	STRING  shift 50
+	CHARACTER  shift 51
+	NULL_SIGNAL  shift 52
+	ID  shift 53
+	CONST  shift 1
+	SIGN  shift 2
+	USIGN  shift 3
+	LONG  shift 4
+	LLONG  shift 5
+	SHRT  shift 6
+	FLOAT  shift 7
+	DOUBLE  shift 8
+	VOID  shift 9
+	CHAR  shift 10
+	INT  shift 11
+	FOR  shift 123
+	DO  shift 124
+	WHILE  shift 125
+	BREAK  shift 126
+	CONTINUE  shift 127
+	IF  shift 128
+	RETURN  shift 129
+	SWITCH  shift 130
+	'{'  shift 74
+	'}'  shift 131
+	'&'  shift 54
+	'+'  shift 55
+	'-'  shift 56
+	'*'  shift 57
+	INCREMENT  shift 58
+	DECREMENT  shift 59
+	'!'  shift 60
+	'~'  shift 61
+	'('  shift 62
+	.  error
+
+	type_decl  goto 132
+	type_layer  goto 14
+	sign_usgn  goto 15
+	int_char  goto 16
+	long_shrt  goto 17
+	while_stmt  goto 133
+	do_while_stmt  goto 134
+	while_tag  goto 135
+	do_tag  goto 136
+	switch_stmt  goto 137
+	factor  goto 63
+	if_else_stmt  goto 138
+	break_stmt  goto 139
+	scalar_decl  goto 18
+	array_decl  goto 21
+	var_decl  goto 140
+	type_casting  goto 64
+	expr_stmt  goto 141
+	compound_stmt_content  goto 142
+	stmt  goto 143
+	if_stmt  goto 144
+	for_stmt  goto 145
+	expr  goto 146
+	arr_id  goto 66
+	compound_stmt  goto 147
+	continue_stmt  goto 148
+	return_stmt  goto 149
+
+
+state 75
+	func_decl : type_ident parameter_info ';' .  (11)
+
+	.  reduce 11
+
+
+state 76
+	func_def : type_ident parameter_info compound_stmt .  (12)
+
+	.  reduce 12
+
+
+state 77
+	ident : ID . ident_tail  (101)
+	var_init : ID . '='  (104)
+
+	';'  shift 41
+	','  shift 42
+	'='  shift 43
+	.  error
+
+	ident_tail  goto 45
+
+
+state 78
+	ident_tail : ',' ident .  (102)
+
+	.  reduce 102
+
+
+state 79
+	box : '[' expr . ']'  (78)
+	expr : expr . '+' expr  (105)
+	expr : expr . '-' expr  (106)
+	expr : expr . '*' expr  (107)
+	expr : expr . '/' expr  (108)
+	expr : expr . '%' expr  (109)
+	expr : expr . '<' expr  (110)
+	expr : expr . LESS_OR_EQUAL expr  (111)
+	expr : expr . '>' expr  (112)
+	expr : expr . GREATER_OR_EQUAL expr  (113)
+	expr : expr . IS_EQUAL expr  (114)
+	expr : expr . IS_NOT_EQUAL expr  (115)
+	expr : expr . AND expr  (116)
+	expr : expr . OR expr  (117)
+	expr : expr . '=' expr  (118)
+	expr : expr . '^' expr  (121)
+	expr : expr . '&' expr  (122)
+	expr : expr . '|' expr  (123)
+	expr : expr . SHIFT_LEFT expr  (124)
+	expr : expr . SHIFT_RIGHT expr  (125)
+	expr : expr . INCREMENT  (132)
+	expr : expr . DECREMENT  (133)
+	expr : expr . arglist  (135)
+
+	'='  shift 92
+	OR  shift 93
+	AND  shift 94
+	'|'  shift 95
+	'^'  shift 96
+	'&'  shift 97
+	IS_EQUAL  shift 98
+	IS_NOT_EQUAL  shift 99
+	'<'  shift 100
+	'>'  shift 101
+	LESS_OR_EQUAL  shift 102
+	GREATER_OR_EQUAL  shift 103
+	SHIFT_LEFT  shift 104
+	SHIFT_RIGHT  shift 105
+	'+'  shift 106
+	'-'  shift 107
+	'*'  shift 108
+	'/'  shift 109
+	'%'  shift 110
+	INCREMENT  shift 111
+	DECREMENT  shift 112
+	']'  shift 150
+	'('  shift 113
+	.  error
+
+	arglist  goto 115
+
+
+state 80
+	arr_tag : box arr_tag .  (71)
+
+	.  reduce 71
+
+
+state 81
+	expr : expr . '+' expr  (105)
+	expr : expr . '-' expr  (106)
+	expr : expr . '*' expr  (107)
+	expr : expr . '/' expr  (108)
+	expr : expr . '%' expr  (109)
+	expr : expr . '<' expr  (110)
+	expr : expr . LESS_OR_EQUAL expr  (111)
+	expr : expr . '>' expr  (112)
+	expr : expr . GREATER_OR_EQUAL expr  (113)
+	expr : expr . IS_EQUAL expr  (114)
+	expr : expr . IS_NOT_EQUAL expr  (115)
+	expr : expr . AND expr  (116)
+	expr : expr . OR expr  (117)
+	expr : expr . '=' expr  (118)
+	expr : expr . '^' expr  (121)
+	expr : expr . '&' expr  (122)
+	expr : expr . '|' expr  (123)
+	expr : expr . SHIFT_LEFT expr  (124)
+	expr : expr . SHIFT_RIGHT expr  (125)
+	expr : '&' expr .  (128)
+	expr : expr . INCREMENT  (132)
+	expr : expr . DECREMENT  (133)
+	expr : expr . arglist  (135)
+
+	'('  shift 113
+	'}'  reduce 128
+	':'  reduce 128
+	';'  reduce 128
+	','  reduce 128
+	'='  reduce 128
+	OR  reduce 128
+	AND  reduce 128
+	'|'  reduce 128
+	'^'  reduce 128
+	'&'  reduce 128
+	IS_EQUAL  reduce 128
+	IS_NOT_EQUAL  reduce 128
+	'<'  reduce 128
+	'>'  reduce 128
+	LESS_OR_EQUAL  reduce 128
+	GREATER_OR_EQUAL  reduce 128
+	SHIFT_LEFT  reduce 128
+	SHIFT_RIGHT  reduce 128
+	'+'  reduce 128
+	'-'  reduce 128
+	'*'  reduce 128
+	'/'  reduce 128
+	'%'  reduce 128
+	INCREMENT  reduce 128
+	DECREMENT  reduce 128
+	']'  reduce 128
+	')'  reduce 128
+
+	arglist  goto 115
+
+
+state 82
+	expr : expr . '+' expr  (105)
+	expr : expr . '-' expr  (106)
+	expr : expr . '*' expr  (107)
+	expr : expr . '/' expr  (108)
+	expr : expr . '%' expr  (109)
+	expr : expr . '<' expr  (110)
+	expr : expr . LESS_OR_EQUAL expr  (111)
+	expr : expr . '>' expr  (112)
+	expr : expr . GREATER_OR_EQUAL expr  (113)
+	expr : expr . IS_EQUAL expr  (114)
+	expr : expr . IS_NOT_EQUAL expr  (115)
+	expr : expr . AND expr  (116)
+	expr : expr . OR expr  (117)
+	expr : expr . '=' expr  (118)
+	expr : expr . '^' expr  (121)
+	expr : expr . '&' expr  (122)
+	expr : expr . '|' expr  (123)
+	expr : expr . SHIFT_LEFT expr  (124)
+	expr : expr . SHIFT_RIGHT expr  (125)
+	expr : '+' expr .  (126)
+	expr : expr . INCREMENT  (132)
+	expr : expr . DECREMENT  (133)
+	expr : expr . arglist  (135)
+
+	'('  shift 113
+	'}'  reduce 126
+	':'  reduce 126
+	';'  reduce 126
+	','  reduce 126
+	'='  reduce 126
+	OR  reduce 126
+	AND  reduce 126
+	'|'  reduce 126
+	'^'  reduce 126
+	'&'  reduce 126
+	IS_EQUAL  reduce 126
+	IS_NOT_EQUAL  reduce 126
+	'<'  reduce 126
+	'>'  reduce 126
+	LESS_OR_EQUAL  reduce 126
+	GREATER_OR_EQUAL  reduce 126
+	SHIFT_LEFT  reduce 126
+	SHIFT_RIGHT  reduce 126
+	'+'  reduce 126
+	'-'  reduce 126
+	'*'  reduce 126
+	'/'  reduce 126
+	'%'  reduce 126
+	INCREMENT  reduce 126
+	DECREMENT  reduce 126
+	']'  reduce 126
+	')'  reduce 126
+
+	arglist  goto 115
+
+
+state 83
+	expr : expr . '+' expr  (105)
+	expr : expr . '-' expr  (106)
+	expr : expr . '*' expr  (107)
+	expr : expr . '/' expr  (108)
+	expr : expr . '%' expr  (109)
+	expr : expr . '<' expr  (110)
+	expr : expr . LESS_OR_EQUAL expr  (111)
+	expr : expr . '>' expr  (112)
+	expr : expr . GREATER_OR_EQUAL expr  (113)
+	expr : expr . IS_EQUAL expr  (114)
+	expr : expr . IS_NOT_EQUAL expr  (115)
+	expr : expr . AND expr  (116)
+	expr : expr . OR expr  (117)
+	expr : expr . '=' expr  (118)
+	expr : expr . '^' expr  (121)
+	expr : expr . '&' expr  (122)
+	expr : expr . '|' expr  (123)
+	expr : expr . SHIFT_LEFT expr  (124)
+	expr : expr . SHIFT_RIGHT expr  (125)
+	expr : '-' expr .  (127)
+	expr : expr . INCREMENT  (132)
+	expr : expr . DECREMENT  (133)
+	expr : expr . arglist  (135)
+
+	'('  shift 113
+	'}'  reduce 127
+	':'  reduce 127
+	';'  reduce 127
+	','  reduce 127
+	'='  reduce 127
+	OR  reduce 127
+	AND  reduce 127
+	'|'  reduce 127
+	'^'  reduce 127
+	'&'  reduce 127
+	IS_EQUAL  reduce 127
+	IS_NOT_EQUAL  reduce 127
+	'<'  reduce 127
+	'>'  reduce 127
+	LESS_OR_EQUAL  reduce 127
+	GREATER_OR_EQUAL  reduce 127
+	SHIFT_LEFT  reduce 127
+	SHIFT_RIGHT  reduce 127
+	'+'  reduce 127
+	'-'  reduce 127
+	'*'  reduce 127
+	'/'  reduce 127
+	'%'  reduce 127
+	INCREMENT  reduce 127
+	DECREMENT  reduce 127
+	']'  reduce 127
+	')'  reduce 127
+
+	arglist  goto 115
+
+
+state 84
+	expr : expr . '+' expr  (105)
+	expr : expr . '-' expr  (106)
+	expr : expr . '*' expr  (107)
+	expr : expr . '/' expr  (108)
+	expr : expr . '%' expr  (109)
+	expr : expr . '<' expr  (110)
+	expr : expr . LESS_OR_EQUAL expr  (111)
+	expr : expr . '>' expr  (112)
+	expr : expr . GREATER_OR_EQUAL expr  (113)
+	expr : expr . IS_EQUAL expr  (114)
+	expr : expr . IS_NOT_EQUAL expr  (115)
+	expr : expr . AND expr  (116)
+	expr : expr . OR expr  (117)
+	expr : expr . '=' expr  (118)
+	expr : expr . '^' expr  (121)
+	expr : expr . '&' expr  (122)
+	expr : expr . '|' expr  (123)
+	expr : expr . SHIFT_LEFT expr  (124)
+	expr : expr . SHIFT_RIGHT expr  (125)
+	expr : '*' expr .  (129)
+	expr : expr . INCREMENT  (132)
+	expr : expr . DECREMENT  (133)
+	expr : expr . arglist  (135)
+
+	'('  shift 113
+	'}'  reduce 129
+	':'  reduce 129
+	';'  reduce 129
+	','  reduce 129
+	'='  reduce 129
+	OR  reduce 129
+	AND  reduce 129
+	'|'  reduce 129
+	'^'  reduce 129
+	'&'  reduce 129
+	IS_EQUAL  reduce 129
+	IS_NOT_EQUAL  reduce 129
+	'<'  reduce 129
+	'>'  reduce 129
+	LESS_OR_EQUAL  reduce 129
+	GREATER_OR_EQUAL  reduce 129
+	SHIFT_LEFT  reduce 129
+	SHIFT_RIGHT  reduce 129
+	'+'  reduce 129
+	'-'  reduce 129
+	'*'  reduce 129
+	'/'  reduce 129
+	'%'  reduce 129
+	INCREMENT  reduce 129
+	DECREMENT  reduce 129
+	']'  reduce 129
+	')'  reduce 129
+
+	arglist  goto 115
+
+
+state 85
+	expr : expr . '+' expr  (105)
+	expr : expr . '-' expr  (106)
+	expr : expr . '*' expr  (107)
+	expr : expr . '/' expr  (108)
+	expr : expr . '%' expr  (109)
+	expr : expr . '<' expr  (110)
+	expr : expr . LESS_OR_EQUAL expr  (111)
+	expr : expr . '>' expr  (112)
+	expr : expr . GREATER_OR_EQUAL expr  (113)
+	expr : expr . IS_EQUAL expr  (114)
+	expr : expr . IS_NOT_EQUAL expr  (115)
+	expr : expr . AND expr  (116)
+	expr : expr . OR expr  (117)
+	expr : expr . '=' expr  (118)
+	expr : expr . '^' expr  (121)
+	expr : expr . '&' expr  (122)
+	expr : expr . '|' expr  (123)
+	expr : expr . SHIFT_LEFT expr  (124)
+	expr : expr . SHIFT_RIGHT expr  (125)
+	expr : INCREMENT expr .  (130)
+	expr : expr . INCREMENT  (132)
+	expr : expr . DECREMENT  (133)
+	expr : expr . arglist  (135)
+
+	INCREMENT  shift 111
+	DECREMENT  shift 112
+	'('  shift 113
+	'}'  reduce 130
+	':'  reduce 130
+	';'  reduce 130
+	','  reduce 130
+	'='  reduce 130
+	OR  reduce 130
+	AND  reduce 130
+	'|'  reduce 130
+	'^'  reduce 130
+	'&'  reduce 130
+	IS_EQUAL  reduce 130
+	IS_NOT_EQUAL  reduce 130
+	'<'  reduce 130
+	'>'  reduce 130
+	LESS_OR_EQUAL  reduce 130
+	GREATER_OR_EQUAL  reduce 130
+	SHIFT_LEFT  reduce 130
+	SHIFT_RIGHT  reduce 130
+	'+'  reduce 130
+	'-'  reduce 130
+	'*'  reduce 130
+	'/'  reduce 130
+	'%'  reduce 130
+	']'  reduce 130
+	')'  reduce 130
+
+	arglist  goto 115
+
+
+state 86
+	expr : expr . '+' expr  (105)
+	expr : expr . '-' expr  (106)
+	expr : expr . '*' expr  (107)
+	expr : expr . '/' expr  (108)
+	expr : expr . '%' expr  (109)
+	expr : expr . '<' expr  (110)
+	expr : expr . LESS_OR_EQUAL expr  (111)
+	expr : expr . '>' expr  (112)
+	expr : expr . GREATER_OR_EQUAL expr  (113)
+	expr : expr . IS_EQUAL expr  (114)
+	expr : expr . IS_NOT_EQUAL expr  (115)
+	expr : expr . AND expr  (116)
+	expr : expr . OR expr  (117)
+	expr : expr . '=' expr  (118)
+	expr : expr . '^' expr  (121)
+	expr : expr . '&' expr  (122)
+	expr : expr . '|' expr  (123)
+	expr : expr . SHIFT_LEFT expr  (124)
+	expr : expr . SHIFT_RIGHT expr  (125)
+	expr : DECREMENT expr .  (131)
+	expr : expr . INCREMENT  (132)
+	expr : expr . DECREMENT  (133)
+	expr : expr . arglist  (135)
+
+	INCREMENT  shift 111
+	DECREMENT  shift 112
+	'('  shift 113
+	'}'  reduce 131
+	':'  reduce 131
+	';'  reduce 131
+	','  reduce 131
+	'='  reduce 131
+	OR  reduce 131
+	AND  reduce 131
+	'|'  reduce 131
+	'^'  reduce 131
+	'&'  reduce 131
+	IS_EQUAL  reduce 131
+	IS_NOT_EQUAL  reduce 131
+	'<'  reduce 131
+	'>'  reduce 131
+	LESS_OR_EQUAL  reduce 131
+	GREATER_OR_EQUAL  reduce 131
+	SHIFT_LEFT  reduce 131
+	SHIFT_RIGHT  reduce 131
+	'+'  reduce 131
+	'-'  reduce 131
+	'*'  reduce 131
+	'/'  reduce 131
+	'%'  reduce 131
+	']'  reduce 131
+	')'  reduce 131
+
+	arglist  goto 115
+
+
+state 87
+	expr : expr . '+' expr  (105)
+	expr : expr . '-' expr  (106)
+	expr : expr . '*' expr  (107)
+	expr : expr . '/' expr  (108)
+	expr : expr . '%' expr  (109)
+	expr : expr . '<' expr  (110)
+	expr : expr . LESS_OR_EQUAL expr  (111)
+	expr : expr . '>' expr  (112)
+	expr : expr . GREATER_OR_EQUAL expr  (113)
+	expr : expr . IS_EQUAL expr  (114)
+	expr : expr . IS_NOT_EQUAL expr  (115)
+	expr : expr . AND expr  (116)
+	expr : expr . OR expr  (117)
+	expr : expr . '=' expr  (118)
+	expr : '!' expr .  (119)
+	expr : expr . '^' expr  (121)
+	expr : expr . '&' expr  (122)
+	expr : expr . '|' expr  (123)
+	expr : expr . SHIFT_LEFT expr  (124)
+	expr : expr . SHIFT_RIGHT expr  (125)
+	expr : expr . INCREMENT  (132)
+	expr : expr . DECREMENT  (133)
+	expr : expr . arglist  (135)
+
+	INCREMENT  shift 111
+	DECREMENT  shift 112
+	'('  shift 113
+	'}'  reduce 119
+	':'  reduce 119
+	';'  reduce 119
+	','  reduce 119
+	'='  reduce 119
+	OR  reduce 119
+	AND  reduce 119
+	'|'  reduce 119
+	'^'  reduce 119
+	'&'  reduce 119
+	IS_EQUAL  reduce 119
+	IS_NOT_EQUAL  reduce 119
+	'<'  reduce 119
+	'>'  reduce 119
+	LESS_OR_EQUAL  reduce 119
+	GREATER_OR_EQUAL  reduce 119
+	SHIFT_LEFT  reduce 119
+	SHIFT_RIGHT  reduce 119
+	'+'  reduce 119
+	'-'  reduce 119
+	'*'  reduce 119
+	'/'  reduce 119
+	'%'  reduce 119
+	']'  reduce 119
+	')'  reduce 119
+
+	arglist  goto 115
+
+
+state 88
+	expr : expr . '+' expr  (105)
+	expr : expr . '-' expr  (106)
+	expr : expr . '*' expr  (107)
+	expr : expr . '/' expr  (108)
+	expr : expr . '%' expr  (109)
+	expr : expr . '<' expr  (110)
+	expr : expr . LESS_OR_EQUAL expr  (111)
+	expr : expr . '>' expr  (112)
+	expr : expr . GREATER_OR_EQUAL expr  (113)
+	expr : expr . IS_EQUAL expr  (114)
+	expr : expr . IS_NOT_EQUAL expr  (115)
+	expr : expr . AND expr  (116)
+	expr : expr . OR expr  (117)
+	expr : expr . '=' expr  (118)
+	expr : '~' expr .  (120)
+	expr : expr . '^' expr  (121)
+	expr : expr . '&' expr  (122)
+	expr : expr . '|' expr  (123)
+	expr : expr . SHIFT_LEFT expr  (124)
+	expr : expr . SHIFT_RIGHT expr  (125)
+	expr : expr . INCREMENT  (132)
+	expr : expr . DECREMENT  (133)
+	expr : expr . arglist  (135)
+
+	INCREMENT  shift 111
+	DECREMENT  shift 112
+	'('  shift 113
+	'}'  reduce 120
+	':'  reduce 120
+	';'  reduce 120
+	','  reduce 120
+	'='  reduce 120
+	OR  reduce 120
+	AND  reduce 120
+	'|'  reduce 120
+	'^'  reduce 120
+	'&'  reduce 120
+	IS_EQUAL  reduce 120
+	IS_NOT_EQUAL  reduce 120
+	'<'  reduce 120
+	'>'  reduce 120
+	LESS_OR_EQUAL  reduce 120
+	GREATER_OR_EQUAL  reduce 120
+	SHIFT_LEFT  reduce 120
+	SHIFT_RIGHT  reduce 120
+	'+'  reduce 120
+	'-'  reduce 120
+	'*'  reduce 120
+	'/'  reduce 120
+	'%'  reduce 120
+	']'  reduce 120
+	')'  reduce 120
+
+	arglist  goto 115
+
+
+state 89
+	type_casting : '(' type_decl . ')'  (137)
+
+	')'  shift 151
+	.  error
+
+
+state 90
+	expr : expr . '+' expr  (105)
+	expr : expr . '-' expr  (106)
+	expr : expr . '*' expr  (107)
+	expr : expr . '/' expr  (108)
+	expr : expr . '%' expr  (109)
+	expr : expr . '<' expr  (110)
+	expr : expr . LESS_OR_EQUAL expr  (111)
+	expr : expr . '>' expr  (112)
+	expr : expr . GREATER_OR_EQUAL expr  (113)
+	expr : expr . IS_EQUAL expr  (114)
+	expr : expr . IS_NOT_EQUAL expr  (115)
+	expr : expr . AND expr  (116)
+	expr : expr . OR expr  (117)
+	expr : expr . '=' expr  (118)
+	expr : expr . '^' expr  (121)
+	expr : expr . '&' expr  (122)
+	expr : expr . '|' expr  (123)
+	expr : expr . SHIFT_LEFT expr  (124)
+	expr : expr . SHIFT_RIGHT expr  (125)
+	expr : expr . INCREMENT  (132)
+	expr : expr . DECREMENT  (133)
+	expr : expr . arglist  (135)
+	factor : '(' expr . ')'  (145)
+
+	'='  shift 92
+	OR  shift 93
+	AND  shift 94
+	'|'  shift 95
+	'^'  shift 96
+	'&'  shift 97
+	IS_EQUAL  shift 98
+	IS_NOT_EQUAL  shift 99
+	'<'  shift 100
+	'>'  shift 101
+	LESS_OR_EQUAL  shift 102
+	GREATER_OR_EQUAL  shift 103
+	SHIFT_LEFT  shift 104
+	SHIFT_RIGHT  shift 105
+	'+'  shift 106
+	'-'  shift 107
+	'*'  shift 108
+	'/'  shift 109
+	'%'  shift 110
+	INCREMENT  shift 111
+	DECREMENT  shift 112
+	'('  shift 113
+	')'  shift 152
+	.  error
+
+	arglist  goto 115
+
+
+91: shift/reduce conflict (shift 92, reduce 136) on '='
+91: shift/reduce conflict (shift 93, reduce 136) on OR
+91: shift/reduce conflict (shift 94, reduce 136) on AND
+91: shift/reduce conflict (shift 95, reduce 136) on '|'
+91: shift/reduce conflict (shift 96, reduce 136) on '^'
+91: shift/reduce conflict (shift 97, reduce 136) on '&'
+91: shift/reduce conflict (shift 98, reduce 136) on IS_EQUAL
+91: shift/reduce conflict (shift 99, reduce 136) on IS_NOT_EQUAL
+91: shift/reduce conflict (shift 100, reduce 136) on '<'
+91: shift/reduce conflict (shift 101, reduce 136) on '>'
+91: shift/reduce conflict (shift 102, reduce 136) on LESS_OR_EQUAL
+91: shift/reduce conflict (shift 103, reduce 136) on GREATER_OR_EQUAL
+91: shift/reduce conflict (shift 104, reduce 136) on SHIFT_LEFT
+91: shift/reduce conflict (shift 105, reduce 136) on SHIFT_RIGHT
+91: shift/reduce conflict (shift 106, reduce 136) on '+'
+91: shift/reduce conflict (shift 107, reduce 136) on '-'
+91: shift/reduce conflict (shift 108, reduce 136) on '*'
+91: shift/reduce conflict (shift 109, reduce 136) on '/'
+91: shift/reduce conflict (shift 110, reduce 136) on '%'
+91: shift/reduce conflict (shift 111, reduce 136) on INCREMENT
+91: shift/reduce conflict (shift 112, reduce 136) on DECREMENT
+91: shift/reduce conflict (shift 113, reduce 136) on '('
+state 91
+	expr : expr . '+' expr  (105)
+	expr : expr . '-' expr  (106)
+	expr : expr . '*' expr  (107)
+	expr : expr . '/' expr  (108)
+	expr : expr . '%' expr  (109)
+	expr : expr . '<' expr  (110)
+	expr : expr . LESS_OR_EQUAL expr  (111)
+	expr : expr . '>' expr  (112)
+	expr : expr . GREATER_OR_EQUAL expr  (113)
+	expr : expr . IS_EQUAL expr  (114)
+	expr : expr . IS_NOT_EQUAL expr  (115)
+	expr : expr . AND expr  (116)
+	expr : expr . OR expr  (117)
+	expr : expr . '=' expr  (118)
+	expr : expr . '^' expr  (121)
+	expr : expr . '&' expr  (122)
+	expr : expr . '|' expr  (123)
+	expr : expr . SHIFT_LEFT expr  (124)
+	expr : expr . SHIFT_RIGHT expr  (125)
+	expr : expr . INCREMENT  (132)
+	expr : expr . DECREMENT  (133)
+	expr : expr . arglist  (135)
+	expr : type_casting expr .  (136)
+
+	'='  shift 92
+	OR  shift 93
+	AND  shift 94
+	'|'  shift 95
+	'^'  shift 96
+	'&'  shift 97
+	IS_EQUAL  shift 98
+	IS_NOT_EQUAL  shift 99
+	'<'  shift 100
+	'>'  shift 101
+	LESS_OR_EQUAL  shift 102
+	GREATER_OR_EQUAL  shift 103
+	SHIFT_LEFT  shift 104
+	SHIFT_RIGHT  shift 105
+	'+'  shift 106
+	'-'  shift 107
+	'*'  shift 108
+	'/'  shift 109
+	'%'  shift 110
+	INCREMENT  shift 111
+	DECREMENT  shift 112
+	'('  shift 113
+	'}'  reduce 136
+	':'  reduce 136
+	';'  reduce 136
+	','  reduce 136
+	']'  reduce 136
+	')'  reduce 136
+
+	arglist  goto 115
+
+
+state 92
+	expr : expr '=' . expr  (118)
+
+	INT_NUM  shift 48
+	FLOAT_NUM  shift 49
+	STRING  shift 50
+	CHARACTER  shift 51
+	NULL_SIGNAL  shift 52
+	ID  shift 53
+	'&'  shift 54
+	'+'  shift 55
+	'-'  shift 56
+	'*'  shift 57
+	INCREMENT  shift 58
+	DECREMENT  shift 59
+	'!'  shift 60
+	'~'  shift 61
+	'('  shift 62
+	.  error
+
+	factor  goto 63
+	type_casting  goto 64
+	expr  goto 153
+	arr_id  goto 66
+
+
+state 93
+	expr : expr OR . expr  (117)
+
+	INT_NUM  shift 48
+	FLOAT_NUM  shift 49
+	STRING  shift 50
+	CHARACTER  shift 51
+	NULL_SIGNAL  shift 52
+	ID  shift 53
+	'&'  shift 54
+	'+'  shift 55
+	'-'  shift 56
+	'*'  shift 57
+	INCREMENT  shift 58
+	DECREMENT  shift 59
+	'!'  shift 60
+	'~'  shift 61
+	'('  shift 62
+	.  error
+
+	factor  goto 63
+	type_casting  goto 64
+	expr  goto 154
+	arr_id  goto 66
+
+
+state 94
+	expr : expr AND . expr  (116)
+
+	INT_NUM  shift 48
+	FLOAT_NUM  shift 49
+	STRING  shift 50
+	CHARACTER  shift 51
+	NULL_SIGNAL  shift 52
+	ID  shift 53
+	'&'  shift 54
+	'+'  shift 55
+	'-'  shift 56
+	'*'  shift 57
+	INCREMENT  shift 58
+	DECREMENT  shift 59
+	'!'  shift 60
+	'~'  shift 61
+	'('  shift 62
+	.  error
+
+	factor  goto 63
+	type_casting  goto 64
+	expr  goto 155
+	arr_id  goto 66
+
+
+state 95
+	expr : expr '|' . expr  (123)
+
+	INT_NUM  shift 48
+	FLOAT_NUM  shift 49
+	STRING  shift 50
+	CHARACTER  shift 51
+	NULL_SIGNAL  shift 52
+	ID  shift 53
+	'&'  shift 54
+	'+'  shift 55
+	'-'  shift 56
+	'*'  shift 57
+	INCREMENT  shift 58
+	DECREMENT  shift 59
+	'!'  shift 60
+	'~'  shift 61
+	'('  shift 62
+	.  error
+
+	factor  goto 63
+	type_casting  goto 64
+	expr  goto 156
+	arr_id  goto 66
+
+
+state 96
+	expr : expr '^' . expr  (121)
+
+	INT_NUM  shift 48
+	FLOAT_NUM  shift 49
+	STRING  shift 50
+	CHARACTER  shift 51
+	NULL_SIGNAL  shift 52
+	ID  shift 53
+	'&'  shift 54
+	'+'  shift 55
+	'-'  shift 56
+	'*'  shift 57
+	INCREMENT  shift 58
+	DECREMENT  shift 59
+	'!'  shift 60
+	'~'  shift 61
+	'('  shift 62
+	.  error
+
+	factor  goto 63
+	type_casting  goto 64
+	expr  goto 157
+	arr_id  goto 66
+
+
+state 97
+	expr : expr '&' . expr  (122)
+
+	INT_NUM  shift 48
+	FLOAT_NUM  shift 49
+	STRING  shift 50
+	CHARACTER  shift 51
+	NULL_SIGNAL  shift 52
+	ID  shift 53
+	'&'  shift 54
+	'+'  shift 55
+	'-'  shift 56
+	'*'  shift 57
+	INCREMENT  shift 58
+	DECREMENT  shift 59
+	'!'  shift 60
+	'~'  shift 61
+	'('  shift 62
+	.  error
+
+	factor  goto 63
+	type_casting  goto 64
+	expr  goto 158
+	arr_id  goto 66
+
+
+state 98
+	expr : expr IS_EQUAL . expr  (114)
+
+	INT_NUM  shift 48
+	FLOAT_NUM  shift 49
+	STRING  shift 50
+	CHARACTER  shift 51
+	NULL_SIGNAL  shift 52
+	ID  shift 53
+	'&'  shift 54
+	'+'  shift 55
+	'-'  shift 56
+	'*'  shift 57
+	INCREMENT  shift 58
+	DECREMENT  shift 59
+	'!'  shift 60
+	'~'  shift 61
+	'('  shift 62
+	.  error
+
+	factor  goto 63
+	type_casting  goto 64
+	expr  goto 159
+	arr_id  goto 66
+
+
+state 99
+	expr : expr IS_NOT_EQUAL . expr  (115)
+
+	INT_NUM  shift 48
+	FLOAT_NUM  shift 49
+	STRING  shift 50
+	CHARACTER  shift 51
+	NULL_SIGNAL  shift 52
+	ID  shift 53
+	'&'  shift 54
+	'+'  shift 55
+	'-'  shift 56
+	'*'  shift 57
+	INCREMENT  shift 58
+	DECREMENT  shift 59
+	'!'  shift 60
+	'~'  shift 61
+	'('  shift 62
+	.  error
+
+	factor  goto 63
+	type_casting  goto 64
+	expr  goto 160
+	arr_id  goto 66
+
+
+state 100
+	expr : expr '<' . expr  (110)
+
+	INT_NUM  shift 48
+	FLOAT_NUM  shift 49
+	STRING  shift 50
+	CHARACTER  shift 51
+	NULL_SIGNAL  shift 52
+	ID  shift 53
+	'&'  shift 54
+	'+'  shift 55
+	'-'  shift 56
+	'*'  shift 57
+	INCREMENT  shift 58
+	DECREMENT  shift 59
+	'!'  shift 60
+	'~'  shift 61
+	'('  shift 62
+	.  error
+
+	factor  goto 63
+	type_casting  goto 64
+	expr  goto 161
+	arr_id  goto 66
+
+
+state 101
+	expr : expr '>' . expr  (112)
+
+	INT_NUM  shift 48
+	FLOAT_NUM  shift 49
+	STRING  shift 50
+	CHARACTER  shift 51
+	NULL_SIGNAL  shift 52
+	ID  shift 53
+	'&'  shift 54
+	'+'  shift 55
+	'-'  shift 56
+	'*'  shift 57
+	INCREMENT  shift 58
+	DECREMENT  shift 59
+	'!'  shift 60
+	'~'  shift 61
+	'('  shift 62
+	.  error
+
+	factor  goto 63
+	type_casting  goto 64
+	expr  goto 162
+	arr_id  goto 66
+
+
+state 102
+	expr : expr LESS_OR_EQUAL . expr  (111)
+
+	INT_NUM  shift 48
+	FLOAT_NUM  shift 49
+	STRING  shift 50
+	CHARACTER  shift 51
+	NULL_SIGNAL  shift 52
+	ID  shift 53
+	'&'  shift 54
+	'+'  shift 55
+	'-'  shift 56
+	'*'  shift 57
+	INCREMENT  shift 58
+	DECREMENT  shift 59
+	'!'  shift 60
+	'~'  shift 61
+	'('  shift 62
+	.  error
+
+	factor  goto 63
+	type_casting  goto 64
+	expr  goto 163
+	arr_id  goto 66
+
+
+state 103
+	expr : expr GREATER_OR_EQUAL . expr  (113)
+
+	INT_NUM  shift 48
+	FLOAT_NUM  shift 49
+	STRING  shift 50
+	CHARACTER  shift 51
+	NULL_SIGNAL  shift 52
+	ID  shift 53
+	'&'  shift 54
+	'+'  shift 55
+	'-'  shift 56
+	'*'  shift 57
+	INCREMENT  shift 58
+	DECREMENT  shift 59
+	'!'  shift 60
+	'~'  shift 61
+	'('  shift 62
+	.  error
+
+	factor  goto 63
+	type_casting  goto 64
+	expr  goto 164
+	arr_id  goto 66
+
+
+state 104
+	expr : expr SHIFT_LEFT . expr  (124)
+
+	INT_NUM  shift 48
+	FLOAT_NUM  shift 49
+	STRING  shift 50
+	CHARACTER  shift 51
+	NULL_SIGNAL  shift 52
+	ID  shift 53
+	'&'  shift 54
+	'+'  shift 55
+	'-'  shift 56
+	'*'  shift 57
+	INCREMENT  shift 58
+	DECREMENT  shift 59
+	'!'  shift 60
+	'~'  shift 61
+	'('  shift 62
+	.  error
+
+	factor  goto 63
+	type_casting  goto 64
+	expr  goto 165
+	arr_id  goto 66
+
+
+state 105
+	expr : expr SHIFT_RIGHT . expr  (125)
+
+	INT_NUM  shift 48
+	FLOAT_NUM  shift 49
+	STRING  shift 50
+	CHARACTER  shift 51
+	NULL_SIGNAL  shift 52
+	ID  shift 53
+	'&'  shift 54
+	'+'  shift 55
+	'-'  shift 56
+	'*'  shift 57
+	INCREMENT  shift 58
+	DECREMENT  shift 59
+	'!'  shift 60
+	'~'  shift 61
+	'('  shift 62
+	.  error
+
+	factor  goto 63
+	type_casting  goto 64
+	expr  goto 166
+	arr_id  goto 66
+
+
+state 106
+	expr : expr '+' . expr  (105)
+
+	INT_NUM  shift 48
+	FLOAT_NUM  shift 49
+	STRING  shift 50
+	CHARACTER  shift 51
+	NULL_SIGNAL  shift 52
+	ID  shift 53
+	'&'  shift 54
+	'+'  shift 55
+	'-'  shift 56
+	'*'  shift 57
+	INCREMENT  shift 58
+	DECREMENT  shift 59
+	'!'  shift 60
+	'~'  shift 61
+	'('  shift 62
+	.  error
+
+	factor  goto 63
+	type_casting  goto 64
+	expr  goto 167
+	arr_id  goto 66
+
+
+state 107
+	expr : expr '-' . expr  (106)
+
+	INT_NUM  shift 48
+	FLOAT_NUM  shift 49
+	STRING  shift 50
+	CHARACTER  shift 51
+	NULL_SIGNAL  shift 52
+	ID  shift 53
+	'&'  shift 54
+	'+'  shift 55
+	'-'  shift 56
+	'*'  shift 57
+	INCREMENT  shift 58
+	DECREMENT  shift 59
+	'!'  shift 60
+	'~'  shift 61
+	'('  shift 62
+	.  error
+
+	factor  goto 63
+	type_casting  goto 64
+	expr  goto 168
+	arr_id  goto 66
+
+
+state 108
+	expr : expr '*' . expr  (107)
+
+	INT_NUM  shift 48
+	FLOAT_NUM  shift 49
+	STRING  shift 50
+	CHARACTER  shift 51
+	NULL_SIGNAL  shift 52
+	ID  shift 53
+	'&'  shift 54
+	'+'  shift 55
+	'-'  shift 56
+	'*'  shift 57
+	INCREMENT  shift 58
+	DECREMENT  shift 59
+	'!'  shift 60
+	'~'  shift 61
+	'('  shift 62
+	.  error
+
+	factor  goto 63
+	type_casting  goto 64
+	expr  goto 169
+	arr_id  goto 66
+
+
+state 109
+	expr : expr '/' . expr  (108)
+
+	INT_NUM  shift 48
+	FLOAT_NUM  shift 49
+	STRING  shift 50
+	CHARACTER  shift 51
+	NULL_SIGNAL  shift 52
+	ID  shift 53
+	'&'  shift 54
+	'+'  shift 55
+	'-'  shift 56
+	'*'  shift 57
+	INCREMENT  shift 58
+	DECREMENT  shift 59
+	'!'  shift 60
+	'~'  shift 61
+	'('  shift 62
+	.  error
+
+	factor  goto 63
+	type_casting  goto 64
+	expr  goto 170
+	arr_id  goto 66
+
+
+state 110
+	expr : expr '%' . expr  (109)
+
+	INT_NUM  shift 48
+	FLOAT_NUM  shift 49
+	STRING  shift 50
+	CHARACTER  shift 51
+	NULL_SIGNAL  shift 52
+	ID  shift 53
+	'&'  shift 54
+	'+'  shift 55
+	'-'  shift 56
+	'*'  shift 57
+	INCREMENT  shift 58
+	DECREMENT  shift 59
+	'!'  shift 60
+	'~'  shift 61
+	'('  shift 62
+	.  error
+
+	factor  goto 63
+	type_casting  goto 64
+	expr  goto 171
+	arr_id  goto 66
+
+
+state 111
+	expr : expr INCREMENT .  (132)
+
+	.  reduce 132
+
+
+state 112
+	expr : expr DECREMENT .  (133)
+
+	.  reduce 133
+
+
+state 113
+	arglist : '(' . args ')'  (146)
+
+	INT_NUM  shift 48
+	FLOAT_NUM  shift 49
+	STRING  shift 50
+	CHARACTER  shift 51
+	NULL_SIGNAL  shift 52
+	ID  shift 53
+	'&'  shift 54
+	'+'  shift 55
+	'-'  shift 56
+	'*'  shift 57
+	INCREMENT  shift 58
+	DECREMENT  shift 59
+	'!'  shift 60
+	'~'  shift 61
+	'('  shift 62
+	.  error
+
+	factor  goto 63
+	type_casting  goto 64
+	args  goto 172
+	expr  goto 173
+	arr_id  goto 66
+
+
+state 114
+	ident : var_init expr ident_tail .  (100)
+
+	.  reduce 100
+
+
+state 115
+	expr : expr arglist .  (135)
+
+	.  reduce 135
+
+
+state 116
+	arr_cnt_fmt : '{' . arr_content '}'  (73)
+
+	INT_NUM  shift 48
+	FLOAT_NUM  shift 49
+	STRING  shift 50
+	CHARACTER  shift 51
+	NULL_SIGNAL  shift 52
+	ID  shift 53
+	'{'  shift 116
+	'&'  shift 54
+	'+'  shift 55
+	'-'  shift 56
+	'*'  shift 57
+	INCREMENT  shift 58
+	DECREMENT  shift 59
+	'!'  shift 60
+	'~'  shift 61
+	'('  shift 62
+	.  error
+
+	factor  goto 63
+	type_casting  goto 64
+	expr  goto 174
+	arr_content  goto 175
+	arr_cnt_fmt  goto 176
+	arr_id  goto 66
+
+
+state 117
+	arr_ident_init : arr_id '=' arr_cnt_fmt .  (68)
+
+	.  reduce 68
+
+
+state 118
+	arr_id : ID . arr_tag  (70)
+
+	'['  shift 44
+	.  error
+
+	arr_tag  goto 46
+	box  goto 47
+
+
+state 119
+	arr_ident : arr_ident_init ',' arr_ident .  (66)
+
+	.  reduce 66
+
+
+state 120
+	type_ident : type_decl ID .  (65)
+
+	.  reduce 65
+
+
+state 121
+	parameters : type_ident ',' . parameters  (63)
+
+	CONST  shift 1
+	SIGN  shift 2
+	USIGN  shift 3
+	LONG  shift 4
+	LLONG  shift 5
+	SHRT  shift 6
+	FLOAT  shift 7
+	DOUBLE  shift 8
+	VOID  shift 9
+	CHAR  shift 10
+	INT  shift 11
+	.  error
+
+	type_decl  goto 71
+	type_layer  goto 14
+	sign_usgn  goto 15
+	int_char  goto 16
+	long_shrt  goto 17
+	type_ident  goto 72
+	parameters  goto 177
+
+
+state 122
+	parameter_info : '(' parameters ')' .  (61)
+
+	.  reduce 61
+
+
+state 123
+	for_stmt : FOR . for_condition stmt  (24)
+
+	'('  shift 178
+	.  error
+
+	for_condition  goto 179
+
+
+state 124
+	do_tag : DO . stmt  (34)
+
+	INT_NUM  shift 48
+	FLOAT_NUM  shift 49
+	STRING  shift 50
+	CHARACTER  shift 51
+	NULL_SIGNAL  shift 52
+	ID  shift 53
+	FOR  shift 123
+	DO  shift 124
+	WHILE  shift 125
+	BREAK  shift 126
+	CONTINUE  shift 127
+	IF  shift 128
+	RETURN  shift 129
+	SWITCH  shift 130
+	'{'  shift 74
+	'&'  shift 54
+	'+'  shift 55
+	'-'  shift 56
+	'*'  shift 57
+	INCREMENT  shift 58
+	DECREMENT  shift 59
+	'!'  shift 60
+	'~'  shift 61
+	'('  shift 62
+	.  error
+
+	while_stmt  goto 133
+	do_while_stmt  goto 134
+	while_tag  goto 135
+	do_tag  goto 136
+	switch_stmt  goto 137
+	factor  goto 63
+	if_else_stmt  goto 138
+	break_stmt  goto 139
+	type_casting  goto 64
+	expr_stmt  goto 141
+	stmt  goto 180
+	if_stmt  goto 144
+	for_stmt  goto 145
+	expr  goto 146
+	arr_id  goto 66
+	compound_stmt  goto 147
+	continue_stmt  goto 148
+	return_stmt  goto 149
+
+
+state 125
+	while_tag : WHILE . condition  (33)
+
+	'('  shift 181
+	.  error
+
+	condition  goto 182
+
+
+state 126
+	break_stmt : BREAK . ';'  (57)
+
+	';'  shift 183
+	.  error
+
+
+state 127
+	continue_stmt : CONTINUE . ';'  (58)
+
+	';'  shift 184
+	.  error
+
+
+state 128
+	if_stmt : IF . condition compound_stmt  (47)
+
+	'('  shift 181
+	.  error
+
+	condition  goto 185
+
+
+state 129
+	return_stmt : RETURN . expr_stmt  (59)
+	return_stmt : RETURN . ';'  (60)
+
+	INT_NUM  shift 48
+	FLOAT_NUM  shift 49
+	STRING  shift 50
+	CHARACTER  shift 51
+	NULL_SIGNAL  shift 52
+	ID  shift 53
+	';'  shift 186
+	'&'  shift 54
+	'+'  shift 55
+	'-'  shift 56
+	'*'  shift 57
+	INCREMENT  shift 58
+	DECREMENT  shift 59
+	'!'  shift 60
+	'~'  shift 61
+	'('  shift 62
+	.  error
+
+	factor  goto 63
+	type_casting  goto 64
+	expr_stmt  goto 187
+	expr  goto 146
+	arr_id  goto 66
+
+
+state 130
+	switch_stmt : SWITCH . condition switch_clause  (35)
+
+	'('  shift 181
+	.  error
+
+	condition  goto 188
+
+
+state 131
+	compound_stmt : '{' '}' .  (52)
+
+	.  reduce 52
+
+
+state 132
+	scalar_decl : type_decl . ident  (9)
+	array_decl : type_decl . arr_ident ';'  (10)
+
+	ID  shift 189
+	.  error
+
+	ident  goto 29
+	var_init  goto 30
+	arr_ident  goto 31
+	arr_id  goto 32
+	arr_ident_init  goto 33
+
+
+state 133
+	stmt : while_stmt .  (19)
+
+	.  reduce 19
+
+
+state 134
+	stmt : do_while_stmt .  (20)
+
+	.  reduce 20
+
+
+state 135
+	while_stmt : while_tag . stmt  (23)
+
+	INT_NUM  shift 48
+	FLOAT_NUM  shift 49
+	STRING  shift 50
+	CHARACTER  shift 51
+	NULL_SIGNAL  shift 52
+	ID  shift 53
+	FOR  shift 123
+	DO  shift 124
+	WHILE  shift 125
+	BREAK  shift 126
+	CONTINUE  shift 127
+	IF  shift 128
+	RETURN  shift 129
+	SWITCH  shift 130
+	'{'  shift 74
+	'&'  shift 54
+	'+'  shift 55
+	'-'  shift 56
+	'*'  shift 57
+	INCREMENT  shift 58
+	DECREMENT  shift 59
+	'!'  shift 60
+	'~'  shift 61
+	'('  shift 62
+	.  error
+
+	while_stmt  goto 133
+	do_while_stmt  goto 134
+	while_tag  goto 135
+	do_tag  goto 136
+	switch_stmt  goto 137
+	factor  goto 63
+	if_else_stmt  goto 138
+	break_stmt  goto 139
+	type_casting  goto 64
+	expr_stmt  goto 141
+	stmt  goto 190
+	if_stmt  goto 144
+	for_stmt  goto 145
+	expr  goto 146
+	arr_id  goto 66
+	compound_stmt  goto 147
+	continue_stmt  goto 148
+	return_stmt  goto 149
+
+
+state 136
+	do_while_stmt : do_tag . while_tag ';'  (32)
+
+	WHILE  shift 125
+	.  error
+
+	while_tag  goto 191
+
+
+state 137
+	stmt : switch_stmt .  (21)
+
+	.  reduce 21
+
+
+state 138
+	stmt : if_else_stmt .  (13)
+
+	.  reduce 13
+
+
+state 139
+	stmt : break_stmt .  (17)
+
+	.  reduce 17
+
+
+state 140
+	compound_stmt_content : var_decl . compound_stmt_content  (54)
+	compound_stmt_content : var_decl .  (56)
+
+	INT_NUM  shift 48
+	FLOAT_NUM  shift 49
+	STRING  shift 50
+	CHARACTER  shift 51
+	NULL_SIGNAL  shift 52
+	ID  shift 53
+	CONST  shift 1
+	SIGN  shift 2
+	USIGN  shift 3
+	LONG  shift 4
+	LLONG  shift 5
+	SHRT  shift 6
+	FLOAT  shift 7
+	DOUBLE  shift 8
+	VOID  shift 9
+	CHAR  shift 10
+	INT  shift 11
+	FOR  shift 123
+	DO  shift 124
+	WHILE  shift 125
+	BREAK  shift 126
+	CONTINUE  shift 127
+	IF  shift 128
+	RETURN  shift 129
+	SWITCH  shift 130
+	'{'  shift 74
+	'&'  shift 54
+	'+'  shift 55
+	'-'  shift 56
+	'*'  shift 57
+	INCREMENT  shift 58
+	DECREMENT  shift 59
+	'!'  shift 60
+	'~'  shift 61
+	'('  shift 62
+	'}'  reduce 56
+
+	type_decl  goto 132
+	type_layer  goto 14
+	sign_usgn  goto 15
+	int_char  goto 16
+	long_shrt  goto 17
+	while_stmt  goto 133
+	do_while_stmt  goto 134
+	while_tag  goto 135
+	do_tag  goto 136
+	switch_stmt  goto 137
+	factor  goto 63
+	if_else_stmt  goto 138
+	break_stmt  goto 139
+	scalar_decl  goto 18
+	array_decl  goto 21
+	var_decl  goto 140
+	type_casting  goto 64
+	expr_stmt  goto 141
+	compound_stmt_content  goto 192
+	stmt  goto 143
+	if_stmt  goto 144
+	for_stmt  goto 145
+	expr  goto 146
+	arr_id  goto 66
+	compound_stmt  goto 147
+	continue_stmt  goto 148
+	return_stmt  goto 149
+
+
+state 141
+	stmt : expr_stmt .  (15)
+
+	.  reduce 15
+
+
+state 142
+	compound_stmt : '{' compound_stmt_content . '}'  (51)
+
+	'}'  shift 193
+	.  error
+
+
+state 143
+	compound_stmt_content : stmt . compound_stmt_content  (53)
+	compound_stmt_content : stmt .  (55)
+
+	INT_NUM  shift 48
+	FLOAT_NUM  shift 49
+	STRING  shift 50
+	CHARACTER  shift 51
+	NULL_SIGNAL  shift 52
+	ID  shift 53
+	CONST  shift 1
+	SIGN  shift 2
+	USIGN  shift 3
+	LONG  shift 4
+	LLONG  shift 5
+	SHRT  shift 6
+	FLOAT  shift 7
+	DOUBLE  shift 8
+	VOID  shift 9
+	CHAR  shift 10
+	INT  shift 11
+	FOR  shift 123
+	DO  shift 124
+	WHILE  shift 125
+	BREAK  shift 126
+	CONTINUE  shift 127
+	IF  shift 128
+	RETURN  shift 129
+	SWITCH  shift 130
+	'{'  shift 74
+	'&'  shift 54
+	'+'  shift 55
+	'-'  shift 56
+	'*'  shift 57
+	INCREMENT  shift 58
+	DECREMENT  shift 59
+	'!'  shift 60
+	'~'  shift 61
+	'('  shift 62
+	'}'  reduce 55
+
+	type_decl  goto 132
+	type_layer  goto 14
+	sign_usgn  goto 15
+	int_char  goto 16
+	long_shrt  goto 17
+	while_stmt  goto 133
+	do_while_stmt  goto 134
+	while_tag  goto 135
+	do_tag  goto 136
+	switch_stmt  goto 137
+	factor  goto 63
+	if_else_stmt  goto 138
+	break_stmt  goto 139
+	scalar_decl  goto 18
+	array_decl  goto 21
+	var_decl  goto 140
+	type_casting  goto 64
+	expr_stmt  goto 141
+	compound_stmt_content  goto 194
+	stmt  goto 143
+	if_stmt  goto 144
+	for_stmt  goto 145
+	expr  goto 146
+	arr_id  goto 66
+	compound_stmt  goto 147
+	continue_stmt  goto 148
+	return_stmt  goto 149
+
+
+state 144
+	if_else_stmt : if_stmt . else_stmt  (45)
+	if_else_stmt : if_stmt .  (46)
+
+	ELSE  shift 195
+	INT_NUM  reduce 46
+	FLOAT_NUM  reduce 46
+	STRING  reduce 46
+	CHARACTER  reduce 46
+	NULL_SIGNAL  reduce 46
+	ID  reduce 46
+	CONST  reduce 46
+	SIGN  reduce 46
+	USIGN  reduce 46
+	LONG  reduce 46
+	LLONG  reduce 46
+	SHRT  reduce 46
+	FLOAT  reduce 46
+	DOUBLE  reduce 46
+	VOID  reduce 46
+	CHAR  reduce 46
+	INT  reduce 46
+	FOR  reduce 46
+	DO  reduce 46
+	WHILE  reduce 46
+	BREAK  reduce 46
+	CONTINUE  reduce 46
+	IF  reduce 46
+	RETURN  reduce 46
+	SWITCH  reduce 46
+	CASE  reduce 46
+	DEFALUT  reduce 46
+	'{'  reduce 46
+	'}'  reduce 46
+	'&'  reduce 46
+	'+'  reduce 46
+	'-'  reduce 46
+	'*'  reduce 46
+	INCREMENT  reduce 46
+	DECREMENT  reduce 46
+	'!'  reduce 46
+	'~'  reduce 46
+	'('  reduce 46
+
+	else_stmt  goto 196
+
+
+state 145
+	stmt : for_stmt .  (22)
+
+	.  reduce 22
+
+
+state 146
+	expr_stmt : expr . ';'  (49)
+	expr : expr . '+' expr  (105)
+	expr : expr . '-' expr  (106)
+	expr : expr . '*' expr  (107)
+	expr : expr . '/' expr  (108)
+	expr : expr . '%' expr  (109)
+	expr : expr . '<' expr  (110)
+	expr : expr . LESS_OR_EQUAL expr  (111)
+	expr : expr . '>' expr  (112)
+	expr : expr . GREATER_OR_EQUAL expr  (113)
+	expr : expr . IS_EQUAL expr  (114)
+	expr : expr . IS_NOT_EQUAL expr  (115)
+	expr : expr . AND expr  (116)
+	expr : expr . OR expr  (117)
+	expr : expr . '=' expr  (118)
+	expr : expr . '^' expr  (121)
+	expr : expr . '&' expr  (122)
+	expr : expr . '|' expr  (123)
+	expr : expr . SHIFT_LEFT expr  (124)
+	expr : expr . SHIFT_RIGHT expr  (125)
+	expr : expr . INCREMENT  (132)
+	expr : expr . DECREMENT  (133)
+	expr : expr . arglist  (135)
+
+	';'  shift 197
+	'='  shift 92
+	OR  shift 93
+	AND  shift 94
+	'|'  shift 95
+	'^'  shift 96
+	'&'  shift 97
+	IS_EQUAL  shift 98
+	IS_NOT_EQUAL  shift 99
+	'<'  shift 100
+	'>'  shift 101
+	LESS_OR_EQUAL  shift 102
+	GREATER_OR_EQUAL  shift 103
+	SHIFT_LEFT  shift 104
+	SHIFT_RIGHT  shift 105
+	'+'  shift 106
+	'-'  shift 107
+	'*'  shift 108
+	'/'  shift 109
+	'%'  shift 110
+	INCREMENT  shift 111
+	DECREMENT  shift 112
+	'('  shift 113
+	.  error
+
+	arglist  goto 115
+
+
+state 147
+	stmt : compound_stmt .  (14)
+
+	.  reduce 14
+
+
+state 148
+	stmt : continue_stmt .  (18)
+
+	.  reduce 18
+
+
+state 149
+	stmt : return_stmt .  (16)
+
+	.  reduce 16
+
+
+state 150
+	box : '[' expr ']' .  (78)
+
+	.  reduce 78
+
+
+state 151
+	type_casting : '(' type_decl ')' .  (137)
+
+	.  reduce 137
+
+
+state 152
+	factor : '(' expr ')' .  (145)
+
+	.  reduce 145
+
+
+state 153
+	expr : expr . '+' expr  (105)
+	expr : expr . '-' expr  (106)
+	expr : expr . '*' expr  (107)
+	expr : expr . '/' expr  (108)
+	expr : expr . '%' expr  (109)
+	expr : expr . '<' expr  (110)
+	expr : expr . LESS_OR_EQUAL expr  (111)
+	expr : expr . '>' expr  (112)
+	expr : expr . GREATER_OR_EQUAL expr  (113)
+	expr : expr . IS_EQUAL expr  (114)
+	expr : expr . IS_NOT_EQUAL expr  (115)
+	expr : expr . AND expr  (116)
+	expr : expr . OR expr  (117)
+	expr : expr . '=' expr  (118)
+	expr : expr '=' expr .  (118)
+	expr : expr . '^' expr  (121)
+	expr : expr . '&' expr  (122)
+	expr : expr . '|' expr  (123)
+	expr : expr . SHIFT_LEFT expr  (124)
+	expr : expr . SHIFT_RIGHT expr  (125)
+	expr : expr . INCREMENT  (132)
+	expr : expr . DECREMENT  (133)
+	expr : expr . arglist  (135)
+
+	'='  shift 92
+	OR  shift 93
+	AND  shift 94
+	'|'  shift 95
+	'^'  shift 96
+	'&'  shift 97
+	IS_EQUAL  shift 98
+	IS_NOT_EQUAL  shift 99
+	'<'  shift 100
+	'>'  shift 101
+	LESS_OR_EQUAL  shift 102
+	GREATER_OR_EQUAL  shift 103
+	SHIFT_LEFT  shift 104
+	SHIFT_RIGHT  shift 105
+	'+'  shift 106
+	'-'  shift 107
+	'*'  shift 108
+	'/'  shift 109
+	'%'  shift 110
+	INCREMENT  shift 111
+	DECREMENT  shift 112
+	'('  shift 113
+	'}'  reduce 118
+	':'  reduce 118
+	';'  reduce 118
+	','  reduce 118
+	']'  reduce 118
+	')'  reduce 118
+
+	arglist  goto 115
+
+
+state 154
+	expr : expr . '+' expr  (105)
+	expr : expr . '-' expr  (106)
+	expr : expr . '*' expr  (107)
+	expr : expr . '/' expr  (108)
+	expr : expr . '%' expr  (109)
+	expr : expr . '<' expr  (110)
+	expr : expr . LESS_OR_EQUAL expr  (111)
+	expr : expr . '>' expr  (112)
+	expr : expr . GREATER_OR_EQUAL expr  (113)
+	expr : expr . IS_EQUAL expr  (114)
+	expr : expr . IS_NOT_EQUAL expr  (115)
+	expr : expr . AND expr  (116)
+	expr : expr . OR expr  (117)
+	expr : expr OR expr .  (117)
+	expr : expr . '=' expr  (118)
+	expr : expr . '^' expr  (121)
+	expr : expr . '&' expr  (122)
+	expr : expr . '|' expr  (123)
+	expr : expr . SHIFT_LEFT expr  (124)
+	expr : expr . SHIFT_RIGHT expr  (125)
+	expr : expr . INCREMENT  (132)
+	expr : expr . DECREMENT  (133)
+	expr : expr . arglist  (135)
+
+	AND  shift 94
+	'|'  shift 95
+	'^'  shift 96
+	'&'  shift 97
+	IS_EQUAL  shift 98
+	IS_NOT_EQUAL  shift 99
+	'<'  shift 100
+	'>'  shift 101
+	LESS_OR_EQUAL  shift 102
+	GREATER_OR_EQUAL  shift 103
+	SHIFT_LEFT  shift 104
+	SHIFT_RIGHT  shift 105
+	'+'  shift 106
+	'-'  shift 107
+	'*'  shift 108
+	'/'  shift 109
+	'%'  shift 110
+	INCREMENT  shift 111
+	DECREMENT  shift 112
+	'('  shift 113
+	'}'  reduce 117
+	':'  reduce 117
+	';'  reduce 117
+	','  reduce 117
+	'='  reduce 117
+	OR  reduce 117
+	']'  reduce 117
+	')'  reduce 117
+
+	arglist  goto 115
+
+
+state 155
+	expr : expr . '+' expr  (105)
+	expr : expr . '-' expr  (106)
+	expr : expr . '*' expr  (107)
+	expr : expr . '/' expr  (108)
+	expr : expr . '%' expr  (109)
+	expr : expr . '<' expr  (110)
+	expr : expr . LESS_OR_EQUAL expr  (111)
+	expr : expr . '>' expr  (112)
+	expr : expr . GREATER_OR_EQUAL expr  (113)
+	expr : expr . IS_EQUAL expr  (114)
+	expr : expr . IS_NOT_EQUAL expr  (115)
+	expr : expr . AND expr  (116)
+	expr : expr AND expr .  (116)
+	expr : expr . OR expr  (117)
+	expr : expr . '=' expr  (118)
+	expr : expr . '^' expr  (121)
+	expr : expr . '&' expr  (122)
+	expr : expr . '|' expr  (123)
+	expr : expr . SHIFT_LEFT expr  (124)
+	expr : expr . SHIFT_RIGHT expr  (125)
+	expr : expr . INCREMENT  (132)
+	expr : expr . DECREMENT  (133)
+	expr : expr . arglist  (135)
+
+	'|'  shift 95
+	'^'  shift 96
+	'&'  shift 97
+	IS_EQUAL  shift 98
+	IS_NOT_EQUAL  shift 99
+	'<'  shift 100
+	'>'  shift 101
+	LESS_OR_EQUAL  shift 102
+	GREATER_OR_EQUAL  shift 103
+	SHIFT_LEFT  shift 104
+	SHIFT_RIGHT  shift 105
+	'+'  shift 106
+	'-'  shift 107
+	'*'  shift 108
+	'/'  shift 109
+	'%'  shift 110
+	INCREMENT  shift 111
+	DECREMENT  shift 112
+	'('  shift 113
+	'}'  reduce 116
+	':'  reduce 116
+	';'  reduce 116
+	','  reduce 116
+	'='  reduce 116
+	OR  reduce 116
+	AND  reduce 116
+	']'  reduce 116
+	')'  reduce 116
+
+	arglist  goto 115
+
+
+state 156
+	expr : expr . '+' expr  (105)
+	expr : expr . '-' expr  (106)
+	expr : expr . '*' expr  (107)
+	expr : expr . '/' expr  (108)
+	expr : expr . '%' expr  (109)
+	expr : expr . '<' expr  (110)
+	expr : expr . LESS_OR_EQUAL expr  (111)
+	expr : expr . '>' expr  (112)
+	expr : expr . GREATER_OR_EQUAL expr  (113)
+	expr : expr . IS_EQUAL expr  (114)
+	expr : expr . IS_NOT_EQUAL expr  (115)
+	expr : expr . AND expr  (116)
+	expr : expr . OR expr  (117)
+	expr : expr . '=' expr  (118)
+	expr : expr . '^' expr  (121)
+	expr : expr . '&' expr  (122)
+	expr : expr . '|' expr  (123)
+	expr : expr '|' expr .  (123)
+	expr : expr . SHIFT_LEFT expr  (124)
+	expr : expr . SHIFT_RIGHT expr  (125)
+	expr : expr . INCREMENT  (132)
+	expr : expr . DECREMENT  (133)
+	expr : expr . arglist  (135)
+
+	'^'  shift 96
+	'&'  shift 97
+	IS_EQUAL  shift 98
+	IS_NOT_EQUAL  shift 99
+	'<'  shift 100
+	'>'  shift 101
+	LESS_OR_EQUAL  shift 102
+	GREATER_OR_EQUAL  shift 103
+	SHIFT_LEFT  shift 104
+	SHIFT_RIGHT  shift 105
+	'+'  shift 106
+	'-'  shift 107
+	'*'  shift 108
+	'/'  shift 109
+	'%'  shift 110
+	INCREMENT  shift 111
+	DECREMENT  shift 112
+	'('  shift 113
+	'}'  reduce 123
+	':'  reduce 123
+	';'  reduce 123
+	','  reduce 123
+	'='  reduce 123
+	OR  reduce 123
+	AND  reduce 123
+	'|'  reduce 123
+	']'  reduce 123
+	')'  reduce 123
+
+	arglist  goto 115
+
+
+state 157
+	expr : expr . '+' expr  (105)
+	expr : expr . '-' expr  (106)
+	expr : expr . '*' expr  (107)
+	expr : expr . '/' expr  (108)
+	expr : expr . '%' expr  (109)
+	expr : expr . '<' expr  (110)
+	expr : expr . LESS_OR_EQUAL expr  (111)
+	expr : expr . '>' expr  (112)
+	expr : expr . GREATER_OR_EQUAL expr  (113)
+	expr : expr . IS_EQUAL expr  (114)
+	expr : expr . IS_NOT_EQUAL expr  (115)
+	expr : expr . AND expr  (116)
+	expr : expr . OR expr  (117)
+	expr : expr . '=' expr  (118)
+	expr : expr . '^' expr  (121)
+	expr : expr '^' expr .  (121)
+	expr : expr . '&' expr  (122)
+	expr : expr . '|' expr  (123)
+	expr : expr . SHIFT_LEFT expr  (124)
+	expr : expr . SHIFT_RIGHT expr  (125)
+	expr : expr . INCREMENT  (132)
+	expr : expr . DECREMENT  (133)
+	expr : expr . arglist  (135)
+
+	'&'  shift 97
+	IS_EQUAL  shift 98
+	IS_NOT_EQUAL  shift 99
+	'<'  shift 100
+	'>'  shift 101
+	LESS_OR_EQUAL  shift 102
+	GREATER_OR_EQUAL  shift 103
+	SHIFT_LEFT  shift 104
+	SHIFT_RIGHT  shift 105
+	'+'  shift 106
+	'-'  shift 107
+	'*'  shift 108
+	'/'  shift 109
+	'%'  shift 110
+	INCREMENT  shift 111
+	DECREMENT  shift 112
+	'('  shift 113
+	'}'  reduce 121
+	':'  reduce 121
+	';'  reduce 121
+	','  reduce 121
+	'='  reduce 121
+	OR  reduce 121
+	AND  reduce 121
+	'|'  reduce 121
+	'^'  reduce 121
+	']'  reduce 121
+	')'  reduce 121
+
+	arglist  goto 115
+
+
+state 158
+	expr : expr . '+' expr  (105)
+	expr : expr . '-' expr  (106)
+	expr : expr . '*' expr  (107)
+	expr : expr . '/' expr  (108)
+	expr : expr . '%' expr  (109)
+	expr : expr . '<' expr  (110)
+	expr : expr . LESS_OR_EQUAL expr  (111)
+	expr : expr . '>' expr  (112)
+	expr : expr . GREATER_OR_EQUAL expr  (113)
+	expr : expr . IS_EQUAL expr  (114)
+	expr : expr . IS_NOT_EQUAL expr  (115)
+	expr : expr . AND expr  (116)
+	expr : expr . OR expr  (117)
+	expr : expr . '=' expr  (118)
+	expr : expr . '^' expr  (121)
+	expr : expr . '&' expr  (122)
+	expr : expr '&' expr .  (122)
+	expr : expr . '|' expr  (123)
+	expr : expr . SHIFT_LEFT expr  (124)
+	expr : expr . SHIFT_RIGHT expr  (125)
+	expr : expr . INCREMENT  (132)
+	expr : expr . DECREMENT  (133)
+	expr : expr . arglist  (135)
+
+	IS_EQUAL  shift 98
+	IS_NOT_EQUAL  shift 99
+	'<'  shift 100
+	'>'  shift 101
+	LESS_OR_EQUAL  shift 102
+	GREATER_OR_EQUAL  shift 103
+	SHIFT_LEFT  shift 104
+	SHIFT_RIGHT  shift 105
+	'+'  shift 106
+	'-'  shift 107
+	'*'  shift 108
+	'/'  shift 109
+	'%'  shift 110
+	INCREMENT  shift 111
+	DECREMENT  shift 112
+	'('  shift 113
+	'}'  reduce 122
+	':'  reduce 122
+	';'  reduce 122
+	','  reduce 122
+	'='  reduce 122
+	OR  reduce 122
+	AND  reduce 122
+	'|'  reduce 122
+	'^'  reduce 122
+	'&'  reduce 122
+	']'  reduce 122
+	')'  reduce 122
+
+	arglist  goto 115
+
+
+state 159
+	expr : expr . '+' expr  (105)
+	expr : expr . '-' expr  (106)
+	expr : expr . '*' expr  (107)
+	expr : expr . '/' expr  (108)
+	expr : expr . '%' expr  (109)
+	expr : expr . '<' expr  (110)
+	expr : expr . LESS_OR_EQUAL expr  (111)
+	expr : expr . '>' expr  (112)
+	expr : expr . GREATER_OR_EQUAL expr  (113)
+	expr : expr . IS_EQUAL expr  (114)
+	expr : expr IS_EQUAL expr .  (114)
+	expr : expr . IS_NOT_EQUAL expr  (115)
+	expr : expr . AND expr  (116)
+	expr : expr . OR expr  (117)
+	expr : expr . '=' expr  (118)
+	expr : expr . '^' expr  (121)
+	expr : expr . '&' expr  (122)
+	expr : expr . '|' expr  (123)
+	expr : expr . SHIFT_LEFT expr  (124)
+	expr : expr . SHIFT_RIGHT expr  (125)
+	expr : expr . INCREMENT  (132)
+	expr : expr . DECREMENT  (133)
+	expr : expr . arglist  (135)
+
+	'<'  shift 100
+	'>'  shift 101
+	LESS_OR_EQUAL  shift 102
+	GREATER_OR_EQUAL  shift 103
+	SHIFT_LEFT  shift 104
+	SHIFT_RIGHT  shift 105
+	'+'  shift 106
+	'-'  shift 107
+	'*'  shift 108
+	'/'  shift 109
+	'%'  shift 110
+	INCREMENT  shift 111
+	DECREMENT  shift 112
+	'('  shift 113
+	'}'  reduce 114
+	':'  reduce 114
+	';'  reduce 114
+	','  reduce 114
+	'='  reduce 114
+	OR  reduce 114
+	AND  reduce 114
+	'|'  reduce 114
+	'^'  reduce 114
+	'&'  reduce 114
+	IS_EQUAL  reduce 114
+	IS_NOT_EQUAL  reduce 114
+	']'  reduce 114
+	')'  reduce 114
+
+	arglist  goto 115
+
+
+state 160
+	expr : expr . '+' expr  (105)
+	expr : expr . '-' expr  (106)
+	expr : expr . '*' expr  (107)
+	expr : expr . '/' expr  (108)
+	expr : expr . '%' expr  (109)
+	expr : expr . '<' expr  (110)
+	expr : expr . LESS_OR_EQUAL expr  (111)
+	expr : expr . '>' expr  (112)
+	expr : expr . GREATER_OR_EQUAL expr  (113)
+	expr : expr . IS_EQUAL expr  (114)
+	expr : expr . IS_NOT_EQUAL expr  (115)
+	expr : expr IS_NOT_EQUAL expr .  (115)
+	expr : expr . AND expr  (116)
+	expr : expr . OR expr  (117)
+	expr : expr . '=' expr  (118)
+	expr : expr . '^' expr  (121)
+	expr : expr . '&' expr  (122)
+	expr : expr . '|' expr  (123)
+	expr : expr . SHIFT_LEFT expr  (124)
+	expr : expr . SHIFT_RIGHT expr  (125)
+	expr : expr . INCREMENT  (132)
+	expr : expr . DECREMENT  (133)
+	expr : expr . arglist  (135)
+
+	'<'  shift 100
+	'>'  shift 101
+	LESS_OR_EQUAL  shift 102
+	GREATER_OR_EQUAL  shift 103
+	SHIFT_LEFT  shift 104
+	SHIFT_RIGHT  shift 105
+	'+'  shift 106
+	'-'  shift 107
+	'*'  shift 108
+	'/'  shift 109
+	'%'  shift 110
+	INCREMENT  shift 111
+	DECREMENT  shift 112
+	'('  shift 113
+	'}'  reduce 115
+	':'  reduce 115
+	';'  reduce 115
+	','  reduce 115
+	'='  reduce 115
+	OR  reduce 115
+	AND  reduce 115
+	'|'  reduce 115
+	'^'  reduce 115
+	'&'  reduce 115
+	IS_EQUAL  reduce 115
+	IS_NOT_EQUAL  reduce 115
+	']'  reduce 115
+	')'  reduce 115
+
+	arglist  goto 115
+
+
+state 161
+	expr : expr . '+' expr  (105)
+	expr : expr . '-' expr  (106)
+	expr : expr . '*' expr  (107)
+	expr : expr . '/' expr  (108)
+	expr : expr . '%' expr  (109)
+	expr : expr . '<' expr  (110)
+	expr : expr '<' expr .  (110)
+	expr : expr . LESS_OR_EQUAL expr  (111)
+	expr : expr . '>' expr  (112)
+	expr : expr . GREATER_OR_EQUAL expr  (113)
+	expr : expr . IS_EQUAL expr  (114)
+	expr : expr . IS_NOT_EQUAL expr  (115)
+	expr : expr . AND expr  (116)
+	expr : expr . OR expr  (117)
+	expr : expr . '=' expr  (118)
+	expr : expr . '^' expr  (121)
+	expr : expr . '&' expr  (122)
+	expr : expr . '|' expr  (123)
+	expr : expr . SHIFT_LEFT expr  (124)
+	expr : expr . SHIFT_RIGHT expr  (125)
+	expr : expr . INCREMENT  (132)
+	expr : expr . DECREMENT  (133)
+	expr : expr . arglist  (135)
+
+	SHIFT_LEFT  shift 104
+	SHIFT_RIGHT  shift 105
+	'+'  shift 106
+	'-'  shift 107
+	'*'  shift 108
+	'/'  shift 109
+	'%'  shift 110
+	INCREMENT  shift 111
+	DECREMENT  shift 112
+	'('  shift 113
+	'}'  reduce 110
+	':'  reduce 110
+	';'  reduce 110
+	','  reduce 110
+	'='  reduce 110
+	OR  reduce 110
+	AND  reduce 110
+	'|'  reduce 110
+	'^'  reduce 110
+	'&'  reduce 110
+	IS_EQUAL  reduce 110
+	IS_NOT_EQUAL  reduce 110
+	'<'  reduce 110
+	'>'  reduce 110
+	LESS_OR_EQUAL  reduce 110
+	GREATER_OR_EQUAL  reduce 110
+	']'  reduce 110
+	')'  reduce 110
+
+	arglist  goto 115
+
+
+state 162
+	expr : expr . '+' expr  (105)
+	expr : expr . '-' expr  (106)
+	expr : expr . '*' expr  (107)
+	expr : expr . '/' expr  (108)
+	expr : expr . '%' expr  (109)
+	expr : expr . '<' expr  (110)
+	expr : expr . LESS_OR_EQUAL expr  (111)
+	expr : expr . '>' expr  (112)
+	expr : expr '>' expr .  (112)
+	expr : expr . GREATER_OR_EQUAL expr  (113)
+	expr : expr . IS_EQUAL expr  (114)
+	expr : expr . IS_NOT_EQUAL expr  (115)
+	expr : expr . AND expr  (116)
+	expr : expr . OR expr  (117)
+	expr : expr . '=' expr  (118)
+	expr : expr . '^' expr  (121)
+	expr : expr . '&' expr  (122)
+	expr : expr . '|' expr  (123)
+	expr : expr . SHIFT_LEFT expr  (124)
+	expr : expr . SHIFT_RIGHT expr  (125)
+	expr : expr . INCREMENT  (132)
+	expr : expr . DECREMENT  (133)
+	expr : expr . arglist  (135)
+
+	SHIFT_LEFT  shift 104
+	SHIFT_RIGHT  shift 105
+	'+'  shift 106
+	'-'  shift 107
+	'*'  shift 108
+	'/'  shift 109
+	'%'  shift 110
+	INCREMENT  shift 111
+	DECREMENT  shift 112
+	'('  shift 113
+	'}'  reduce 112
+	':'  reduce 112
+	';'  reduce 112
+	','  reduce 112
+	'='  reduce 112
+	OR  reduce 112
+	AND  reduce 112
+	'|'  reduce 112
+	'^'  reduce 112
+	'&'  reduce 112
+	IS_EQUAL  reduce 112
+	IS_NOT_EQUAL  reduce 112
+	'<'  reduce 112
+	'>'  reduce 112
+	LESS_OR_EQUAL  reduce 112
+	GREATER_OR_EQUAL  reduce 112
+	']'  reduce 112
+	')'  reduce 112
+
+	arglist  goto 115
+
+
+state 163
+	expr : expr . '+' expr  (105)
+	expr : expr . '-' expr  (106)
+	expr : expr . '*' expr  (107)
+	expr : expr . '/' expr  (108)
+	expr : expr . '%' expr  (109)
+	expr : expr . '<' expr  (110)
+	expr : expr . LESS_OR_EQUAL expr  (111)
+	expr : expr LESS_OR_EQUAL expr .  (111)
+	expr : expr . '>' expr  (112)
+	expr : expr . GREATER_OR_EQUAL expr  (113)
+	expr : expr . IS_EQUAL expr  (114)
+	expr : expr . IS_NOT_EQUAL expr  (115)
+	expr : expr . AND expr  (116)
+	expr : expr . OR expr  (117)
+	expr : expr . '=' expr  (118)
+	expr : expr . '^' expr  (121)
+	expr : expr . '&' expr  (122)
+	expr : expr . '|' expr  (123)
+	expr : expr . SHIFT_LEFT expr  (124)
+	expr : expr . SHIFT_RIGHT expr  (125)
+	expr : expr . INCREMENT  (132)
+	expr : expr . DECREMENT  (133)
+	expr : expr . arglist  (135)
+
+	SHIFT_LEFT  shift 104
+	SHIFT_RIGHT  shift 105
+	'+'  shift 106
+	'-'  shift 107
+	'*'  shift 108
+	'/'  shift 109
+	'%'  shift 110
+	INCREMENT  shift 111
+	DECREMENT  shift 112
+	'('  shift 113
+	'}'  reduce 111
+	':'  reduce 111
+	';'  reduce 111
+	','  reduce 111
+	'='  reduce 111
+	OR  reduce 111
+	AND  reduce 111
+	'|'  reduce 111
+	'^'  reduce 111
+	'&'  reduce 111
+	IS_EQUAL  reduce 111
+	IS_NOT_EQUAL  reduce 111
+	'<'  reduce 111
+	'>'  reduce 111
+	LESS_OR_EQUAL  reduce 111
+	GREATER_OR_EQUAL  reduce 111
+	']'  reduce 111
+	')'  reduce 111
+
+	arglist  goto 115
+
+
+state 164
+	expr : expr . '+' expr  (105)
+	expr : expr . '-' expr  (106)
+	expr : expr . '*' expr  (107)
+	expr : expr . '/' expr  (108)
+	expr : expr . '%' expr  (109)
+	expr : expr . '<' expr  (110)
+	expr : expr . LESS_OR_EQUAL expr  (111)
+	expr : expr . '>' expr  (112)
+	expr : expr . GREATER_OR_EQUAL expr  (113)
+	expr : expr GREATER_OR_EQUAL expr .  (113)
+	expr : expr . IS_EQUAL expr  (114)
+	expr : expr . IS_NOT_EQUAL expr  (115)
+	expr : expr . AND expr  (116)
+	expr : expr . OR expr  (117)
+	expr : expr . '=' expr  (118)
+	expr : expr . '^' expr  (121)
+	expr : expr . '&' expr  (122)
+	expr : expr . '|' expr  (123)
+	expr : expr . SHIFT_LEFT expr  (124)
+	expr : expr . SHIFT_RIGHT expr  (125)
+	expr : expr . INCREMENT  (132)
+	expr : expr . DECREMENT  (133)
+	expr : expr . arglist  (135)
+
+	SHIFT_LEFT  shift 104
+	SHIFT_RIGHT  shift 105
+	'+'  shift 106
+	'-'  shift 107
+	'*'  shift 108
+	'/'  shift 109
+	'%'  shift 110
+	INCREMENT  shift 111
+	DECREMENT  shift 112
+	'('  shift 113
+	'}'  reduce 113
+	':'  reduce 113
+	';'  reduce 113
+	','  reduce 113
+	'='  reduce 113
+	OR  reduce 113
+	AND  reduce 113
+	'|'  reduce 113
+	'^'  reduce 113
+	'&'  reduce 113
+	IS_EQUAL  reduce 113
+	IS_NOT_EQUAL  reduce 113
+	'<'  reduce 113
+	'>'  reduce 113
+	LESS_OR_EQUAL  reduce 113
+	GREATER_OR_EQUAL  reduce 113
+	']'  reduce 113
+	')'  reduce 113
+
+	arglist  goto 115
+
+
+state 165
+	expr : expr . '+' expr  (105)
+	expr : expr . '-' expr  (106)
+	expr : expr . '*' expr  (107)
+	expr : expr . '/' expr  (108)
+	expr : expr . '%' expr  (109)
+	expr : expr . '<' expr  (110)
+	expr : expr . LESS_OR_EQUAL expr  (111)
+	expr : expr . '>' expr  (112)
+	expr : expr . GREATER_OR_EQUAL expr  (113)
+	expr : expr . IS_EQUAL expr  (114)
+	expr : expr . IS_NOT_EQUAL expr  (115)
+	expr : expr . AND expr  (116)
+	expr : expr . OR expr  (117)
+	expr : expr . '=' expr  (118)
+	expr : expr . '^' expr  (121)
+	expr : expr . '&' expr  (122)
+	expr : expr . '|' expr  (123)
+	expr : expr . SHIFT_LEFT expr  (124)
+	expr : expr SHIFT_LEFT expr .  (124)
+	expr : expr . SHIFT_RIGHT expr  (125)
+	expr : expr . INCREMENT  (132)
+	expr : expr . DECREMENT  (133)
+	expr : expr . arglist  (135)
+
+	'+'  shift 106
+	'-'  shift 107
+	'*'  shift 108
+	'/'  shift 109
+	'%'  shift 110
+	INCREMENT  shift 111
+	DECREMENT  shift 112
+	'('  shift 113
+	'}'  reduce 124
+	':'  reduce 124
+	';'  reduce 124
+	','  reduce 124
+	'='  reduce 124
+	OR  reduce 124
+	AND  reduce 124
+	'|'  reduce 124
+	'^'  reduce 124
+	'&'  reduce 124
+	IS_EQUAL  reduce 124
+	IS_NOT_EQUAL  reduce 124
+	'<'  reduce 124
+	'>'  reduce 124
+	LESS_OR_EQUAL  reduce 124
+	GREATER_OR_EQUAL  reduce 124
+	SHIFT_LEFT  reduce 124
+	SHIFT_RIGHT  reduce 124
+	']'  reduce 124
+	')'  reduce 124
+
+	arglist  goto 115
+
+
+state 166
+	expr : expr . '+' expr  (105)
+	expr : expr . '-' expr  (106)
+	expr : expr . '*' expr  (107)
+	expr : expr . '/' expr  (108)
+	expr : expr . '%' expr  (109)
+	expr : expr . '<' expr  (110)
+	expr : expr . LESS_OR_EQUAL expr  (111)
+	expr : expr . '>' expr  (112)
+	expr : expr . GREATER_OR_EQUAL expr  (113)
+	expr : expr . IS_EQUAL expr  (114)
+	expr : expr . IS_NOT_EQUAL expr  (115)
+	expr : expr . AND expr  (116)
+	expr : expr . OR expr  (117)
+	expr : expr . '=' expr  (118)
+	expr : expr . '^' expr  (121)
+	expr : expr . '&' expr  (122)
+	expr : expr . '|' expr  (123)
+	expr : expr . SHIFT_LEFT expr  (124)
+	expr : expr . SHIFT_RIGHT expr  (125)
+	expr : expr SHIFT_RIGHT expr .  (125)
+	expr : expr . INCREMENT  (132)
+	expr : expr . DECREMENT  (133)
+	expr : expr . arglist  (135)
+
+	'+'  shift 106
+	'-'  shift 107
+	'*'  shift 108
+	'/'  shift 109
+	'%'  shift 110
+	INCREMENT  shift 111
+	DECREMENT  shift 112
+	'('  shift 113
+	'}'  reduce 125
+	':'  reduce 125
+	';'  reduce 125
+	','  reduce 125
+	'='  reduce 125
+	OR  reduce 125
+	AND  reduce 125
+	'|'  reduce 125
+	'^'  reduce 125
+	'&'  reduce 125
+	IS_EQUAL  reduce 125
+	IS_NOT_EQUAL  reduce 125
+	'<'  reduce 125
+	'>'  reduce 125
+	LESS_OR_EQUAL  reduce 125
+	GREATER_OR_EQUAL  reduce 125
+	SHIFT_LEFT  reduce 125
+	SHIFT_RIGHT  reduce 125
+	']'  reduce 125
+	')'  reduce 125
+
+	arglist  goto 115
+
+
+state 167
+	expr : expr . '+' expr  (105)
+	expr : expr '+' expr .  (105)
+	expr : expr . '-' expr  (106)
+	expr : expr . '*' expr  (107)
+	expr : expr . '/' expr  (108)
+	expr : expr . '%' expr  (109)
+	expr : expr . '<' expr  (110)
+	expr : expr . LESS_OR_EQUAL expr  (111)
+	expr : expr . '>' expr  (112)
+	expr : expr . GREATER_OR_EQUAL expr  (113)
+	expr : expr . IS_EQUAL expr  (114)
+	expr : expr . IS_NOT_EQUAL expr  (115)
+	expr : expr . AND expr  (116)
+	expr : expr . OR expr  (117)
+	expr : expr . '=' expr  (118)
+	expr : expr . '^' expr  (121)
+	expr : expr . '&' expr  (122)
+	expr : expr . '|' expr  (123)
+	expr : expr . SHIFT_LEFT expr  (124)
+	expr : expr . SHIFT_RIGHT expr  (125)
+	expr : expr . INCREMENT  (132)
+	expr : expr . DECREMENT  (133)
+	expr : expr . arglist  (135)
+
+	'*'  shift 108
+	'/'  shift 109
+	'%'  shift 110
+	INCREMENT  shift 111
+	DECREMENT  shift 112
+	'('  shift 113
+	'}'  reduce 105
+	':'  reduce 105
+	';'  reduce 105
+	','  reduce 105
+	'='  reduce 105
+	OR  reduce 105
+	AND  reduce 105
+	'|'  reduce 105
+	'^'  reduce 105
+	'&'  reduce 105
+	IS_EQUAL  reduce 105
+	IS_NOT_EQUAL  reduce 105
+	'<'  reduce 105
+	'>'  reduce 105
+	LESS_OR_EQUAL  reduce 105
+	GREATER_OR_EQUAL  reduce 105
+	SHIFT_LEFT  reduce 105
+	SHIFT_RIGHT  reduce 105
+	'+'  reduce 105
+	'-'  reduce 105
+	']'  reduce 105
+	')'  reduce 105
+
+	arglist  goto 115
+
+
+state 168
+	expr : expr . '+' expr  (105)
+	expr : expr . '-' expr  (106)
+	expr : expr '-' expr .  (106)
+	expr : expr . '*' expr  (107)
+	expr : expr . '/' expr  (108)
+	expr : expr . '%' expr  (109)
+	expr : expr . '<' expr  (110)
+	expr : expr . LESS_OR_EQUAL expr  (111)
+	expr : expr . '>' expr  (112)
+	expr : expr . GREATER_OR_EQUAL expr  (113)
+	expr : expr . IS_EQUAL expr  (114)
+	expr : expr . IS_NOT_EQUAL expr  (115)
+	expr : expr . AND expr  (116)
+	expr : expr . OR expr  (117)
+	expr : expr . '=' expr  (118)
+	expr : expr . '^' expr  (121)
+	expr : expr . '&' expr  (122)
+	expr : expr . '|' expr  (123)
+	expr : expr . SHIFT_LEFT expr  (124)
+	expr : expr . SHIFT_RIGHT expr  (125)
+	expr : expr . INCREMENT  (132)
+	expr : expr . DECREMENT  (133)
+	expr : expr . arglist  (135)
+
+	'*'  shift 108
+	'/'  shift 109
+	'%'  shift 110
+	INCREMENT  shift 111
+	DECREMENT  shift 112
+	'('  shift 113
+	'}'  reduce 106
+	':'  reduce 106
+	';'  reduce 106
+	','  reduce 106
+	'='  reduce 106
+	OR  reduce 106
+	AND  reduce 106
+	'|'  reduce 106
+	'^'  reduce 106
+	'&'  reduce 106
+	IS_EQUAL  reduce 106
+	IS_NOT_EQUAL  reduce 106
+	'<'  reduce 106
+	'>'  reduce 106
+	LESS_OR_EQUAL  reduce 106
+	GREATER_OR_EQUAL  reduce 106
+	SHIFT_LEFT  reduce 106
+	SHIFT_RIGHT  reduce 106
+	'+'  reduce 106
+	'-'  reduce 106
+	']'  reduce 106
+	')'  reduce 106
+
+	arglist  goto 115
+
+
+state 169
+	expr : expr . '+' expr  (105)
+	expr : expr . '-' expr  (106)
+	expr : expr . '*' expr  (107)
+	expr : expr '*' expr .  (107)
+	expr : expr . '/' expr  (108)
+	expr : expr . '%' expr  (109)
+	expr : expr . '<' expr  (110)
+	expr : expr . LESS_OR_EQUAL expr  (111)
+	expr : expr . '>' expr  (112)
+	expr : expr . GREATER_OR_EQUAL expr  (113)
+	expr : expr . IS_EQUAL expr  (114)
+	expr : expr . IS_NOT_EQUAL expr  (115)
+	expr : expr . AND expr  (116)
+	expr : expr . OR expr  (117)
+	expr : expr . '=' expr  (118)
+	expr : expr . '^' expr  (121)
+	expr : expr . '&' expr  (122)
+	expr : expr . '|' expr  (123)
+	expr : expr . SHIFT_LEFT expr  (124)
+	expr : expr . SHIFT_RIGHT expr  (125)
+	expr : expr . INCREMENT  (132)
+	expr : expr . DECREMENT  (133)
+	expr : expr . arglist  (135)
+
+	INCREMENT  shift 111
+	DECREMENT  shift 112
+	'('  shift 113
+	'}'  reduce 107
+	':'  reduce 107
+	';'  reduce 107
+	','  reduce 107
+	'='  reduce 107
+	OR  reduce 107
+	AND  reduce 107
+	'|'  reduce 107
+	'^'  reduce 107
+	'&'  reduce 107
+	IS_EQUAL  reduce 107
+	IS_NOT_EQUAL  reduce 107
+	'<'  reduce 107
+	'>'  reduce 107
+	LESS_OR_EQUAL  reduce 107
+	GREATER_OR_EQUAL  reduce 107
+	SHIFT_LEFT  reduce 107
+	SHIFT_RIGHT  reduce 107
+	'+'  reduce 107
+	'-'  reduce 107
+	'*'  reduce 107
+	'/'  reduce 107
+	'%'  reduce 107
+	']'  reduce 107
+	')'  reduce 107
+
+	arglist  goto 115
+
+
+state 170
+	expr : expr . '+' expr  (105)
+	expr : expr . '-' expr  (106)
+	expr : expr . '*' expr  (107)
+	expr : expr . '/' expr  (108)
+	expr : expr '/' expr .  (108)
+	expr : expr . '%' expr  (109)
+	expr : expr . '<' expr  (110)
+	expr : expr . LESS_OR_EQUAL expr  (111)
+	expr : expr . '>' expr  (112)
+	expr : expr . GREATER_OR_EQUAL expr  (113)
+	expr : expr . IS_EQUAL expr  (114)
+	expr : expr . IS_NOT_EQUAL expr  (115)
+	expr : expr . AND expr  (116)
+	expr : expr . OR expr  (117)
+	expr : expr . '=' expr  (118)
+	expr : expr . '^' expr  (121)
+	expr : expr . '&' expr  (122)
+	expr : expr . '|' expr  (123)
+	expr : expr . SHIFT_LEFT expr  (124)
+	expr : expr . SHIFT_RIGHT expr  (125)
+	expr : expr . INCREMENT  (132)
+	expr : expr . DECREMENT  (133)
+	expr : expr . arglist  (135)
+
+	INCREMENT  shift 111
+	DECREMENT  shift 112
+	'('  shift 113
+	'}'  reduce 108
+	':'  reduce 108
+	';'  reduce 108
+	','  reduce 108
+	'='  reduce 108
+	OR  reduce 108
+	AND  reduce 108
+	'|'  reduce 108
+	'^'  reduce 108
+	'&'  reduce 108
+	IS_EQUAL  reduce 108
+	IS_NOT_EQUAL  reduce 108
+	'<'  reduce 108
+	'>'  reduce 108
+	LESS_OR_EQUAL  reduce 108
+	GREATER_OR_EQUAL  reduce 108
+	SHIFT_LEFT  reduce 108
+	SHIFT_RIGHT  reduce 108
+	'+'  reduce 108
+	'-'  reduce 108
+	'*'  reduce 108
+	'/'  reduce 108
+	'%'  reduce 108
+	']'  reduce 108
+	')'  reduce 108
+
+	arglist  goto 115
+
+
+state 171
+	expr : expr . '+' expr  (105)
+	expr : expr . '-' expr  (106)
+	expr : expr . '*' expr  (107)
+	expr : expr . '/' expr  (108)
+	expr : expr . '%' expr  (109)
+	expr : expr '%' expr .  (109)
+	expr : expr . '<' expr  (110)
+	expr : expr . LESS_OR_EQUAL expr  (111)
+	expr : expr . '>' expr  (112)
+	expr : expr . GREATER_OR_EQUAL expr  (113)
+	expr : expr . IS_EQUAL expr  (114)
+	expr : expr . IS_NOT_EQUAL expr  (115)
+	expr : expr . AND expr  (116)
+	expr : expr . OR expr  (117)
+	expr : expr . '=' expr  (118)
+	expr : expr . '^' expr  (121)
+	expr : expr . '&' expr  (122)
+	expr : expr . '|' expr  (123)
+	expr : expr . SHIFT_LEFT expr  (124)
+	expr : expr . SHIFT_RIGHT expr  (125)
+	expr : expr . INCREMENT  (132)
+	expr : expr . DECREMENT  (133)
+	expr : expr . arglist  (135)
+
+	INCREMENT  shift 111
+	DECREMENT  shift 112
+	'('  shift 113
+	'}'  reduce 109
+	':'  reduce 109
+	';'  reduce 109
+	','  reduce 109
+	'='  reduce 109
+	OR  reduce 109
+	AND  reduce 109
+	'|'  reduce 109
+	'^'  reduce 109
+	'&'  reduce 109
+	IS_EQUAL  reduce 109
+	IS_NOT_EQUAL  reduce 109
+	'<'  reduce 109
+	'>'  reduce 109
+	LESS_OR_EQUAL  reduce 109
+	GREATER_OR_EQUAL  reduce 109
+	SHIFT_LEFT  reduce 109
+	SHIFT_RIGHT  reduce 109
+	'+'  reduce 109
+	'-'  reduce 109
+	'*'  reduce 109
+	'/'  reduce 109
+	'%'  reduce 109
+	']'  reduce 109
+	')'  reduce 109
+
+	arglist  goto 115
+
+
+state 172
+	arglist : '(' args . ')'  (146)
+
+	')'  shift 198
+	.  error
+
+
+state 173
+	expr : expr . '+' expr  (105)
+	expr : expr . '-' expr  (106)
+	expr : expr . '*' expr  (107)
+	expr : expr . '/' expr  (108)
+	expr : expr . '%' expr  (109)
+	expr : expr . '<' expr  (110)
+	expr : expr . LESS_OR_EQUAL expr  (111)
+	expr : expr . '>' expr  (112)
+	expr : expr . GREATER_OR_EQUAL expr  (113)
+	expr : expr . IS_EQUAL expr  (114)
+	expr : expr . IS_NOT_EQUAL expr  (115)
+	expr : expr . AND expr  (116)
+	expr : expr . OR expr  (117)
+	expr : expr . '=' expr  (118)
+	expr : expr . '^' expr  (121)
+	expr : expr . '&' expr  (122)
+	expr : expr . '|' expr  (123)
+	expr : expr . SHIFT_LEFT expr  (124)
+	expr : expr . SHIFT_RIGHT expr  (125)
+	expr : expr . INCREMENT  (132)
+	expr : expr . DECREMENT  (133)
+	expr : expr . arglist  (135)
+	args : expr . ',' args  (147)
+	args : expr .  (148)
+
+	','  shift 199
+	'='  shift 92
+	OR  shift 93
+	AND  shift 94
+	'|'  shift 95
+	'^'  shift 96
+	'&'  shift 97
+	IS_EQUAL  shift 98
+	IS_NOT_EQUAL  shift 99
+	'<'  shift 100
+	'>'  shift 101
+	LESS_OR_EQUAL  shift 102
+	GREATER_OR_EQUAL  shift 103
+	SHIFT_LEFT  shift 104
+	SHIFT_RIGHT  shift 105
+	'+'  shift 106
+	'-'  shift 107
+	'*'  shift 108
+	'/'  shift 109
+	'%'  shift 110
+	INCREMENT  shift 111
+	DECREMENT  shift 112
+	'('  shift 113
+	')'  reduce 148
+
+	arglist  goto 115
+
+
+state 174
+	arr_content : expr . ',' arr_content  (76)
+	arr_content : expr .  (77)
+	expr : expr . '+' expr  (105)
+	expr : expr . '-' expr  (106)
+	expr : expr . '*' expr  (107)
+	expr : expr . '/' expr  (108)
+	expr : expr . '%' expr  (109)
+	expr : expr . '<' expr  (110)
+	expr : expr . LESS_OR_EQUAL expr  (111)
+	expr : expr . '>' expr  (112)
+	expr : expr . GREATER_OR_EQUAL expr  (113)
+	expr : expr . IS_EQUAL expr  (114)
+	expr : expr . IS_NOT_EQUAL expr  (115)
+	expr : expr . AND expr  (116)
+	expr : expr . OR expr  (117)
+	expr : expr . '=' expr  (118)
+	expr : expr . '^' expr  (121)
+	expr : expr . '&' expr  (122)
+	expr : expr . '|' expr  (123)
+	expr : expr . SHIFT_LEFT expr  (124)
+	expr : expr . SHIFT_RIGHT expr  (125)
+	expr : expr . INCREMENT  (132)
+	expr : expr . DECREMENT  (133)
+	expr : expr . arglist  (135)
+
+	','  shift 200
+	'='  shift 92
+	OR  shift 93
+	AND  shift 94
+	'|'  shift 95
+	'^'  shift 96
+	'&'  shift 97
+	IS_EQUAL  shift 98
+	IS_NOT_EQUAL  shift 99
+	'<'  shift 100
+	'>'  shift 101
+	LESS_OR_EQUAL  shift 102
+	GREATER_OR_EQUAL  shift 103
+	SHIFT_LEFT  shift 104
+	SHIFT_RIGHT  shift 105
+	'+'  shift 106
+	'-'  shift 107
+	'*'  shift 108
+	'/'  shift 109
+	'%'  shift 110
+	INCREMENT  shift 111
+	DECREMENT  shift 112
+	'('  shift 113
+	'}'  reduce 77
+
+	arglist  goto 115
+
+
+state 175
+	arr_cnt_fmt : '{' arr_content . '}'  (73)
+
+	'}'  shift 201
+	.  error
+
+
+state 176
+	arr_content : arr_cnt_fmt .  (74)
+	arr_content : arr_cnt_fmt . ',' arr_content  (75)
+
+	','  shift 202
+	'}'  reduce 74
+
+
+state 177
+	parameters : type_ident ',' parameters .  (63)
+
+	.  reduce 63
+
+
+state 178
+	for_condition : '(' . for_content ')'  (25)
+
+	INT_NUM  shift 48
+	FLOAT_NUM  shift 49
+	STRING  shift 50
+	CHARACTER  shift 51
+	NULL_SIGNAL  shift 52
+	ID  shift 53
+	';'  shift 203
+	'&'  shift 54
+	'+'  shift 55
+	'-'  shift 56
+	'*'  shift 57
+	INCREMENT  shift 58
+	DECREMENT  shift 59
+	'!'  shift 60
+	'~'  shift 61
+	'('  shift 62
+	.  error
+
+	factor  goto 63
+	type_casting  goto 64
+	for_content  goto 204
+	expr  goto 205
+	arr_id  goto 66
+
+
+state 179
+	for_stmt : FOR for_condition . stmt  (24)
+
+	INT_NUM  shift 48
+	FLOAT_NUM  shift 49
+	STRING  shift 50
+	CHARACTER  shift 51
+	NULL_SIGNAL  shift 52
+	ID  shift 53
+	FOR  shift 123
+	DO  shift 124
+	WHILE  shift 125
+	BREAK  shift 126
+	CONTINUE  shift 127
+	IF  shift 128
+	RETURN  shift 129
+	SWITCH  shift 130
+	'{'  shift 74
+	'&'  shift 54
+	'+'  shift 55
+	'-'  shift 56
+	'*'  shift 57
+	INCREMENT  shift 58
+	DECREMENT  shift 59
+	'!'  shift 60
+	'~'  shift 61
+	'('  shift 62
+	.  error
+
+	while_stmt  goto 133
+	do_while_stmt  goto 134
+	while_tag  goto 135
+	do_tag  goto 136
+	switch_stmt  goto 137
+	factor  goto 63
+	if_else_stmt  goto 138
+	break_stmt  goto 139
+	type_casting  goto 64
+	expr_stmt  goto 141
+	stmt  goto 206
+	if_stmt  goto 144
+	for_stmt  goto 145
+	expr  goto 146
+	arr_id  goto 66
+	compound_stmt  goto 147
+	continue_stmt  goto 148
+	return_stmt  goto 149
+
+
+state 180
+	do_tag : DO stmt .  (34)
+
+	.  reduce 34
+
+
+state 181
+	condition : '(' . expr ')'  (50)
+
+	INT_NUM  shift 48
+	FLOAT_NUM  shift 49
+	STRING  shift 50
+	CHARACTER  shift 51
+	NULL_SIGNAL  shift 52
+	ID  shift 53
+	'&'  shift 54
+	'+'  shift 55
+	'-'  shift 56
+	'*'  shift 57
+	INCREMENT  shift 58
+	DECREMENT  shift 59
+	'!'  shift 60
+	'~'  shift 61
+	'('  shift 62
+	.  error
+
+	factor  goto 63
+	type_casting  goto 64
+	expr  goto 207
+	arr_id  goto 66
+
+
+state 182
+	while_tag : WHILE condition .  (33)
+
+	.  reduce 33
+
+
+state 183
+	break_stmt : BREAK ';' .  (57)
+
+	.  reduce 57
+
+
+state 184
+	continue_stmt : CONTINUE ';' .  (58)
+
+	.  reduce 58
+
+
+state 185
+	if_stmt : IF condition . compound_stmt  (47)
+
+	'{'  shift 74
+	.  error
+
+	compound_stmt  goto 208
+
+
+state 186
+	return_stmt : RETURN ';' .  (60)
+
+	.  reduce 60
+
+
+state 187
+	return_stmt : RETURN expr_stmt .  (59)
+
+	.  reduce 59
+
+
+state 188
+	switch_stmt : SWITCH condition . switch_clause  (35)
+
+	'{'  shift 209
+	.  error
+
+	switch_clause  goto 210
+
+
+state 189
+	arr_id : ID . arr_tag  (70)
+	ident : ID . ident_tail  (101)
+	var_init : ID . '='  (104)
+
+	';'  shift 41
+	','  shift 42
+	'='  shift 43
+	'['  shift 44
+	.  error
+
+	ident_tail  goto 45
+	arr_tag  goto 46
+	box  goto 47
+
+
+state 190
+	while_stmt : while_tag stmt .  (23)
+
+	.  reduce 23
+
+
+state 191
+	do_while_stmt : do_tag while_tag . ';'  (32)
+
+	';'  shift 211
+	.  error
+
+
+state 192
+	compound_stmt_content : var_decl compound_stmt_content .  (54)
+
+	.  reduce 54
+
+
+state 193
+	compound_stmt : '{' compound_stmt_content '}' .  (51)
+
+	.  reduce 51
+
+
+state 194
+	compound_stmt_content : stmt compound_stmt_content .  (53)
+
+	.  reduce 53
+
+
+state 195
+	else_stmt : ELSE . compound_stmt  (48)
+
+	'{'  shift 74
+	.  error
+
+	compound_stmt  goto 212
+
+
+state 196
+	if_else_stmt : if_stmt else_stmt .  (45)
+
+	.  reduce 45
+
+
+state 197
+	expr_stmt : expr ';' .  (49)
+
+	.  reduce 49
+
+
+state 198
+	arglist : '(' args ')' .  (146)
+
+	.  reduce 146
+
+
+state 199
+	args : expr ',' . args  (147)
+
+	INT_NUM  shift 48
+	FLOAT_NUM  shift 49
+	STRING  shift 50
+	CHARACTER  shift 51
+	NULL_SIGNAL  shift 52
+	ID  shift 53
+	'&'  shift 54
+	'+'  shift 55
+	'-'  shift 56
+	'*'  shift 57
+	INCREMENT  shift 58
+	DECREMENT  shift 59
+	'!'  shift 60
+	'~'  shift 61
+	'('  shift 62
+	.  error
+
+	factor  goto 63
+	type_casting  goto 64
+	args  goto 213
+	expr  goto 173
+	arr_id  goto 66
+
+
+state 200
+	arr_content : expr ',' . arr_content  (76)
+
+	INT_NUM  shift 48
+	FLOAT_NUM  shift 49
+	STRING  shift 50
+	CHARACTER  shift 51
+	NULL_SIGNAL  shift 52
+	ID  shift 53
+	'{'  shift 116
+	'&'  shift 54
+	'+'  shift 55
+	'-'  shift 56
+	'*'  shift 57
+	INCREMENT  shift 58
+	DECREMENT  shift 59
+	'!'  shift 60
+	'~'  shift 61
+	'('  shift 62
+	.  error
+
+	factor  goto 63
+	type_casting  goto 64
+	expr  goto 174
+	arr_content  goto 214
+	arr_cnt_fmt  goto 176
+	arr_id  goto 66
+
+
+state 201
+	arr_cnt_fmt : '{' arr_content '}' .  (73)
+
+	.  reduce 73
+
+
+state 202
+	arr_content : arr_cnt_fmt ',' . arr_content  (75)
+
+	INT_NUM  shift 48
+	FLOAT_NUM  shift 49
+	STRING  shift 50
+	CHARACTER  shift 51
+	NULL_SIGNAL  shift 52
+	ID  shift 53
+	'{'  shift 116
+	'&'  shift 54
+	'+'  shift 55
+	'-'  shift 56
+	'*'  shift 57
+	INCREMENT  shift 58
+	DECREMENT  shift 59
+	'!'  shift 60
+	'~'  shift 61
+	'('  shift 62
+	.  error
+
+	factor  goto 63
+	type_casting  goto 64
+	expr  goto 174
+	arr_content  goto 215
+	arr_cnt_fmt  goto 176
+	arr_id  goto 66
+
+
+state 203
+	for_content : ';' . for_layer_2  (27)
+
+	INT_NUM  shift 48
+	FLOAT_NUM  shift 49
+	STRING  shift 50
+	CHARACTER  shift 51
+	NULL_SIGNAL  shift 52
+	ID  shift 53
+	';'  shift 216
+	'&'  shift 54
+	'+'  shift 55
+	'-'  shift 56
+	'*'  shift 57
+	INCREMENT  shift 58
+	DECREMENT  shift 59
+	'!'  shift 60
+	'~'  shift 61
+	'('  shift 62
+	.  error
+
+	factor  goto 63
+	type_casting  goto 64
+	for_layer_2  goto 217
+	expr  goto 218
+	arr_id  goto 66
+
+
+state 204
+	for_condition : '(' for_content . ')'  (25)
+
+	')'  shift 219
+	.  error
+
+
+state 205
+	for_content : expr . ';' for_layer_2  (26)
+	expr : expr . '+' expr  (105)
+	expr : expr . '-' expr  (106)
+	expr : expr . '*' expr  (107)
+	expr : expr . '/' expr  (108)
+	expr : expr . '%' expr  (109)
+	expr : expr . '<' expr  (110)
+	expr : expr . LESS_OR_EQUAL expr  (111)
+	expr : expr . '>' expr  (112)
+	expr : expr . GREATER_OR_EQUAL expr  (113)
+	expr : expr . IS_EQUAL expr  (114)
+	expr : expr . IS_NOT_EQUAL expr  (115)
+	expr : expr . AND expr  (116)
+	expr : expr . OR expr  (117)
+	expr : expr . '=' expr  (118)
+	expr : expr . '^' expr  (121)
+	expr : expr . '&' expr  (122)
+	expr : expr . '|' expr  (123)
+	expr : expr . SHIFT_LEFT expr  (124)
+	expr : expr . SHIFT_RIGHT expr  (125)
+	expr : expr . INCREMENT  (132)
+	expr : expr . DECREMENT  (133)
+	expr : expr . arglist  (135)
+
+	';'  shift 220
+	'='  shift 92
+	OR  shift 93
+	AND  shift 94
+	'|'  shift 95
+	'^'  shift 96
+	'&'  shift 97
+	IS_EQUAL  shift 98
+	IS_NOT_EQUAL  shift 99
+	'<'  shift 100
+	'>'  shift 101
+	LESS_OR_EQUAL  shift 102
+	GREATER_OR_EQUAL  shift 103
+	SHIFT_LEFT  shift 104
+	SHIFT_RIGHT  shift 105
+	'+'  shift 106
+	'-'  shift 107
+	'*'  shift 108
+	'/'  shift 109
+	'%'  shift 110
+	INCREMENT  shift 111
+	DECREMENT  shift 112
+	'('  shift 113
+	.  error
+
+	arglist  goto 115
+
+
+state 206
+	for_stmt : FOR for_condition stmt .  (24)
+
+	.  reduce 24
+
+
+state 207
+	condition : '(' expr . ')'  (50)
+	expr : expr . '+' expr  (105)
+	expr : expr . '-' expr  (106)
+	expr : expr . '*' expr  (107)
+	expr : expr . '/' expr  (108)
+	expr : expr . '%' expr  (109)
+	expr : expr . '<' expr  (110)
+	expr : expr . LESS_OR_EQUAL expr  (111)
+	expr : expr . '>' expr  (112)
+	expr : expr . GREATER_OR_EQUAL expr  (113)
+	expr : expr . IS_EQUAL expr  (114)
+	expr : expr . IS_NOT_EQUAL expr  (115)
+	expr : expr . AND expr  (116)
+	expr : expr . OR expr  (117)
+	expr : expr . '=' expr  (118)
+	expr : expr . '^' expr  (121)
+	expr : expr . '&' expr  (122)
+	expr : expr . '|' expr  (123)
+	expr : expr . SHIFT_LEFT expr  (124)
+	expr : expr . SHIFT_RIGHT expr  (125)
+	expr : expr . INCREMENT  (132)
+	expr : expr . DECREMENT  (133)
+	expr : expr . arglist  (135)
+
+	'='  shift 92
+	OR  shift 93
+	AND  shift 94
+	'|'  shift 95
+	'^'  shift 96
+	'&'  shift 97
+	IS_EQUAL  shift 98
+	IS_NOT_EQUAL  shift 99
+	'<'  shift 100
+	'>'  shift 101
+	LESS_OR_EQUAL  shift 102
+	GREATER_OR_EQUAL  shift 103
+	SHIFT_LEFT  shift 104
+	SHIFT_RIGHT  shift 105
+	'+'  shift 106
+	'-'  shift 107
+	'*'  shift 108
+	'/'  shift 109
+	'%'  shift 110
+	INCREMENT  shift 111
+	DECREMENT  shift 112
+	'('  shift 113
+	')'  shift 221
+	.  error
+
+	arglist  goto 115
+
+
+state 208
+	if_stmt : IF condition compound_stmt .  (47)
+
+	.  reduce 47
+
+
+state 209
+	switch_clause : '{' . switch_content '}'  (36)
+
+	CASE  shift 222
+	DEFALUT  shift 223
+	.  error
+
+	switch_content  goto 224
+
+
+state 210
+	switch_stmt : SWITCH condition switch_clause .  (35)
+
+	.  reduce 35
+
+
+state 211
+	do_while_stmt : do_tag while_tag ';' .  (32)
+
+	.  reduce 32
+
+
+state 212
+	else_stmt : ELSE compound_stmt .  (48)
+
+	.  reduce 48
+
+
+state 213
+	args : expr ',' args .  (147)
+
+	.  reduce 147
+
+
+state 214
+	arr_content : expr ',' arr_content .  (76)
+
+	.  reduce 76
+
+
+state 215
+	arr_content : arr_cnt_fmt ',' arr_content .  (75)
+
+	.  reduce 75
+
+
+state 216
+	for_layer_2 : ';' .  (29)
+	for_layer_2 : ';' . expr  (31)
+
+	INT_NUM  shift 48
+	FLOAT_NUM  shift 49
+	STRING  shift 50
+	CHARACTER  shift 51
+	NULL_SIGNAL  shift 52
+	ID  shift 53
+	'&'  shift 54
+	'+'  shift 55
+	'-'  shift 56
+	'*'  shift 57
+	INCREMENT  shift 58
+	DECREMENT  shift 59
+	'!'  shift 60
+	'~'  shift 61
+	'('  shift 62
+	')'  reduce 29
+
+	factor  goto 63
+	type_casting  goto 64
+	expr  goto 225
+	arr_id  goto 66
+
+
+state 217
+	for_content : ';' for_layer_2 .  (27)
+
+	.  reduce 27
+
+
+state 218
+	for_layer_2 : expr . ';'  (28)
+	for_layer_2 : expr . ';' expr  (30)
+	expr : expr . '+' expr  (105)
+	expr : expr . '-' expr  (106)
+	expr : expr . '*' expr  (107)
+	expr : expr . '/' expr  (108)
+	expr : expr . '%' expr  (109)
+	expr : expr . '<' expr  (110)
+	expr : expr . LESS_OR_EQUAL expr  (111)
+	expr : expr . '>' expr  (112)
+	expr : expr . GREATER_OR_EQUAL expr  (113)
+	expr : expr . IS_EQUAL expr  (114)
+	expr : expr . IS_NOT_EQUAL expr  (115)
+	expr : expr . AND expr  (116)
+	expr : expr . OR expr  (117)
+	expr : expr . '=' expr  (118)
+	expr : expr . '^' expr  (121)
+	expr : expr . '&' expr  (122)
+	expr : expr . '|' expr  (123)
+	expr : expr . SHIFT_LEFT expr  (124)
+	expr : expr . SHIFT_RIGHT expr  (125)
+	expr : expr . INCREMENT  (132)
+	expr : expr . DECREMENT  (133)
+	expr : expr . arglist  (135)
+
+	';'  shift 226
+	'='  shift 92
+	OR  shift 93
+	AND  shift 94
+	'|'  shift 95
+	'^'  shift 96
+	'&'  shift 97
+	IS_EQUAL  shift 98
+	IS_NOT_EQUAL  shift 99
+	'<'  shift 100
+	'>'  shift 101
+	LESS_OR_EQUAL  shift 102
+	GREATER_OR_EQUAL  shift 103
+	SHIFT_LEFT  shift 104
+	SHIFT_RIGHT  shift 105
+	'+'  shift 106
+	'-'  shift 107
+	'*'  shift 108
+	'/'  shift 109
+	'%'  shift 110
+	INCREMENT  shift 111
+	DECREMENT  shift 112
+	'('  shift 113
+	.  error
+
+	arglist  goto 115
+
+
+state 219
+	for_condition : '(' for_content ')' .  (25)
+
+	.  reduce 25
+
+
+state 220
+	for_content : expr ';' . for_layer_2  (26)
+
+	INT_NUM  shift 48
+	FLOAT_NUM  shift 49
+	STRING  shift 50
+	CHARACTER  shift 51
+	NULL_SIGNAL  shift 52
+	ID  shift 53
+	';'  shift 216
+	'&'  shift 54
+	'+'  shift 55
+	'-'  shift 56
+	'*'  shift 57
+	INCREMENT  shift 58
+	DECREMENT  shift 59
+	'!'  shift 60
+	'~'  shift 61
+	'('  shift 62
+	.  error
+
+	factor  goto 63
+	type_casting  goto 64
+	for_layer_2  goto 227
+	expr  goto 218
+	arr_id  goto 66
+
+
+state 221
+	condition : '(' expr ')' .  (50)
+
+	.  reduce 50
+
+
+state 222
+	switch_content : CASE . case_expr switch_content  (37)
+	switch_content : CASE . case_expr  (39)
+
+	INT_NUM  shift 48
+	FLOAT_NUM  shift 49
+	STRING  shift 50
+	CHARACTER  shift 51
+	NULL_SIGNAL  shift 52
+	ID  shift 53
+	'&'  shift 54
+	'+'  shift 55
+	'-'  shift 56
+	'*'  shift 57
+	INCREMENT  shift 58
+	DECREMENT  shift 59
+	'!'  shift 60
+	'~'  shift 61
+	'('  shift 62
+	.  error
+
+	case_expr  goto 228
+	factor  goto 63
+	type_casting  goto 64
+	expr  goto 229
+	arr_id  goto 66
+
+
+state 223
+	switch_content : DEFALUT . default_expr switch_content  (38)
+	switch_content : DEFALUT . default_expr  (40)
+
+	':'  shift 230
+	.  error
+
+	default_expr  goto 231
+
+
+state 224
+	switch_clause : '{' switch_content . '}'  (36)
+
+	'}'  shift 232
+	.  error
+
+
+state 225
+	for_layer_2 : ';' expr .  (31)
+	expr : expr . '+' expr  (105)
+	expr : expr . '-' expr  (106)
+	expr : expr . '*' expr  (107)
+	expr : expr . '/' expr  (108)
+	expr : expr . '%' expr  (109)
+	expr : expr . '<' expr  (110)
+	expr : expr . LESS_OR_EQUAL expr  (111)
+	expr : expr . '>' expr  (112)
+	expr : expr . GREATER_OR_EQUAL expr  (113)
+	expr : expr . IS_EQUAL expr  (114)
+	expr : expr . IS_NOT_EQUAL expr  (115)
+	expr : expr . AND expr  (116)
+	expr : expr . OR expr  (117)
+	expr : expr . '=' expr  (118)
+	expr : expr . '^' expr  (121)
+	expr : expr . '&' expr  (122)
+	expr : expr . '|' expr  (123)
+	expr : expr . SHIFT_LEFT expr  (124)
+	expr : expr . SHIFT_RIGHT expr  (125)
+	expr : expr . INCREMENT  (132)
+	expr : expr . DECREMENT  (133)
+	expr : expr . arglist  (135)
+
+	'='  shift 92
+	OR  shift 93
+	AND  shift 94
+	'|'  shift 95
+	'^'  shift 96
+	'&'  shift 97
+	IS_EQUAL  shift 98
+	IS_NOT_EQUAL  shift 99
+	'<'  shift 100
+	'>'  shift 101
+	LESS_OR_EQUAL  shift 102
+	GREATER_OR_EQUAL  shift 103
+	SHIFT_LEFT  shift 104
+	SHIFT_RIGHT  shift 105
+	'+'  shift 106
+	'-'  shift 107
+	'*'  shift 108
+	'/'  shift 109
+	'%'  shift 110
+	INCREMENT  shift 111
+	DECREMENT  shift 112
+	'('  shift 113
+	')'  reduce 31
+
+	arglist  goto 115
+
+
+state 226
+	for_layer_2 : expr ';' .  (28)
+	for_layer_2 : expr ';' . expr  (30)
+
+	INT_NUM  shift 48
+	FLOAT_NUM  shift 49
+	STRING  shift 50
+	CHARACTER  shift 51
+	NULL_SIGNAL  shift 52
+	ID  shift 53
+	'&'  shift 54
+	'+'  shift 55
+	'-'  shift 56
+	'*'  shift 57
+	INCREMENT  shift 58
+	DECREMENT  shift 59
+	'!'  shift 60
+	'~'  shift 61
+	'('  shift 62
+	')'  reduce 28
+
+	factor  goto 63
+	type_casting  goto 64
+	expr  goto 233
+	arr_id  goto 66
+
+
+state 227
+	for_content : expr ';' for_layer_2 .  (26)
+
+	.  reduce 26
+
+
+state 228
+	switch_content : CASE case_expr . switch_content  (37)
+	switch_content : CASE case_expr .  (39)
+
+	CASE  shift 222
+	DEFALUT  shift 223
+	'}'  reduce 39
+
+	switch_content  goto 234
+
+
+state 229
+	case_expr : expr . ':' stmt  (41)
+	case_expr : expr . ':'  (42)
+	expr : expr . '+' expr  (105)
+	expr : expr . '-' expr  (106)
+	expr : expr . '*' expr  (107)
+	expr : expr . '/' expr  (108)
+	expr : expr . '%' expr  (109)
+	expr : expr . '<' expr  (110)
+	expr : expr . LESS_OR_EQUAL expr  (111)
+	expr : expr . '>' expr  (112)
+	expr : expr . GREATER_OR_EQUAL expr  (113)
+	expr : expr . IS_EQUAL expr  (114)
+	expr : expr . IS_NOT_EQUAL expr  (115)
+	expr : expr . AND expr  (116)
+	expr : expr . OR expr  (117)
+	expr : expr . '=' expr  (118)
+	expr : expr . '^' expr  (121)
+	expr : expr . '&' expr  (122)
+	expr : expr . '|' expr  (123)
+	expr : expr . SHIFT_LEFT expr  (124)
+	expr : expr . SHIFT_RIGHT expr  (125)
+	expr : expr . INCREMENT  (132)
+	expr : expr . DECREMENT  (133)
+	expr : expr . arglist  (135)
+
+	':'  shift 235
+	'='  shift 92
+	OR  shift 93
+	AND  shift 94
+	'|'  shift 95
+	'^'  shift 96
+	'&'  shift 97
+	IS_EQUAL  shift 98
+	IS_NOT_EQUAL  shift 99
+	'<'  shift 100
+	'>'  shift 101
+	LESS_OR_EQUAL  shift 102
+	GREATER_OR_EQUAL  shift 103
+	SHIFT_LEFT  shift 104
+	SHIFT_RIGHT  shift 105
+	'+'  shift 106
+	'-'  shift 107
+	'*'  shift 108
+	'/'  shift 109
+	'%'  shift 110
+	INCREMENT  shift 111
+	DECREMENT  shift 112
+	'('  shift 113
+	.  error
+
+	arglist  goto 115
+
+
+state 230
+	default_expr : ':' . stmt  (43)
+	default_expr : ':' .  (44)
+
+	INT_NUM  shift 48
+	FLOAT_NUM  shift 49
+	STRING  shift 50
+	CHARACTER  shift 51
+	NULL_SIGNAL  shift 52
+	ID  shift 53
+	FOR  shift 123
+	DO  shift 124
+	WHILE  shift 125
+	BREAK  shift 126
+	CONTINUE  shift 127
+	IF  shift 128
+	RETURN  shift 129
+	SWITCH  shift 130
+	'{'  shift 74
+	'&'  shift 54
+	'+'  shift 55
+	'-'  shift 56
+	'*'  shift 57
+	INCREMENT  shift 58
+	DECREMENT  shift 59
+	'!'  shift 60
+	'~'  shift 61
+	'('  shift 62
+	CASE  reduce 44
+	DEFALUT  reduce 44
+	'}'  reduce 44
+
+	while_stmt  goto 133
+	do_while_stmt  goto 134
+	while_tag  goto 135
+	do_tag  goto 136
+	switch_stmt  goto 137
+	factor  goto 63
+	if_else_stmt  goto 138
+	break_stmt  goto 139
+	type_casting  goto 64
+	expr_stmt  goto 141
+	stmt  goto 236
+	if_stmt  goto 144
+	for_stmt  goto 145
+	expr  goto 146
+	arr_id  goto 66
+	compound_stmt  goto 147
+	continue_stmt  goto 148
+	return_stmt  goto 149
+
+
+state 231
+	switch_content : DEFALUT default_expr . switch_content  (38)
+	switch_content : DEFALUT default_expr .  (40)
+
+	CASE  shift 222
+	DEFALUT  shift 223
+	'}'  reduce 40
+
+	switch_content  goto 237
+
+
+state 232
+	switch_clause : '{' switch_content '}' .  (36)
+
+	.  reduce 36
+
+
+state 233
+	for_layer_2 : expr ';' expr .  (30)
+	expr : expr . '+' expr  (105)
+	expr : expr . '-' expr  (106)
+	expr : expr . '*' expr  (107)
+	expr : expr . '/' expr  (108)
+	expr : expr . '%' expr  (109)
+	expr : expr . '<' expr  (110)
+	expr : expr . LESS_OR_EQUAL expr  (111)
+	expr : expr . '>' expr  (112)
+	expr : expr . GREATER_OR_EQUAL expr  (113)
+	expr : expr . IS_EQUAL expr  (114)
+	expr : expr . IS_NOT_EQUAL expr  (115)
+	expr : expr . AND expr  (116)
+	expr : expr . OR expr  (117)
+	expr : expr . '=' expr  (118)
+	expr : expr . '^' expr  (121)
+	expr : expr . '&' expr  (122)
+	expr : expr . '|' expr  (123)
+	expr : expr . SHIFT_LEFT expr  (124)
+	expr : expr . SHIFT_RIGHT expr  (125)
+	expr : expr . INCREMENT  (132)
+	expr : expr . DECREMENT  (133)
+	expr : expr . arglist  (135)
+
+	'='  shift 92
+	OR  shift 93
+	AND  shift 94
+	'|'  shift 95
+	'^'  shift 96
+	'&'  shift 97
+	IS_EQUAL  shift 98
+	IS_NOT_EQUAL  shift 99
+	'<'  shift 100
+	'>'  shift 101
+	LESS_OR_EQUAL  shift 102
+	GREATER_OR_EQUAL  shift 103
+	SHIFT_LEFT  shift 104
+	SHIFT_RIGHT  shift 105
+	'+'  shift 106
+	'-'  shift 107
+	'*'  shift 108
+	'/'  shift 109
+	'%'  shift 110
+	INCREMENT  shift 111
+	DECREMENT  shift 112
+	'('  shift 113
+	')'  reduce 30
+
+	arglist  goto 115
+
+
+state 234
+	switch_content : CASE case_expr switch_content .  (37)
+
+	.  reduce 37
+
+
+state 235
+	case_expr : expr ':' . stmt  (41)
+	case_expr : expr ':' .  (42)
+
+	INT_NUM  shift 48
+	FLOAT_NUM  shift 49
+	STRING  shift 50
+	CHARACTER  shift 51
+	NULL_SIGNAL  shift 52
+	ID  shift 53
+	FOR  shift 123
+	DO  shift 124
+	WHILE  shift 125
+	BREAK  shift 126
+	CONTINUE  shift 127
+	IF  shift 128
+	RETURN  shift 129
+	SWITCH  shift 130
+	'{'  shift 74
+	'&'  shift 54
+	'+'  shift 55
+	'-'  shift 56
+	'*'  shift 57
+	INCREMENT  shift 58
+	DECREMENT  shift 59
+	'!'  shift 60
+	'~'  shift 61
+	'('  shift 62
+	CASE  reduce 42
+	DEFALUT  reduce 42
+	'}'  reduce 42
+
+	while_stmt  goto 133
+	do_while_stmt  goto 134
+	while_tag  goto 135
+	do_tag  goto 136
+	switch_stmt  goto 137
+	factor  goto 63
+	if_else_stmt  goto 138
+	break_stmt  goto 139
+	type_casting  goto 64
+	expr_stmt  goto 141
+	stmt  goto 238
+	if_stmt  goto 144
+	for_stmt  goto 145
+	expr  goto 146
+	arr_id  goto 66
+	compound_stmt  goto 147
+	continue_stmt  goto 148
+	return_stmt  goto 149
+
+
+state 236
+	default_expr : ':' stmt .  (43)
+
+	.  reduce 43
+
+
+state 237
+	switch_content : DEFALUT default_expr switch_content .  (38)
+
+	.  reduce 38
+
+
+state 238
+	case_expr : expr ':' stmt .  (41)
+
+	.  reduce 41
+
+
+State 91 contains 22 shift/reduce conflicts.
+
+
+71 terminals, 56 nonterminals
+149 grammar rules, 239 states
+
+grammar parser grammar
+symbol# value# symbol
+     0      0  $end
+     1    256  error
+     2    257  INT_NUM
+     3    258  FLOAT_NUM
+     4    259  STRING
+     5    260  CHARACTER
+     6    261  NULL_SIGNAL
+     7    262  ID
+     8    263  CONST
+     9    264  SIGN
+    10    265  USIGN
+    11    266  LONG
+    12    267  LLONG
+    13    268  SHRT
+    14    269  FLOAT
+    15    270  DOUBLE
+    16    271  VOID
+    17    272  CHAR
+    18    273  INT
+    19    274  FOR
+    20    275  DO
+    21    276  WHILE
+    22    277  BREAK
+    23    278  CONTINUE
+    24    279  IF
+    25    280  ELSE
+    26    281  RETURN
+    27    282  STRUCT
+    28    283  SWITCH
+    29    284  CASE
+    30    285  DEFALUT
+    31     10  '\n'
+    32    123  '{'
+    33    125  '}'
+    34     58  ':'
+    35     59  ';'
+    36    286  ENTER
+    37     44  ','
+    38     61  '='
+    39    287  OR
+    40    288  AND
+    41    124  '|'
+    42     94  '^'
+    43     38  '&'
+    44    289  IS_EQUAL
+    45    290  IS_NOT_EQUAL
+    46     60  '<'
+    47     62  '>'
+    48    291  LESS_OR_EQUAL
+    49    292  GREATER_OR_EQUAL
+    50    293  SHIFT_LEFT
+    51    294  SHIFT_RIGHT
+    52     43  '+'
+    53     45  '-'
+    54     42  '*'
+    55     47  '/'
+    56     37  '%'
+    57    295  INCREMENT
+    58    296  DECREMENT
+    59     33  '!'
+    60    126  '~'
+    61    297  PTRUSED
+    62    298  UMINUS
+    63    299  UPLUS
+    64    300  ADDRESS
+    65    301  CAST
+    66     91  '['
+    67     93  ']'
+    68     40  '('
+    69     41  ')'
+    70    302  POSTFIX
+    71    303  $accept
+    72    304  init
+    73    305  type_decl
+    74    306  type_layer
+    75    307  sign_usgn
+    76    308  int_char
+    77    309  long_shrt
+    78    310  while_stmt
+    79    311  do_while_stmt
+    80    312  while_tag
+    81    313  do_tag
+    82    314  switch_stmt
+    83    315  switch_clause
+    84    316  switch_content
+    85    317  case_expr
+    86    318  default_expr
+    87    319  factor
+    88    320  if_else_stmt
+    89    321  break_stmt
+    90    322  ident
+    91    323  var_init
+    92    324  scalar_decl
+    93    325  func_decl
+    94    326  program
+    95    327  array_decl
+    96    328  func_def
+    97    329  var_decl
+    98    330  ident_tail
+    99    331  type_casting
+   100    332  expr_stmt
+   101    333  compound_stmt_content
+   102    334  stmt
+   103    335  condition
+   104    336  if_stmt
+   105    337  else_stmt
+   106    338  for_stmt
+   107    339  arglist
+   108    340  args
+   109    341  for_condition
+   110    342  for_content
+   111    343  for_layer_2
+   112    344  expr
+   113    345  arr_ident
+   114    346  arr_tag
+   115    347  arr_content
+   116    348  box
+   117    349  arr_cnt_fmt
+   118    350  arr_id
+   119    351  type_ident
+   120    352  parameter_info
+   121    353  parameters
+   122    354  compound_stmt
+   123    355  section
+   124    356  continue_stmt
+   125    357  return_stmt
+   126    358  arr_ident_init

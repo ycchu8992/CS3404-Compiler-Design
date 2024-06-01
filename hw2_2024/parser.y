@@ -54,7 +54,7 @@ int cur_scope=0;
 
 %type<charv>  type_decl type_layer sign_usgn int_char long_shrt while_stmt do_while_stmt while_tag do_tag 
 %type<charv>  switch_stmt switch_clause switch_content case_expr default_expr factor if_else_stmt break_stmt
-%type<charv>  ident var_init scalar_decl func_decl program array_decl func_def var_decl ident_tail
+%type<charv>  ident var_init scalar_decl func_decl program array_decl func_def var_decl ident_tail type_casting
 %type<charv>  expr_stmt compound_stmt_content stmt condition if_stmt else_stmt for_stmt arglist args
 %type<charv>  for_condition for_content for_layer_2 expr arr_ident arr_tag arr_content box arr_cnt_fmt arr_id
 %type<charv>  type_ident parameter_info parameters compound_stmt section init continue_stmt return_stmt arr_ident_init
@@ -80,7 +80,7 @@ int cur_scope=0;
 %left<charv>  '*' '/' '%'
 
 %right<charv>  INCREMENT DECREMENT '!' '~'
-%nonassoc PTRUSED UMINUS UPLUS ADDRESS
+%nonassoc PTRUSED UMINUS UPLUS ADDRESS CAST
 
 %left<charv>  '[' ']' '(' ')'
 %nonassoc  POSTFIX
@@ -360,8 +360,9 @@ expr:     expr '+' expr                             {   $$ = reduce_for_expr($1,
         | expr DECREMENT %prec POSTFIX              {   $$ = reduce_unary_postfix_expr($1, $2);   }
         | factor                                    {   $$ = reduce_factor_expr($1);    }
         | expr arglist                              {   $$ = reduce_func_invoc_expr($1,$2);    }
+        | type_casting expr                         {   $$ = reduce_func_invoc_expr($1,$2);    }
         ;
-
+type_casting: '(' type_decl ')' %prec CAST    { $$ = reduce_terminal_nonterminal_terminal($1, $2, $3);    }
 factor: INT_NUM                                     {   $$ = reduce_terminal($1);   }
         | FLOAT_NUM                                 {   $$ = reduce_nonterminal($1);   } // special useage
         | STRING                                    {   $$ = reduce_nonterminal($1);   } // special useage

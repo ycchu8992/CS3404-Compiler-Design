@@ -1,8 +1,10 @@
 
+int func(){
 
-int main() {
-  "qfwqf"&&"asdv";
-}    
+  (int)a;
+  (char*)printf("%d\n",sc);
+}
+
 
 
 
