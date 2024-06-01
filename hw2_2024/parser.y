@@ -361,9 +361,8 @@ expr:     expr '+' expr                             {   $$ = reduce_for_expr($1,
         | expr DECREMENT %prec POSTFIX              {   $$ = reduce_unary_postfix_expr($1, $2);   }
         | factor                                    {   $$ = reduce_factor_expr($1);    }
         | expr arglist                              {   $$ = reduce_func_invoc_expr($1,$2);    }
-        | type_casting expr                         {   $$ = reduce_func_invoc_expr($1,$2);    }
         ;
-type_casting: '(' type_decl ')'    { $$ = reduce_terminal_nonterminal_terminal($1, $2, $3);    }
+        
 factor: INT_NUM                                     {   $$ = reduce_terminal($1);   }
         | FLOAT_NUM                                 {   $$ = reduce_nonterminal($1);   } // special useage
         | STRING                                    {   $$ = reduce_nonterminal($1);   } // special useage
@@ -375,7 +374,8 @@ factor: INT_NUM                                     {   $$ = reduce_terminal($1)
         ;
 
 arglist: '(' args ')'                               {   $$ = reduce_terminal_nonterminal_terminal($1, $2, $3);    }
-
+        | '(' ')'                                   {   $$ = reduce_terminal_terminal($1, $2);    }
+        ;
 args: expr ',' args                                 {   $$ = reduce_nonterminal_terminal_nonterminal($1, $2, $3);   }
     | expr                                          {   $$ = reduce_nonterminal($1);   }
     ;

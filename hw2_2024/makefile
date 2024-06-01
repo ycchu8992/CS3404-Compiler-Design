@@ -13,7 +13,7 @@ parser.y: lex.yy.c y.tab.c
 	$(CC) -o parser lex.yy.c y.tab.c $(CFLAG) $(DFLAG)
 
 y.tab.c:
-	yacc -d parser.y
+	byacc -d parser.y
 
 .PHONY: scanner.l
 lex.yy.c: y.tab.c

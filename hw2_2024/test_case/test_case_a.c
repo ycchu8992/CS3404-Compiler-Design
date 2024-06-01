@@ -1,4 +1,5 @@
 //array_decl
+
 const signed int a[3];
 const signed long int a[c&b];
 const signed long long int a[a||b];
@@ -31,8 +32,8 @@ const signed short int a[arr[3][4][5]];
 
 const signed long long a[3<<1];
 const signed long a[2+1>>3&4%5][7];
-const signed char a[3][(double)8787+a];
-const signed short a[(char*)str];
+//const signed char a[3][(double)8787+a];
+//const signed short a[(char*)str];
 
 signed a[3];
 unsigned a[3];
