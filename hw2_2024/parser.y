@@ -6,6 +6,7 @@
 char* const type_table[11] = {"const", "signed", "unsigned", "longlong", "long", "short", "int", "float", "double", "void", "char"};
 char* const keyword_table[12] = { "for", "do", "while", "break", "continue", "if", "else", "return", "struct", "switch", "case", "default" };
 extern int tkn;
+extern int num_lines;
 
 char* check_id_exist(char* tok);
 char* install_id(char* tok);
@@ -78,7 +79,7 @@ int cur_scope=0;
 %left<charv>  '+' '-' 
 %left<charv>  '*' '/' '%'
 %right<charv>  "++" "--" 
-%nonassoc DEREF UMINUS UPLUS ADDRESS
+%nonassoc PTRUSED UMINUS UPLUS ADDRESS
 %nonassoc INCREMENT DECREMENT
 %%
 
@@ -360,7 +361,7 @@ int main(int argc, char* argv[]) {
 
 int yyerror(char *s){
     printf("oops!\n");
-    fprintf(stderr, "%s\n", s);
+    fprintf(stderr, "%s at line %d\n", s, num_lines);
     return 0;
 }
 

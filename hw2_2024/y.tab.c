@@ -28,6 +28,7 @@
 char* const type_table[11] = {"const", "signed", "unsigned", "longlong", "long", "short", "int", "float", "double", "void", "char"};
 char* const keyword_table[12] = { "for", "do", "while", "break", "continue", "if", "else", "return", "struct", "switch", "case", "default" };
 extern int tkn;
+extern int num_lines;
 
 char* check_id_exist(char* tok);
 char* install_id(char* tok);
@@ -66,14 +67,14 @@ int cur_scope=0;
 #endif
 #ifndef YYSTYPE_IS_DECLARED
 #define YYSTYPE_IS_DECLARED 1
-#line 43 "parser.y"
+#line 44 "parser.y"
 typedef union YYSTYPE{
     int token;
     char* charv;
     struct symbol *sym;
 } YYSTYPE;
 #endif /* !YYSTYPE_IS_DECLARED */
-#line 77 "y.tab.c"
+#line 78 "y.tab.c"
 
 /* compatibility with bison */
 #ifdef YYPARSE_PARAM
@@ -745,7 +746,7 @@ static YYINT  *yylexp = 0;
 
 static YYINT  *yylexemes = 0;
 #endif /* YYBTYACC */
-#line 351 "parser.y"
+#line 352 "parser.y"
 
 int yylex(void);
 
@@ -758,7 +759,7 @@ int main(int argc, char* argv[]) {
 
 int yyerror(char *s){
     printf("oops!\n");
-    fprintf(stderr, "%s\n", s);
+    fprintf(stderr, "%s at line %d\n", s, num_lines);
     return 0;
 }
 
@@ -923,7 +924,7 @@ char* reduce_for_unary_expr(char* r1, char* r2){
     free(r2);
     return buffer;
 }
-#line 927 "y.tab.c"
+#line 928 "y.tab.c"
 
 /* For use in generated program */
 #define yydepth (int)(yystack.s_mark - yystack.s_base)
@@ -1594,7 +1595,7 @@ yyreduce:
     switch (yyn)
     {
 case 1:
-#line 85 "parser.y"
+#line 86 "parser.y"
 	{
                                                         size_t n1 = strlen(yystack.l_mark[0].charv);
                                                         char* buffer = (char*)malloc(n1+1);
@@ -1603,45 +1604,45 @@ case 1:
                                                         free(yystack.l_mark[0].charv);
                                                         free(buffer);
                                                     }
-#line 1607 "y.tab.c"
+#line 1608 "y.tab.c"
 break;
 case 2:
-#line 94 "parser.y"
+#line 95 "parser.y"
 	{   yyval.charv = reduce_nonterminal_nonterminal(yystack.l_mark[-1].charv, yystack.l_mark[0].charv);    }
-#line 1612 "y.tab.c"
+#line 1613 "y.tab.c"
 break;
 case 3:
-#line 95 "parser.y"
+#line 96 "parser.y"
 	{   yyval.charv = reduce_nonterminal(yystack.l_mark[0].charv);    }
-#line 1617 "y.tab.c"
+#line 1618 "y.tab.c"
 break;
 case 4:
-#line 98 "parser.y"
-	{   yyval.charv = reduce_nonterminal(yystack.l_mark[0].charv);    }
-#line 1622 "y.tab.c"
-break;
-case 5:
 #line 99 "parser.y"
 	{   yyval.charv = reduce_nonterminal(yystack.l_mark[0].charv);    }
-#line 1627 "y.tab.c"
+#line 1623 "y.tab.c"
 break;
-case 6:
+case 5:
 #line 100 "parser.y"
 	{   yyval.charv = reduce_nonterminal(yystack.l_mark[0].charv);    }
-#line 1632 "y.tab.c"
+#line 1628 "y.tab.c"
+break;
+case 6:
+#line 101 "parser.y"
+	{   yyval.charv = reduce_nonterminal(yystack.l_mark[0].charv);    }
+#line 1633 "y.tab.c"
 break;
 case 7:
-#line 103 "parser.y"
-	{   yyval.charv = reduce_nonterminal(yystack.l_mark[0].charv);    }
-#line 1637 "y.tab.c"
-break;
-case 8:
 #line 104 "parser.y"
 	{   yyval.charv = reduce_nonterminal(yystack.l_mark[0].charv);    }
-#line 1642 "y.tab.c"
+#line 1638 "y.tab.c"
+break;
+case 8:
+#line 105 "parser.y"
+	{   yyval.charv = reduce_nonterminal(yystack.l_mark[0].charv);    }
+#line 1643 "y.tab.c"
 break;
 case 9:
-#line 107 "parser.y"
+#line 108 "parser.y"
 	{
                                                         size_t l = strlen("<scalar_decl>");
                                                         size_t n1 = strlen(yystack.l_mark[-1].charv);
@@ -1656,10 +1657,10 @@ case 9:
                                                         free(yystack.l_mark[-1].charv);
                                                         free(yystack.l_mark[0].charv);
                                                     }
-#line 1660 "y.tab.c"
+#line 1661 "y.tab.c"
 break;
 case 10:
-#line 122 "parser.y"
+#line 123 "parser.y"
 	{
                                                         size_t l = strlen("<array_decl>");
                                                         size_t n1 = strlen(yystack.l_mark[-2].charv);
@@ -1676,10 +1677,10 @@ case 10:
                                                         free(yystack.l_mark[-2].charv);
                                                         free(yystack.l_mark[-1].charv);
                                                     }
-#line 1680 "y.tab.c"
+#line 1681 "y.tab.c"
 break;
 case 11:
-#line 140 "parser.y"
+#line 141 "parser.y"
 	{
                                                         size_t l = strlen("<func_decl>");
                                                         size_t n1 = strlen(yystack.l_mark[-2].charv);
@@ -1697,10 +1698,10 @@ case 11:
                                                         free(yystack.l_mark[-2].charv);
                                                         free(yystack.l_mark[-1].charv);
                                                     }
-#line 1701 "y.tab.c"
+#line 1702 "y.tab.c"
 break;
 case 12:
-#line 158 "parser.y"
+#line 159 "parser.y"
 	{
                                                         size_t l = strlen("<func_def>");
                                                         size_t n1 = strlen(yystack.l_mark[-2].charv);
@@ -1719,465 +1720,465 @@ case 12:
                                                         free(yystack.l_mark[-1].charv);
                                                         free(yystack.l_mark[0].charv);
                                                     }
-#line 1723 "y.tab.c"
+#line 1724 "y.tab.c"
 break;
 case 13:
-#line 178 "parser.y"
-	{   yyval.charv = reduce_for_stmt(yystack.l_mark[0].charv);   }
-#line 1728 "y.tab.c"
-break;
-case 14:
 #line 179 "parser.y"
 	{   yyval.charv = reduce_for_stmt(yystack.l_mark[0].charv);   }
-#line 1733 "y.tab.c"
+#line 1729 "y.tab.c"
 break;
-case 15:
+case 14:
 #line 180 "parser.y"
 	{   yyval.charv = reduce_for_stmt(yystack.l_mark[0].charv);   }
-#line 1738 "y.tab.c"
+#line 1734 "y.tab.c"
 break;
-case 16:
+case 15:
 #line 181 "parser.y"
 	{   yyval.charv = reduce_for_stmt(yystack.l_mark[0].charv);   }
-#line 1743 "y.tab.c"
+#line 1739 "y.tab.c"
 break;
-case 17:
+case 16:
 #line 182 "parser.y"
 	{   yyval.charv = reduce_for_stmt(yystack.l_mark[0].charv);   }
-#line 1748 "y.tab.c"
+#line 1744 "y.tab.c"
 break;
-case 18:
+case 17:
 #line 183 "parser.y"
 	{   yyval.charv = reduce_for_stmt(yystack.l_mark[0].charv);   }
-#line 1753 "y.tab.c"
+#line 1749 "y.tab.c"
 break;
-case 19:
+case 18:
 #line 184 "parser.y"
 	{   yyval.charv = reduce_for_stmt(yystack.l_mark[0].charv);   }
-#line 1758 "y.tab.c"
+#line 1754 "y.tab.c"
 break;
-case 20:
+case 19:
 #line 185 "parser.y"
 	{   yyval.charv = reduce_for_stmt(yystack.l_mark[0].charv);   }
-#line 1763 "y.tab.c"
+#line 1759 "y.tab.c"
 break;
-case 21:
+case 20:
 #line 186 "parser.y"
 	{   yyval.charv = reduce_for_stmt(yystack.l_mark[0].charv);   }
-#line 1768 "y.tab.c"
+#line 1764 "y.tab.c"
 break;
-case 22:
+case 21:
 #line 187 "parser.y"
 	{   yyval.charv = reduce_for_stmt(yystack.l_mark[0].charv);   }
-#line 1773 "y.tab.c"
+#line 1769 "y.tab.c"
+break;
+case 22:
+#line 188 "parser.y"
+	{   yyval.charv = reduce_for_stmt(yystack.l_mark[0].charv);   }
+#line 1774 "y.tab.c"
 break;
 case 23:
-#line 190 "parser.y"
+#line 191 "parser.y"
 	{   yyval.charv = reduce_nonterminal_nonterminal(yystack.l_mark[-1].charv,yystack.l_mark[0].charv);   }
-#line 1778 "y.tab.c"
+#line 1779 "y.tab.c"
 break;
 case 24:
-#line 192 "parser.y"
+#line 193 "parser.y"
 	{   yyval.charv = reduce_terminal_nonterminal_nonterminal(keyword_table[yystack.l_mark[-2].token], yystack.l_mark[-1].charv, yystack.l_mark[0].charv); }
-#line 1783 "y.tab.c"
+#line 1784 "y.tab.c"
 break;
 case 25:
-#line 193 "parser.y"
+#line 194 "parser.y"
 	{   yyval.charv = reduce_terminal_nonterminal_terminal(yystack.l_mark[-2].charv, yystack.l_mark[-1].charv, yystack.l_mark[0].charv); }
-#line 1788 "y.tab.c"
+#line 1789 "y.tab.c"
 break;
 case 26:
-#line 194 "parser.y"
+#line 195 "parser.y"
 	{   yyval.charv = reduce_nonterminal_terminal_nonterminal(yystack.l_mark[-2].charv, yystack.l_mark[-1].charv, yystack.l_mark[0].charv); }
-#line 1793 "y.tab.c"
+#line 1794 "y.tab.c"
 break;
 case 27:
-#line 195 "parser.y"
+#line 196 "parser.y"
 	{   yyval.charv = reduce_terminal_nonterminal(yystack.l_mark[-1].charv, yystack.l_mark[0].charv); }
-#line 1798 "y.tab.c"
+#line 1799 "y.tab.c"
 break;
 case 28:
-#line 197 "parser.y"
+#line 198 "parser.y"
 	{   yyval.charv = reduce_nonterminal_terminal(yystack.l_mark[-1].charv, yystack.l_mark[0].charv); }
-#line 1803 "y.tab.c"
+#line 1804 "y.tab.c"
 break;
 case 29:
-#line 198 "parser.y"
+#line 199 "parser.y"
 	{   yyval.charv = reduce_terminal(yystack.l_mark[0].charv); }
-#line 1808 "y.tab.c"
+#line 1809 "y.tab.c"
 break;
 case 30:
-#line 199 "parser.y"
+#line 200 "parser.y"
 	{   yyval.charv = reduce_nonterminal_terminal_nonterminal(yystack.l_mark[-2].charv, yystack.l_mark[-1].charv, yystack.l_mark[0].charv); }
-#line 1813 "y.tab.c"
+#line 1814 "y.tab.c"
 break;
 case 31:
-#line 200 "parser.y"
+#line 201 "parser.y"
 	{   yyval.charv = reduce_terminal_nonterminal(yystack.l_mark[-1].charv, yystack.l_mark[0].charv); }
-#line 1818 "y.tab.c"
+#line 1819 "y.tab.c"
 break;
 case 32:
-#line 203 "parser.y"
+#line 204 "parser.y"
 	{   yyval.charv = reduce_nonterminal_nonterminal_terminal(yystack.l_mark[-2].charv,yystack.l_mark[-1].charv,yystack.l_mark[0].charv);  }
-#line 1823 "y.tab.c"
+#line 1824 "y.tab.c"
 break;
 case 33:
-#line 205 "parser.y"
+#line 206 "parser.y"
 	{   yyval.charv = reduce_terminal_nonterminal(keyword_table[yystack.l_mark[-1].token], yystack.l_mark[0].charv);   }
-#line 1828 "y.tab.c"
+#line 1829 "y.tab.c"
 break;
 case 34:
-#line 207 "parser.y"
+#line 208 "parser.y"
 	{   yyval.charv = reduce_terminal_nonterminal(keyword_table[yystack.l_mark[-1].token], yystack.l_mark[0].charv);   }
-#line 1833 "y.tab.c"
+#line 1834 "y.tab.c"
 break;
 case 35:
-#line 209 "parser.y"
+#line 210 "parser.y"
 	{   yyval.charv = reduce_terminal_nonterminal_nonterminal(keyword_table[yystack.l_mark[-2].token], yystack.l_mark[-1].charv, yystack.l_mark[0].charv);   }
-#line 1838 "y.tab.c"
+#line 1839 "y.tab.c"
 break;
 case 36:
-#line 211 "parser.y"
+#line 212 "parser.y"
 	{   yyval.charv = reduce_terminal_nonterminal_terminal(yystack.l_mark[-2].charv, yystack.l_mark[-1].charv, yystack.l_mark[0].charv);   }
-#line 1843 "y.tab.c"
+#line 1844 "y.tab.c"
 break;
 case 37:
-#line 213 "parser.y"
-	{   yyval.charv = reduce_terminal_nonterminal_nonterminal(keyword_table[yystack.l_mark[-2].token], yystack.l_mark[-1].charv, yystack.l_mark[0].charv);   }
-#line 1848 "y.tab.c"
-break;
-case 38:
 #line 214 "parser.y"
 	{   yyval.charv = reduce_terminal_nonterminal_nonterminal(keyword_table[yystack.l_mark[-2].token], yystack.l_mark[-1].charv, yystack.l_mark[0].charv);   }
-#line 1853 "y.tab.c"
+#line 1849 "y.tab.c"
+break;
+case 38:
+#line 215 "parser.y"
+	{   yyval.charv = reduce_terminal_nonterminal_nonterminal(keyword_table[yystack.l_mark[-2].token], yystack.l_mark[-1].charv, yystack.l_mark[0].charv);   }
+#line 1854 "y.tab.c"
 break;
 case 39:
-#line 215 "parser.y"
-	{   yyval.charv = reduce_terminal_nonterminal(keyword_table[yystack.l_mark[-1].token], yystack.l_mark[0].charv);   }
-#line 1858 "y.tab.c"
-break;
-case 40:
 #line 216 "parser.y"
 	{   yyval.charv = reduce_terminal_nonterminal(keyword_table[yystack.l_mark[-1].token], yystack.l_mark[0].charv);   }
-#line 1863 "y.tab.c"
+#line 1859 "y.tab.c"
+break;
+case 40:
+#line 217 "parser.y"
+	{   yyval.charv = reduce_terminal_nonterminal(keyword_table[yystack.l_mark[-1].token], yystack.l_mark[0].charv);   }
+#line 1864 "y.tab.c"
 break;
 case 41:
-#line 219 "parser.y"
+#line 220 "parser.y"
 	{   yyval.charv = reduce_nonterminal_terminal_nonterminal(yystack.l_mark[-2].charv, yystack.l_mark[-1].charv, yystack.l_mark[0].charv); }
-#line 1868 "y.tab.c"
+#line 1869 "y.tab.c"
 break;
 case 42:
-#line 220 "parser.y"
+#line 221 "parser.y"
 	{   yyval.charv = reduce_nonterminal_terminal(yystack.l_mark[-1].charv, yystack.l_mark[0].charv);   }
-#line 1873 "y.tab.c"
+#line 1874 "y.tab.c"
 break;
 case 43:
-#line 223 "parser.y"
+#line 224 "parser.y"
 	{   yyval.charv = reduce_terminal_nonterminal(yystack.l_mark[-1].charv, yystack.l_mark[0].charv);   }
-#line 1878 "y.tab.c"
+#line 1879 "y.tab.c"
 break;
 case 44:
-#line 224 "parser.y"
+#line 225 "parser.y"
 	{   yyval.charv = reduce_terminal(yystack.l_mark[0].charv);    }
-#line 1883 "y.tab.c"
+#line 1884 "y.tab.c"
 break;
 case 45:
-#line 226 "parser.y"
+#line 227 "parser.y"
 	{   yyval.charv = reduce_nonterminal_nonterminal(yystack.l_mark[-1].charv, yystack.l_mark[0].charv);   }
-#line 1888 "y.tab.c"
+#line 1889 "y.tab.c"
 break;
 case 46:
-#line 227 "parser.y"
+#line 228 "parser.y"
 	{   yyval.charv = reduce_nonterminal(yystack.l_mark[0].charv);    }
-#line 1893 "y.tab.c"
+#line 1894 "y.tab.c"
 break;
 case 47:
-#line 230 "parser.y"
+#line 231 "parser.y"
 	{   yyval.charv = reduce_terminal_nonterminal_nonterminal(keyword_table[yystack.l_mark[-2].token], yystack.l_mark[-1].charv, yystack.l_mark[0].charv);   }
-#line 1898 "y.tab.c"
+#line 1899 "y.tab.c"
 break;
 case 48:
-#line 232 "parser.y"
+#line 233 "parser.y"
 	{   yyval.charv = reduce_terminal_nonterminal(keyword_table[yystack.l_mark[-1].token], yystack.l_mark[0].charv);   }
-#line 1903 "y.tab.c"
+#line 1904 "y.tab.c"
 break;
 case 49:
-#line 234 "parser.y"
+#line 235 "parser.y"
 	{   yyval.charv = reduce_nonterminal_terminal(yystack.l_mark[-1].charv, yystack.l_mark[0].charv);   }
-#line 1908 "y.tab.c"
+#line 1909 "y.tab.c"
 break;
 case 50:
-#line 236 "parser.y"
+#line 237 "parser.y"
 	{   yyval.charv = reduce_terminal_nonterminal_terminal(yystack.l_mark[-2].charv, yystack.l_mark[-1].charv, yystack.l_mark[0].charv);    }
-#line 1913 "y.tab.c"
+#line 1914 "y.tab.c"
 break;
 case 51:
-#line 238 "parser.y"
+#line 239 "parser.y"
 	{   yyval.charv = reduce_terminal_nonterminal_terminal(yystack.l_mark[-2].charv, yystack.l_mark[-1].charv, yystack.l_mark[0].charv);    }
-#line 1918 "y.tab.c"
+#line 1919 "y.tab.c"
 break;
 case 52:
-#line 239 "parser.y"
+#line 240 "parser.y"
 	{   yyval.charv = reduce_terminal_terminal(yystack.l_mark[-1].charv, yystack.l_mark[0].charv);  }
-#line 1923 "y.tab.c"
+#line 1924 "y.tab.c"
 break;
 case 53:
-#line 242 "parser.y"
-	{   yyval.charv = reduce_nonterminal_nonterminal(yystack.l_mark[-1].charv,yystack.l_mark[0].charv);   }
-#line 1928 "y.tab.c"
-break;
-case 54:
 #line 243 "parser.y"
 	{   yyval.charv = reduce_nonterminal_nonterminal(yystack.l_mark[-1].charv,yystack.l_mark[0].charv);   }
-#line 1933 "y.tab.c"
+#line 1929 "y.tab.c"
+break;
+case 54:
+#line 244 "parser.y"
+	{   yyval.charv = reduce_nonterminal_nonterminal(yystack.l_mark[-1].charv,yystack.l_mark[0].charv);   }
+#line 1934 "y.tab.c"
 break;
 case 55:
-#line 244 "parser.y"
-	{   yyval.charv = reduce_nonterminal(yystack.l_mark[0].charv);    }
-#line 1938 "y.tab.c"
-break;
-case 56:
 #line 245 "parser.y"
 	{   yyval.charv = reduce_nonterminal(yystack.l_mark[0].charv);    }
-#line 1943 "y.tab.c"
+#line 1939 "y.tab.c"
+break;
+case 56:
+#line 246 "parser.y"
+	{   yyval.charv = reduce_nonterminal(yystack.l_mark[0].charv);    }
+#line 1944 "y.tab.c"
 break;
 case 57:
-#line 248 "parser.y"
-	{   yyval.charv = reduce_terminal_terminal(keyword_table[yystack.l_mark[-1].token], yystack.l_mark[0].charv);  }
-#line 1948 "y.tab.c"
-break;
-case 58:
 #line 249 "parser.y"
 	{   yyval.charv = reduce_terminal_terminal(keyword_table[yystack.l_mark[-1].token], yystack.l_mark[0].charv);  }
-#line 1953 "y.tab.c"
+#line 1949 "y.tab.c"
+break;
+case 58:
+#line 250 "parser.y"
+	{   yyval.charv = reduce_terminal_terminal(keyword_table[yystack.l_mark[-1].token], yystack.l_mark[0].charv);  }
+#line 1954 "y.tab.c"
 break;
 case 59:
-#line 250 "parser.y"
+#line 251 "parser.y"
 	{   yyval.charv = reduce_terminal_nonterminal(keyword_table[yystack.l_mark[-1].token], yystack.l_mark[0].charv);  }
-#line 1958 "y.tab.c"
+#line 1959 "y.tab.c"
 break;
 case 60:
-#line 251 "parser.y"
+#line 252 "parser.y"
 	{   yyval.charv = reduce_terminal_terminal(keyword_table[yystack.l_mark[-1].token], yystack.l_mark[0].charv);  }
-#line 1963 "y.tab.c"
+#line 1964 "y.tab.c"
 break;
 case 61:
-#line 253 "parser.y"
+#line 254 "parser.y"
 	{   yyval.charv = reduce_terminal_nonterminal_terminal(yystack.l_mark[-2].charv, yystack.l_mark[-1].charv, yystack.l_mark[0].charv);    }
-#line 1968 "y.tab.c"
+#line 1969 "y.tab.c"
 break;
 case 62:
-#line 254 "parser.y"
+#line 255 "parser.y"
 	{   yyval.charv = reduce_terminal_terminal(yystack.l_mark[-1].charv, yystack.l_mark[0].charv);  }
-#line 1973 "y.tab.c"
+#line 1974 "y.tab.c"
 break;
 case 63:
-#line 257 "parser.y"
+#line 258 "parser.y"
 	{   yyval.charv = reduce_nonterminal_terminal_nonterminal(yystack.l_mark[-2].charv, yystack.l_mark[-1].charv, yystack.l_mark[0].charv);   }
-#line 1978 "y.tab.c"
+#line 1979 "y.tab.c"
 break;
 case 64:
-#line 258 "parser.y"
+#line 259 "parser.y"
 	{   yyval.charv = reduce_nonterminal(yystack.l_mark[0].charv);    }
-#line 1983 "y.tab.c"
+#line 1984 "y.tab.c"
 break;
 case 65:
-#line 261 "parser.y"
+#line 262 "parser.y"
 	{   yyval.charv = reduce_nonterminal_terminal(yystack.l_mark[-1].charv, yystack.l_mark[0].charv);   }
-#line 1988 "y.tab.c"
+#line 1989 "y.tab.c"
 break;
 case 66:
-#line 263 "parser.y"
+#line 264 "parser.y"
 	{   yyval.charv = reduce_nonterminal_terminal_nonterminal(yystack.l_mark[-2].charv, yystack.l_mark[-1].charv, yystack.l_mark[0].charv);   }
-#line 1993 "y.tab.c"
+#line 1994 "y.tab.c"
 break;
 case 67:
-#line 264 "parser.y"
+#line 265 "parser.y"
 	{   yyval.charv = reduce_nonterminal(yystack.l_mark[0].charv);    }
-#line 1998 "y.tab.c"
+#line 1999 "y.tab.c"
 break;
 case 68:
-#line 267 "parser.y"
+#line 268 "parser.y"
 	{   yyval.charv = reduce_terminal_nonterminal(yystack.l_mark[-1].charv, yystack.l_mark[0].charv);   }
-#line 2003 "y.tab.c"
+#line 2004 "y.tab.c"
 break;
 case 69:
-#line 269 "parser.y"
+#line 270 "parser.y"
 	{   yyval.charv = reduce_nonterminal_nonterminal(yystack.l_mark[-1].charv, yystack.l_mark[0].charv);    }
-#line 2008 "y.tab.c"
+#line 2009 "y.tab.c"
 break;
 case 70:
-#line 270 "parser.y"
+#line 271 "parser.y"
 	{   yyval.charv = reduce_nonterminal_terminal_nonterminal(yystack.l_mark[-2].charv, yystack.l_mark[-1].charv, yystack.l_mark[0].charv);   }
-#line 2013 "y.tab.c"
+#line 2014 "y.tab.c"
 break;
 case 71:
-#line 271 "parser.y"
+#line 272 "parser.y"
 	{   yyval.charv = reduce_nonterminal(yystack.l_mark[0].charv);    }
-#line 2018 "y.tab.c"
+#line 2019 "y.tab.c"
 break;
 case 72:
-#line 274 "parser.y"
+#line 275 "parser.y"
 	{   yyval.charv = reduce_terminal_nonterminal_terminal(yystack.l_mark[-2].charv, yystack.l_mark[-1].charv, yystack.l_mark[0].charv);    }
-#line 2023 "y.tab.c"
+#line 2024 "y.tab.c"
 break;
 case 73:
-#line 276 "parser.y"
+#line 277 "parser.y"
 	{   yyval.charv = reduce_nonterminal(yystack.l_mark[0].charv);    }
-#line 2028 "y.tab.c"
+#line 2029 "y.tab.c"
 break;
 case 74:
-#line 277 "parser.y"
-	{   yyval.charv = reduce_nonterminal_terminal_nonterminal(yystack.l_mark[-2].charv, yystack.l_mark[-1].charv, yystack.l_mark[0].charv);   }
-#line 2033 "y.tab.c"
-break;
-case 75:
 #line 278 "parser.y"
 	{   yyval.charv = reduce_nonterminal_terminal_nonterminal(yystack.l_mark[-2].charv, yystack.l_mark[-1].charv, yystack.l_mark[0].charv);   }
-#line 2038 "y.tab.c"
+#line 2034 "y.tab.c"
+break;
+case 75:
+#line 279 "parser.y"
+	{   yyval.charv = reduce_nonterminal_terminal_nonterminal(yystack.l_mark[-2].charv, yystack.l_mark[-1].charv, yystack.l_mark[0].charv);   }
+#line 2039 "y.tab.c"
 break;
 case 76:
-#line 279 "parser.y"
+#line 280 "parser.y"
 	{   yyval.charv = reduce_nonterminal(yystack.l_mark[0].charv);    }
-#line 2043 "y.tab.c"
+#line 2044 "y.tab.c"
 break;
 case 77:
-#line 282 "parser.y"
+#line 283 "parser.y"
 	{   yyval.charv = reduce_terminal_nonterminal_terminal(yystack.l_mark[-2].charv, yystack.l_mark[-1].charv, yystack.l_mark[0].charv);    }
-#line 2048 "y.tab.c"
+#line 2049 "y.tab.c"
 break;
 case 78:
-#line 284 "parser.y"
+#line 285 "parser.y"
 	{   yyval.charv = reduce_terminal_nonterminal(type_table[yystack.l_mark[-1].token], yystack.l_mark[0].charv);   }
-#line 2053 "y.tab.c"
+#line 2054 "y.tab.c"
 break;
 case 79:
-#line 285 "parser.y"
+#line 286 "parser.y"
 	{   yyval.charv = reduce_nonterminal(yystack.l_mark[0].charv);    }
-#line 2058 "y.tab.c"
+#line 2059 "y.tab.c"
 break;
 case 80:
-#line 286 "parser.y"
+#line 287 "parser.y"
 	{   yyval.charv = reduce_terminal(type_table[yystack.l_mark[0].token]);   }
-#line 2063 "y.tab.c"
+#line 2064 "y.tab.c"
 break;
 case 81:
-#line 287 "parser.y"
+#line 288 "parser.y"
 	{   yyval.charv = reduce_terminal_nonterminal_terminal(type_table[yystack.l_mark[-2].token], yystack.l_mark[-1].charv, yystack.l_mark[0].charv);    }
-#line 2068 "y.tab.c"
+#line 2069 "y.tab.c"
 break;
 case 82:
-#line 288 "parser.y"
+#line 289 "parser.y"
 	{   yyval.charv = reduce_nonterminal_terminal(yystack.l_mark[-1].charv, yystack.l_mark[0].charv);   }
-#line 2073 "y.tab.c"
+#line 2074 "y.tab.c"
 break;
 case 83:
-#line 289 "parser.y"
+#line 290 "parser.y"
 	{   yyval.charv = reduce_terminal_terminal(type_table[yystack.l_mark[-1].token], yystack.l_mark[0].charv);  }
-#line 2078 "y.tab.c"
+#line 2079 "y.tab.c"
 break;
 case 84:
-#line 292 "parser.y"
+#line 293 "parser.y"
 	{   yyval.charv = reduce_nonterminal_nonterminal(yystack.l_mark[-1].charv, yystack.l_mark[0].charv);    }
-#line 2083 "y.tab.c"
+#line 2084 "y.tab.c"
 break;
 case 85:
-#line 293 "parser.y"
-	{   yyval.charv = reduce_nonterminal(yystack.l_mark[0].charv);    }
-#line 2088 "y.tab.c"
-break;
-case 86:
 #line 294 "parser.y"
 	{   yyval.charv = reduce_nonterminal(yystack.l_mark[0].charv);    }
-#line 2093 "y.tab.c"
+#line 2089 "y.tab.c"
+break;
+case 86:
+#line 295 "parser.y"
+	{   yyval.charv = reduce_nonterminal(yystack.l_mark[0].charv);    }
+#line 2094 "y.tab.c"
 break;
 case 87:
-#line 295 "parser.y"
-	{   yyval.charv = reduce_terminal(type_table[yystack.l_mark[0].token]);   }
-#line 2098 "y.tab.c"
-break;
-case 88:
 #line 296 "parser.y"
 	{   yyval.charv = reduce_terminal(type_table[yystack.l_mark[0].token]);   }
-#line 2103 "y.tab.c"
+#line 2099 "y.tab.c"
 break;
-case 89:
+case 88:
 #line 297 "parser.y"
 	{   yyval.charv = reduce_terminal(type_table[yystack.l_mark[0].token]);   }
-#line 2108 "y.tab.c"
+#line 2104 "y.tab.c"
+break;
+case 89:
+#line 298 "parser.y"
+	{   yyval.charv = reduce_terminal(type_table[yystack.l_mark[0].token]);   }
+#line 2109 "y.tab.c"
 break;
 case 90:
-#line 300 "parser.y"
-	{   yyval.charv = reduce_terminal(type_table[yystack.l_mark[0].token]);   }
-#line 2113 "y.tab.c"
-break;
-case 91:
 #line 301 "parser.y"
 	{   yyval.charv = reduce_terminal(type_table[yystack.l_mark[0].token]);   }
-#line 2118 "y.tab.c"
+#line 2114 "y.tab.c"
+break;
+case 91:
+#line 302 "parser.y"
+	{   yyval.charv = reduce_terminal(type_table[yystack.l_mark[0].token]);   }
+#line 2119 "y.tab.c"
 break;
 case 92:
-#line 304 "parser.y"
+#line 305 "parser.y"
 	{   yyval.charv = reduce_nonterminal_terminal(yystack.l_mark[-1].charv, type_table[yystack.l_mark[0].token]);   }
-#line 2123 "y.tab.c"
+#line 2124 "y.tab.c"
 break;
 case 93:
-#line 305 "parser.y"
+#line 306 "parser.y"
 	{   yyval.charv = reduce_nonterminal(yystack.l_mark[0].charv);    }
-#line 2128 "y.tab.c"
+#line 2129 "y.tab.c"
 break;
 case 94:
-#line 306 "parser.y"
-	{   yyval.charv = reduce_terminal(type_table[yystack.l_mark[0].token]);   }
-#line 2133 "y.tab.c"
-break;
-case 95:
 #line 307 "parser.y"
 	{   yyval.charv = reduce_terminal(type_table[yystack.l_mark[0].token]);   }
-#line 2138 "y.tab.c"
+#line 2134 "y.tab.c"
+break;
+case 95:
+#line 308 "parser.y"
+	{   yyval.charv = reduce_terminal(type_table[yystack.l_mark[0].token]);   }
+#line 2139 "y.tab.c"
 break;
 case 96:
-#line 310 "parser.y"
-	{   yyval.charv = reduce_terminal(type_table[yystack.l_mark[0].token]);   }
-#line 2143 "y.tab.c"
-break;
-case 97:
 #line 311 "parser.y"
 	{   yyval.charv = reduce_terminal(type_table[yystack.l_mark[0].token]);   }
-#line 2148 "y.tab.c"
+#line 2144 "y.tab.c"
 break;
-case 98:
+case 97:
 #line 312 "parser.y"
 	{   yyval.charv = reduce_terminal(type_table[yystack.l_mark[0].token]);   }
-#line 2153 "y.tab.c"
+#line 2149 "y.tab.c"
+break;
+case 98:
+#line 313 "parser.y"
+	{   yyval.charv = reduce_terminal(type_table[yystack.l_mark[0].token]);   }
+#line 2154 "y.tab.c"
 break;
 case 99:
-#line 315 "parser.y"
+#line 316 "parser.y"
 	{   yyval.charv = reduce_nonterminal_terminal_nonterminal(yystack.l_mark[-2].charv, yystack.l_mark[-1].charv, yystack.l_mark[0].charv);   }
-#line 2158 "y.tab.c"
+#line 2159 "y.tab.c"
 break;
 case 100:
-#line 316 "parser.y"
+#line 317 "parser.y"
 	{   yyval.charv = reduce_nonterminal_terminal(yystack.l_mark[-1].charv, yystack.l_mark[0].charv);   }
-#line 2163 "y.tab.c"
+#line 2164 "y.tab.c"
 break;
 case 101:
-#line 317 "parser.y"
+#line 318 "parser.y"
 	{   yyval.charv = reduce_terminal_terminal(yystack.l_mark[-1].charv, yystack.l_mark[0].charv);  }
-#line 2168 "y.tab.c"
+#line 2169 "y.tab.c"
 break;
 case 102:
-#line 318 "parser.y"
+#line 319 "parser.y"
 	{   yyval.charv = reduce_terminal_terminal_nonterminal(yystack.l_mark[-2].charv, yystack.l_mark[-1].charv, yystack.l_mark[0].charv);  }
-#line 2173 "y.tab.c"
+#line 2174 "y.tab.c"
 break;
 case 103:
-#line 321 "parser.y"
+#line 322 "parser.y"
 	{   yyval.charv = reduce_terminal_terminal_nonterminal(yystack.l_mark[-2].charv, yystack.l_mark[-1].charv, yystack.l_mark[0].charv);  }
-#line 2178 "y.tab.c"
+#line 2179 "y.tab.c"
 break;
 case 104:
-#line 323 "parser.y"
+#line 324 "parser.y"
 	{ 
                         size_t n1 = strlen("<expr>");
                         size_t n2 = strlen(yystack.l_mark[0].charv);
@@ -2188,79 +2189,79 @@ case 104:
                         strcat(num,"</expr>");
                         yyval.charv = num;
                     }
-#line 2192 "y.tab.c"
+#line 2193 "y.tab.c"
 break;
 case 105:
-#line 333 "parser.y"
-	{   yyval.charv = reduce_for_expr(yystack.l_mark[-2].charv, yystack.l_mark[-1].charv, yystack.l_mark[0].charv);   }
-#line 2197 "y.tab.c"
-break;
-case 106:
 #line 334 "parser.y"
 	{   yyval.charv = reduce_for_expr(yystack.l_mark[-2].charv, yystack.l_mark[-1].charv, yystack.l_mark[0].charv);   }
-#line 2202 "y.tab.c"
+#line 2198 "y.tab.c"
 break;
-case 107:
+case 106:
 #line 335 "parser.y"
 	{   yyval.charv = reduce_for_expr(yystack.l_mark[-2].charv, yystack.l_mark[-1].charv, yystack.l_mark[0].charv);   }
-#line 2207 "y.tab.c"
+#line 2203 "y.tab.c"
 break;
-case 108:
+case 107:
 #line 336 "parser.y"
 	{   yyval.charv = reduce_for_expr(yystack.l_mark[-2].charv, yystack.l_mark[-1].charv, yystack.l_mark[0].charv);   }
-#line 2212 "y.tab.c"
+#line 2208 "y.tab.c"
 break;
-case 109:
+case 108:
 #line 337 "parser.y"
 	{   yyval.charv = reduce_for_expr(yystack.l_mark[-2].charv, yystack.l_mark[-1].charv, yystack.l_mark[0].charv);   }
-#line 2217 "y.tab.c"
+#line 2213 "y.tab.c"
+break;
+case 109:
+#line 338 "parser.y"
+	{   yyval.charv = reduce_for_expr(yystack.l_mark[-2].charv, yystack.l_mark[-1].charv, yystack.l_mark[0].charv);   }
+#line 2218 "y.tab.c"
 break;
 case 110:
-#line 338 "parser.y"
-	{   yyval.charv = reduce_for_unary_expr(yystack.l_mark[-1].charv, yystack.l_mark[0].charv);   }
-#line 2222 "y.tab.c"
-break;
-case 111:
 #line 339 "parser.y"
 	{   yyval.charv = reduce_for_unary_expr(yystack.l_mark[-1].charv, yystack.l_mark[0].charv);   }
-#line 2227 "y.tab.c"
+#line 2223 "y.tab.c"
+break;
+case 111:
+#line 340 "parser.y"
+	{   yyval.charv = reduce_for_unary_expr(yystack.l_mark[-1].charv, yystack.l_mark[0].charv);   }
+#line 2228 "y.tab.c"
 break;
 case 112:
-#line 342 "parser.y"
+#line 343 "parser.y"
 	{   yyval.charv = reduce_terminal(yystack.l_mark[0].charv);   }
-#line 2232 "y.tab.c"
+#line 2233 "y.tab.c"
 break;
 case 113:
-#line 343 "parser.y"
-	{   yyval.charv = reduce_nonterminal(yystack.l_mark[0].charv);   }
-#line 2237 "y.tab.c"
-break;
-case 114:
 #line 344 "parser.y"
 	{   yyval.charv = reduce_nonterminal(yystack.l_mark[0].charv);   }
-#line 2242 "y.tab.c"
+#line 2238 "y.tab.c"
 break;
-case 115:
+case 114:
 #line 345 "parser.y"
 	{   yyval.charv = reduce_nonterminal(yystack.l_mark[0].charv);   }
-#line 2247 "y.tab.c"
+#line 2243 "y.tab.c"
 break;
-case 116:
+case 115:
 #line 346 "parser.y"
 	{   yyval.charv = reduce_nonterminal(yystack.l_mark[0].charv);   }
-#line 2252 "y.tab.c"
+#line 2248 "y.tab.c"
 break;
-case 117:
+case 116:
 #line 347 "parser.y"
 	{   yyval.charv = reduce_nonterminal(yystack.l_mark[0].charv);   }
-#line 2257 "y.tab.c"
+#line 2253 "y.tab.c"
+break;
+case 117:
+#line 348 "parser.y"
+	{   yyval.charv = reduce_nonterminal(yystack.l_mark[0].charv);   }
+#line 2258 "y.tab.c"
 break;
 case 118:
-#line 348 "parser.y"
+#line 349 "parser.y"
 	{   yyval.charv = reduce_terminal(yystack.l_mark[0].charv);      }
-#line 2262 "y.tab.c"
+#line 2263 "y.tab.c"
 break;
-#line 2264 "y.tab.c"
+#line 2265 "y.tab.c"
     default:
         break;
     }

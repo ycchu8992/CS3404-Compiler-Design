@@ -49,6 +49,7 @@ Comment_Token 	    \/\/(.)*
 					    		yyless(0);
 			    				if(cmt) BEGIN CMT;
 				    			else BEGIN LINE;
+                                num_lines++;
 						    }
 
 <LINE>{Keyword_Token}       {   
