@@ -22,6 +22,7 @@ char* reduce_terminal_nonterminal_nonterminal(char* r1, char* r2, char* r3);
 char* reduce_nonterminal_nonterminal_terminal(char* r1, char* r2, char* r3);
 char* reduce_for_stmt(char* r1);
 char* reduce_for_expr(char* r1, char* r2, char* r3);
+char* reduce_for_unary_expr(char* r1, char* r2);
 
 struct symbol{
     int seq_num;
@@ -329,11 +330,15 @@ expr:   factor      {
                         strcat(num,"</expr>");
                         $$ = num;
                     };
-        | factor '+' factor                         {   $$ = reduce_for_expr($1, $2, $3);   }
-        | factor '-' factor                         {   $$ = reduce_for_expr($1, $2, $3);   }
-        | factor '<' factor                         {   $$ = reduce_for_expr($1, $2, $3);   }
-        | factor '>' factor                         {   $$ = reduce_for_expr($1, $2, $3);   }
-    ;
+        | expr '+' expr                             {   $$ = reduce_for_expr($1, $2, $3);   }
+        | expr '-' expr                             {   $$ = reduce_for_expr($1, $2, $3);   }
+        | expr '<' expr                             {   $$ = reduce_for_expr($1, $2, $3);   }
+        | expr '>' expr                             {   $$ = reduce_for_expr($1, $2, $3);   }
+        | expr '/' expr                             {   $$ = reduce_for_expr($1, $2, $3);   }
+        | '+' expr  %prec UPLUS                     {   $$ = reduce_for_unary_expr($1, $2);   }
+        | '-' expr  %prec UMINUS                    {   $$ = reduce_for_unary_expr($1, $2);   }
+        ;
+
 factor: INT_NUM                                     {   $$ = reduce_terminal($1);   }
         | FLOAT_NUM                                 {   $$ = reduce_nonterminal($1);   } // special useage
         | STRING                                    {   $$ = reduce_nonterminal($1);   } // special useage
@@ -504,5 +509,19 @@ char* reduce_for_expr(char* r1, char* r2, char* r3){
     strcat(buffer,"</expr>");
     free(r1);
     free(r3);
+    return buffer;
+}
+
+char* reduce_for_unary_expr(char* r1, char* r2){ 
+    size_t l = strlen("<expr>");
+    size_t n1 = strlen(r1);
+    size_t n2 = strlen(r2);
+    size_t r = strlen("</expr>");                      
+    char* buffer = (char*)malloc(l+r+n1+n2+1);
+    strcpy(buffer,"<expr>");
+    strcat(buffer,r1);
+    strcat(buffer,r2);
+    strcat(buffer,"</expr>");
+    free(r2);
     return buffer;
 }
