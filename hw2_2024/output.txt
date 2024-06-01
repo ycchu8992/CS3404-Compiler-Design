@@ -1,1 +1,8 @@
-<func_def>intfunc(){<stmt><expr>&<expr>(<expr>123</expr>)</expr></expr>;</stmt>}</func_def>
+<func_def>intfunc(){
+    <stmt>
+        <expr>
+        (
+            <expr><expr><expr>1</expr>+<expr><expr>(<expr><expr>2</expr>+<expr>3</expr></expr>)</expr>(<expr>3</expr>)</expr></expr>+<expr>(<expr>1</expr>)</expr></expr>)
+        </expr>;
+    </stmt>
+}</func_def>

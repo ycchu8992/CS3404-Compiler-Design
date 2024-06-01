@@ -26,7 +26,8 @@ char* reduce_for_stmt(char* r1);
 char* reduce_for_expr(char* r1, char* r2, char* r3);
 char* reduce_unary_prefix_expr(char* r1, char* r2);
 char* reduce_unary_postfix_expr(char* r1, char* r2);
-char* reduce_for_parenthesis_expr(char* r1, char* r2, char* r3);
+char* reduce_factor_expr(char* r1);
+char* reduce_func_invoc_expr(char* r1, char* r2);
 
 struct symbol{
     int seq_num;
@@ -54,7 +55,7 @@ int cur_scope=0;
 %type<charv>  type_decl type_layer sign_usgn int_char long_shrt while_stmt do_while_stmt while_tag do_tag 
 %type<charv>  switch_stmt switch_clause switch_content case_expr default_expr factor if_else_stmt break_stmt
 %type<charv>  ident var_init scalar_decl func_decl program array_decl func_def var_decl ident_tail
-%type<charv>  expr_stmt compound_stmt_content stmt condition if_stmt else_stmt for_stmt 
+%type<charv>  expr_stmt compound_stmt_content stmt condition if_stmt else_stmt for_stmt arglist args
 %type<charv>  for_condition for_content for_layer_2 expr arr_ident arr_tag arr_content box arr_cnt_fmt arr_id
 %type<charv>  type_ident parameter_info parameters compound_stmt section init continue_stmt return_stmt arr_ident_init
 
@@ -353,21 +354,12 @@ expr:     expr '+' expr                             {   $$ = reduce_for_expr($1,
         | '-' expr  %prec UMINUS                    {   $$ = reduce_unary_prefix_expr($1, $2);   }
         | '&' expr  %prec ADDRESS                   {   $$ = reduce_unary_prefix_expr($1, $2);   }
         | '*' expr  %prec PTRUSED                   {   $$ = reduce_unary_prefix_expr($1, $2);   }
-        | '(' expr ')'                              {   $$ = reduce_for_parenthesis_expr($1, $2, $3);   }
         | INCREMENT expr                            {   $$ = reduce_unary_prefix_expr($1, $2);   }
         | DECREMENT expr                            {   $$ = reduce_unary_prefix_expr($1, $2);   }
         | expr INCREMENT %prec POSTFIX              {   $$ = reduce_unary_postfix_expr($1, $2);   }
         | expr DECREMENT %prec POSTFIX              {   $$ = reduce_unary_postfix_expr($1, $2);   }
-        | factor                                    { 
-                                                        size_t n1 = strlen("<expr>");
-                                                        size_t n2 = strlen($1);
-                                                        size_t n3 = strlen("</expr>");                      
-                                                        char* num = (char*)malloc(n1+n2+n3+1);
-                                                        strcpy(num,"<expr>");
-                                                        strcat(num,$1);
-                                                        strcat(num,"</expr>");
-                                                        $$ = num;
-                                                    }
+        | factor                                    {   $$ = reduce_factor_expr($1);    }
+        | expr arglist                              {   $$ = reduce_func_invoc_expr($1,$2);    }
         ;
 
 factor: INT_NUM                                     {   $$ = reduce_terminal($1);   }
@@ -377,7 +369,15 @@ factor: INT_NUM                                     {   $$ = reduce_terminal($1)
         | NULL_SIGNAL                               {   $$ = reduce_nonterminal($1);   } // special useage
         | arr_id                                    {   $$ = reduce_nonterminal($1);   } 
         | ID                                        {   $$ = reduce_terminal($1);      }
+        | '(' expr ')'                              {   $$ = reduce_terminal_nonterminal_terminal($1, $2, $3);    }
         ;
+
+arglist: '(' args ')'                               {   $$ = reduce_terminal_nonterminal_terminal($1, $2, $3);    }
+
+args: expr ',' args                                 {   $$ = reduce_nonterminal_terminal_nonterminal($1, $2, $3);   }
+    | expr                                          {   $$ = reduce_nonterminal($1);   }
+    ;
+
 %%
 
 int yylex(void);
@@ -582,18 +582,30 @@ char* reduce_unary_postfix_expr(char* r1, char* r2){
     return buffer;
 }
 
-char* reduce_for_parenthesis_expr(char* r1, char* r2, char* r3){ 
+char* reduce_factor_expr(char* r1){ 
+    size_t l = strlen("<expr>");
+    size_t n1 = strlen(r1);
+    size_t r = strlen("</expr>");                      
+    char* buffer = (char*)malloc(l+r+n1+1);
+    strcpy(buffer,"<expr>");
+    strcat(buffer,r1);
+    strcat(buffer,"</expr>");
+    free(r1);
+    return buffer;
+}
+
+
+char* reduce_func_invoc_expr(char* r1, char* r2){ 
     size_t l = strlen("<expr>");
     size_t n1 = strlen(r1);
     size_t n2 = strlen(r2);
-    size_t n3 = strlen(r3);
     size_t r = strlen("</expr>");                      
-    char* buffer = (char*)malloc(l+r+n1+n2+n3+1);
+    char* buffer = (char*)malloc(l+r+n1+n2+1);
     strcpy(buffer,"<expr>");
     strcat(buffer,r1);
     strcat(buffer,r2);
-    strcat(buffer,r3);
     strcat(buffer,"</expr>");
+    free(r1);
     free(r2);
     return buffer;
 }

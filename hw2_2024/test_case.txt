@@ -2,6 +2,16 @@ int a[b] = { b = c} ;
 int func(){
     a[0];
 }
+long* func(){
+    (1+(2+3)(3)+(1));
+    "saca"||+1;
+    (1+(2+3)+(3)+(1));
+    while(j!=0){
+      &(123);
+      printf("as\n");
+      j++;
+    }
+}
 int main() {
   a[w] = b[2]-c[3];
   if(a==b) {
@@ -86,6 +96,7 @@ int main() {
   }
   for (; 11 < 12; 13) {
     continue;
+    (1+(2+3)(3)+(1));
   }
   return;
 }

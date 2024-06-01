@@ -28,7 +28,6 @@ Keyword_Token	    "for"|"do"|"while"|"break"|"continue"|"if"|"else"|"return"|"st
 Type_Token          "const"|"signed"|"unsigned"|"long long"|"long"|"short"|"int"|"float"|"double"|"void"|"char"
 
 Identifier_Token    (_|[a-zA-Z])[_a-zA-Z0-9]*
-Operator_Token	    ("&&"|"\|\|")
 Empty_Token		    (" "|"\t")
 Char_Token		    (\'(.|"\\a"|"\\b"|"\\e"|"\\f"|"\\n"|"\\r"|"\\t"|"\\v"|"\\\\"|"\\\'"|"\\\""|"\\\?")\')
 Escape_Token	    (\'\\[01234567]+\')|(\'\\x[0-9a-fA-F]+\')|(\'\\u[0-9a-fA-F]{1,4}\')|(\'\\U[0-9a-fA-F]{1,8}\')
@@ -213,21 +212,3 @@ void KeyWordHash(char* yytext){
     }else key = -1;
 }
 
-/*
-
- 
-
- 
-<LINE>{Operator_Token}	    { 
-                                yylval.charv=yytext; 
-                                if(tkn) printf("\n#OPERATOR: %s\n",yytext); 
-                                return yytext; 
-                            }
-    (int)a;
-    while(j!=0){
-        &(123);
-        printf("as\n");
-        j++;
-    }
-
-*/

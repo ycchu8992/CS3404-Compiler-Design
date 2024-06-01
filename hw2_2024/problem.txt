@@ -1,4 +1,14 @@
 int main() {
   "qfwqf"&&"asdv";
-  "saca"||+1;
 }    
+
+int func(){
+
+  (int)a;
+
+}
+
+
+
+
+
