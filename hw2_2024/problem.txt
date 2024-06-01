@@ -1,0 +1,4 @@
+int main() {
+  "qfwqf"&&"asdv";
+  "saca"||+1;
+}    

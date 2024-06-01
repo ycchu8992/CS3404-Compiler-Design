@@ -28,12 +28,12 @@ Keyword_Token	    "for"|"do"|"while"|"break"|"continue"|"if"|"else"|"return"|"st
 Type_Token          "const"|"signed"|"unsigned"|"long long"|"long"|"short"|"int"|"float"|"double"|"void"|"char"
 
 Identifier_Token    (_|[a-zA-Z])[_a-zA-Z0-9]*
-Operator_Token	    (\+|\-|\*|\/|%|"\+\+"|"\-\-"|"<"|">"|"<="|">="|"=="|"!="|"&"|"&&"|"\|\|"|"!"|"&"|"\|")
+Operator_Token	    ("&&"|"\|\|")
 Empty_Token		    (" "|"\t")
 Char_Token		    (\'(.|"\\a"|"\\b"|"\\e"|"\\f"|"\\n"|"\\r"|"\\t"|"\\v"|"\\\\"|"\\\'"|"\\\""|"\\\?")\')
 Escape_Token	    (\'\\[01234567]+\')|(\'\\x[0-9a-fA-F]+\')|(\'\\u[0-9a-fA-F]{1,4}\')|(\'\\U[0-9a-fA-F]{1,8}\')
 
-String_Token 	    (\"(.|"\\a"|"\\b"|"\\e"|"\\f"|"\\n"|"\\r"|"\\t"|"\\v"|"\\\\"|"\\\'"|"\\\""|"\\\?")*\")
+String_Token 	    (\"(.|"\\a"|"\\b"|"\\e"|"\\f"|"\\n"|"\\r"|"\\t"|"\\v"|"\\\\"|"\\\'"|"\\"\"|"\\\?")*\")
 Integer_Token	    [0-9]+
 Float_Token		    ((\.[0-9]+)|([0-9]+\.)|([0-9]+\.[0-9]+))
 EOL_Token		    "\n"
@@ -92,6 +92,12 @@ Comment_Token 	    \/\/(.)*
 <LINE>"*"	                {   yylval.charv="*"; return '*'; }
 <LINE>"/"	                {   yylval.charv="/"; return '/'; }
 <LINE>"%"	                {   yylval.charv="%"; return '%'; }
+<LINE>"<<"	                {   yylval.charv="<<"; return SHIFT_LEFT; }
+<LINE>">>"	                {   yylval.charv=">>"; return SHIFT_RIGHT; }
+<LINE>"<="	                {   yylval.charv="<="; return LESS_OR_EQUAL; }
+<LINE>">="	                {   yylval.charv=">="; return GREATER_OR_EQUAL; }
+<LINE>"=="	                {   yylval.charv="=="; return IS_EQUAL; }
+<LINE>"!="	                {   yylval.charv="!="; return IS_NOT_EQUAL; }
 <LINE>"<"	                {   yylval.charv="<"; return '<'; }
 <LINE>">"	                {   yylval.charv=">"; return '>'; }
 <LINE>"!"	                {   yylval.charv="!"; return '!'; }
@@ -99,7 +105,10 @@ Comment_Token 	    \/\/(.)*
 <LINE>"^"	                {   yylval.charv="^"; return '^'; }
 <LINE>"&"	                {   yylval.charv="&"; return '&'; }
 <LINE>"|"	                {   yylval.charv="|"; return '|'; }
-
+<LINE>"++"	                {   yylval.charv="++"; return INCREMENT; }
+<LINE>"--"	                {   yylval.charv="--"; return DECREMENT; }
+<LINE>"&&"	                {   yylval.charv="&&"; return AND;  }
+<LINE>"||"	                {   yylval.charv="||"; return OR;   }
 
 
 <LINE>","		            {   yylval.charv=","; return ',';   }
@@ -205,30 +214,19 @@ void KeyWordHash(char* yytext){
 }
 
 /*
-<LINE>"<="	                {   yylval.charv="<="; return "<="; }
-<LINE>">="	                {   yylval.charv=">="; return ">="; }
-<LINE>"=="	                {   yylval.charv="=="; return "=="; }
-<LINE>"!="	                {   yylval.charv="!="; return "!="; }
-<LINE>"&&"	                {   yylval.charv="&&"; return "&&"; }
-<LINE>"<<"	                {   yylval.charv="<<"; return "<<"; }
-<LINE>">>"	                {   yylval.charv=">>"; return ">>"; }
-<LINE>"||"	                {   yylval.charv="||"; return "||"; }
 
+ 
+
+ 
 <LINE>{Operator_Token}	    { 
                                 yylval.charv=yytext; 
                                 if(tkn) printf("\n#OPERATOR: %s\n",yytext); 
                                 return yytext; 
                             }
-<LINE>"++"	                {   yylval.charv="++"; return "++"; }
-<LINE>"--"	                {   yylval.charv="--"; return "--"; }
-
-
     (int)a;
     while(1){
         &(123);
         printf("as\n");
     }
     int a = +1;
-
-
 */

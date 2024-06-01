@@ -23,7 +23,8 @@ char* reduce_terminal_nonterminal_nonterminal(char* r1, char* r2, char* r3);
 char* reduce_nonterminal_nonterminal_terminal(char* r1, char* r2, char* r3);
 char* reduce_for_stmt(char* r1);
 char* reduce_for_expr(char* r1, char* r2, char* r3);
-char* reduce_for_unary_expr(char* r1, char* r2);
+char* reduce_unary_prefix_expr(char* r1, char* r2);
+char* reduce_unary_postfix_expr(char* r1, char* r2);
 
 struct symbol{
     int seq_num;
@@ -68,19 +69,21 @@ int cur_scope=0;
 
 %left<charv> ','
 %right<charv> '=' 
-%left<charv>  "||"
-%left<charv>  "&&"
+%left<charv>  OR
+%left<charv>  AND
 %left<charv>  '|'
 %left<charv>  '^'
 %left<charv>  '&' 
-%left<charv>  "==" "!="
-%left<charv>  '<' '>' ">=" "<="
-%left<charv>  LEFT_SHIFT RIGHT_SHIFT
+%left<charv>  IS_EQUAL IS_NOT_EQUAL
+%left<charv>  '<' '>' LESS_OR_EQUAL GREATER_OR_EQUAL
+%left<charv>  SHIFT_LEFT SHIFT_RIGHT
 %left<charv>  '+' '-' 
 %left<charv>  '*' '/' '%'
-%right<charv>  "++" "--" 
+
+%right<charv>  INCREMENT DECREMENT '!' '~'
 %nonassoc PTRUSED UMINUS UPLUS ADDRESS
-%nonassoc INCREMENT DECREMENT
+
+%nonassoc  POSTFIX
 %%
 
 init: program                                       {
@@ -330,14 +333,35 @@ expr:   factor      {
                         strcat(num,$1);
                         strcat(num,"</expr>");
                         $$ = num;
-                    };
+                    }
         | expr '+' expr                             {   $$ = reduce_for_expr($1, $2, $3);   }
         | expr '-' expr                             {   $$ = reduce_for_expr($1, $2, $3);   }
-        | expr '<' expr                             {   $$ = reduce_for_expr($1, $2, $3);   }
-        | expr '>' expr                             {   $$ = reduce_for_expr($1, $2, $3);   }
+        | expr '*' expr                             {   $$ = reduce_for_expr($1, $2, $3);   }
         | expr '/' expr                             {   $$ = reduce_for_expr($1, $2, $3);   }
-        | '+' expr  %prec UPLUS                     {   $$ = reduce_for_unary_expr($1, $2);   }
-        | '-' expr  %prec UMINUS                    {   $$ = reduce_for_unary_expr($1, $2);   }
+        | expr '%' expr                             {   $$ = reduce_for_expr($1, $2, $3);   }
+        | expr '<' expr                             {   $$ = reduce_for_expr($1, $2, $3);   }
+        | expr LESS_OR_EQUAL expr                   {   $$ = reduce_for_expr($1, $2, $3);   }        
+        | expr '>' expr                             {   $$ = reduce_for_expr($1, $2, $3);   }
+        | expr GREATER_OR_EQUAL expr                {   $$ = reduce_for_expr($1, $2, $3);   } 
+        | expr IS_EQUAL expr                        {   $$ = reduce_for_expr($1, $2, $3);   }
+        | expr IS_NOT_EQUAL expr                    {   $$ = reduce_for_expr($1, $2, $3);   }
+        | expr AND expr                             {   $$ = reduce_for_expr($1, $2, $3);   }
+        | expr OR expr                              {   $$ = reduce_for_expr($1, $2, $3);   }
+        | '!' expr                                  {   $$ = reduce_unary_prefix_expr($1, $2);   }
+        | '~' expr                                  {   $$ = reduce_unary_prefix_expr($1, $2);   }
+        | expr '^' expr                             {   $$ = reduce_for_expr($1, $2, $3);   }
+        | expr '&' expr                             {   $$ = reduce_for_expr($1, $2, $3);   }
+        | expr '|' expr                             {   $$ = reduce_for_expr($1, $2, $3);   }
+        | expr SHIFT_LEFT expr                      {   $$ = reduce_for_expr($1, $2, $3);   }
+        | expr SHIFT_RIGHT expr                     {   $$ = reduce_for_expr($1, $2, $3);   }
+        | '+' expr  %prec UPLUS                     {   $$ = reduce_unary_prefix_expr($1, $2);   }
+        | '-' expr  %prec UMINUS                    {   $$ = reduce_unary_prefix_expr($1, $2);   }
+        | '&' expr  %prec ADDRESS                   {   $$ = reduce_unary_prefix_expr($1, $2);   }
+        | '*' expr  %prec PTRUSED                   {   $$ = reduce_unary_prefix_expr($1, $2);   }
+        | INCREMENT expr                            {   $$ = reduce_unary_prefix_expr($1, $2);   }
+        | DECREMENT expr                            {   $$ = reduce_unary_prefix_expr($1, $2);   }
+        | expr INCREMENT %prec POSTFIX              {   $$ = reduce_unary_postfix_expr($1, $2);   }
+        | expr DECREMENT %prec POSTFIX              {   $$ = reduce_unary_postfix_expr($1, $2);   }
         ;
 
 factor: INT_NUM                                     {   $$ = reduce_terminal($1);   }
@@ -513,7 +537,7 @@ char* reduce_for_expr(char* r1, char* r2, char* r3){
     return buffer;
 }
 
-char* reduce_for_unary_expr(char* r1, char* r2){ 
+char* reduce_unary_prefix_expr(char* r1, char* r2){ 
     size_t l = strlen("<expr>");
     size_t n1 = strlen(r1);
     size_t n2 = strlen(r2);
@@ -524,5 +548,19 @@ char* reduce_for_unary_expr(char* r1, char* r2){
     strcat(buffer,r2);
     strcat(buffer,"</expr>");
     free(r2);
+    return buffer;
+}
+
+char* reduce_unary_postfix_expr(char* r1, char* r2){ 
+    size_t l = strlen("<expr>");
+    size_t n1 = strlen(r1);
+    size_t n2 = strlen(r2);
+    size_t r = strlen("</expr>");                      
+    char* buffer = (char*)malloc(l+r+n1+n2+1);
+    strcpy(buffer,"<expr>");
+    strcat(buffer,r1);
+    strcat(buffer,r2);
+    strcat(buffer,"</expr>");
+    free(r1);
     return buffer;
 }

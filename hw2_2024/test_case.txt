@@ -1,11 +1,33 @@
 int main() {
-  0;
-  +"ef\n";
-  -0.1+-"qwfq\n";
-  1+2+3;
-  1*2*3;
-  1/2/3;
   
+  -1 && "asdv";
+  "saca" || +1;
+  a<<vc>>s;
+  a+1==b;
+  -c!=q;  
+  a>=*b;
+  ~a<=b;
+  a<=b++-1;
+  ++a;
+  a++;
+  0;
+  c%w;
+  +"ef\n";
+  -0.1+-"qwfq\n"&acsac|wq;
+  1+2+3;
+  1-2-3;
+  1%2%3;
+  1&w&e;
+  s|s|s;
+  !a;
+  ~q;
+  int* s= &a & &a & &a;
+  int* addr = 1*2*3;
+  1/2/3;
+
+  int* ptr =  a * *ss * *s, v;
+
+
   if (1) {
     return 2;
     switch (3) {
@@ -104,4 +126,5 @@ int var_42=5;
 const signed int var_43=5;
 const * ptr_01=5;
 const unsigned long long int * ptr_57=5;
+int a;
     

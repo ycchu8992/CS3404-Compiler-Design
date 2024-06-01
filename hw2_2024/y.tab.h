@@ -31,14 +31,21 @@
 #define CASE 284
 #define DEFALUT 285
 #define ENTER 286
-#define LEFT_SHIFT 293
-#define RIGHT_SHIFT 294
-#define DEREF 297
+#define OR 287
+#define AND 288
+#define IS_EQUAL 289
+#define IS_NOT_EQUAL 290
+#define LESS_OR_EQUAL 291
+#define GREATER_OR_EQUAL 292
+#define SHIFT_LEFT 293
+#define SHIFT_RIGHT 294
+#define INCREMENT 295
+#define DECREMENT 296
+#define PTRUSED 297
 #define UMINUS 298
 #define UPLUS 299
 #define ADDRESS 300
-#define INCREMENT 301
-#define DECREMENT 302
+#define POSTFIX 301
 #ifdef YYSTYPE
 #undef  YYSTYPE_IS_DECLARED
 #define YYSTYPE_IS_DECLARED 1

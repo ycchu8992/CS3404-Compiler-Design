@@ -3,7 +3,8 @@ make clean
 make all
 
 parser_name=golden_parser_static
-./${parser_name} < input.txt > sol.txt
-./parser < input.txt > out.txt
+test_case=test_case.txt
+./${parser_name} < ${test_case} > sol.txt
+./parser < ${test_case} > out.txt
 diff out.txt sol.txt > diff.txt
 exit 0
