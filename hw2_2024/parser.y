@@ -55,7 +55,7 @@ int cur_scope=0;
 %type<charv>  ident var_init scalar_decl func_decl program array_decl func_def var_decl ident_tail
 %type<charv>  expr_stmt compound_stmt_content stmt condition if_stmt else_stmt for_stmt 
 %type<charv>  for_condition for_content for_layer_2 expr arr_ident arr_tag arr_content box arr_cnt_fmt arr_id
-%type<charv>  type_ident parameter_info parameters compound_stmt section init continue_stmt return_stmt
+%type<charv>  type_ident parameter_info parameters compound_stmt section init continue_stmt return_stmt arr_ident_init
 
 %start init
 
@@ -265,16 +265,19 @@ parameters: type_ident ',' parameters               {   $$ = reduce_nonterminal_
 
 type_ident: type_decl ID                            {   $$ = reduce_nonterminal_terminal($1, $2);   }  
 
-arr_ident:  arr_id ',' arr_ident                    {   $$ = reduce_nonterminal_terminal_nonterminal($1, $2, $3);   }
+
+arr_ident:  arr_ident_init ',' arr_ident            {   $$ = reduce_nonterminal_terminal_nonterminal($1, $2, $3);   }
+            | arr_ident_init                        {   $$ = reduce_nonterminal($1);    }                       
+            ;
+
+arr_ident_init:  arr_id '=' arr_cnt_fmt             {   $$ = reduce_nonterminal_terminal_nonterminal($1, $2, $3);   }
             | arr_id                                {   $$ = reduce_nonterminal($1);    }                       
             ;
 
 arr_id:     ID arr_tag                              {   $$ = reduce_terminal_nonterminal($1, $2);   }
 
-
-arr_tag:    box arr_tag                               {   $$ = reduce_nonterminal_nonterminal($1, $2);    }
-            | box '=' arr_cnt_fmt                       {   $$ = reduce_nonterminal_terminal_nonterminal($1, $2, $3);   }
-            | box                                       {   $$ = reduce_nonterminal($1);    }
+arr_tag:    box arr_tag                             {   $$ = reduce_nonterminal_nonterminal($1, $2);    }
+            | box                                   {   $$ = reduce_nonterminal($1);    }
             ;
 
 arr_cnt_fmt: '{'arr_content'}'                      {   $$ = reduce_terminal_nonterminal_terminal($1, $2, $3);    }

@@ -1,4 +1,14 @@
+int a[b] = { b = c} ;
+int func(){
+    a[0];
+}
 int main() {
+  if(a==b) {
+     1+2=c;
+  } else {
+    
+  }
+
   int a = b = c;
   -1 && "asdv";
   "saca" || +1;
@@ -26,7 +36,9 @@ int main() {
   1/2/3;
 
   int* ptr =  a * *ss * *s, v;
-
+      int a = +1;
+    a=1;
+    a+b=1;
 
   if (1) {
     return 2;
