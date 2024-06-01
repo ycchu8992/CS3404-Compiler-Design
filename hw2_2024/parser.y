@@ -362,7 +362,7 @@ expr:     expr '+' expr                             {   $$ = reduce_for_expr($1,
         | expr arglist                              {   $$ = reduce_func_invoc_expr($1,$2);    }
         | type_casting expr                         {   $$ = reduce_func_invoc_expr($1,$2);    }
         ;
-type_casting: '(' type_decl ')' %prec CAST    { $$ = reduce_terminal_nonterminal_terminal($1, $2, $3);    }
+type_casting: '(' type_decl ')'    { $$ = reduce_terminal_nonterminal_terminal($1, $2, $3);    }
 factor: INT_NUM                                     {   $$ = reduce_terminal($1);   }
         | FLOAT_NUM                                 {   $$ = reduce_nonterminal($1);   } // special useage
         | STRING                                    {   $$ = reduce_nonterminal($1);   } // special useage

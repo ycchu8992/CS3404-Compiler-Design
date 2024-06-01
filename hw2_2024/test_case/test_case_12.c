@@ -1,3 +1,4 @@
+//global_declaration_testcase
 int main(){
     int arr[2];
     if(1){}

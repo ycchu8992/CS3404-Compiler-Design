@@ -1,4 +1,4 @@
-// by redleaf23477
+//func_def
 void foo(
     const signed int a,
     const signed long int a,

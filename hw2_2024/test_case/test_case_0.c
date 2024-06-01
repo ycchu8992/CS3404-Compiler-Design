@@ -1,4 +1,4 @@
-// by redleaf23477
+//array_decl
 const signed int a[3];
 const signed long int a[c&b];
 const signed long long int a[a||b];

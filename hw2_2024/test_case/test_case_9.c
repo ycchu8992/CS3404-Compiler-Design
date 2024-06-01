@@ -1,4 +1,4 @@
-// by redleaf23477
+//scalar_init
 const signed int a = 8787, b = 'c';
 const signed long int a, b = 2374;
 const signed long long int a = "sdfasfd", b = lsdjklsdfkjsdf;

@@ -1,4 +1,4 @@
-// by redleaf23477
+//array_init
 const signed int a[3] = {1, 2, 3, 4, 5};
 const signed long int a[c&b] = {2342};
 const signed long long int a[a||b];

@@ -1,4 +1,4 @@
-// by redleaf23477
+//cast
 int main() {
     (const signed int)a;
     (const signed long int)a;

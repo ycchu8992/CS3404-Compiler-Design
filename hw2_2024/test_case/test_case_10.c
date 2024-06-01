@@ -1,3 +1,4 @@
+//stmt
 int main() {
   0;
   if (1) {

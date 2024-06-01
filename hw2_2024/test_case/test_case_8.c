@@ -1,4 +1,4 @@
-// by redleaf23477
+//scalar_decl
 const signed int a, b;
 const signed long int a, b;
 const signed long long int a, b;

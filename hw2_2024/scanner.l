@@ -54,7 +54,7 @@ Comment_Token 	    \/\/(.)*
 <LINE>{Keyword_Token}       {   
                                 KeyWordHash(yytext);
                                 yylval.token = key; 
-                                if(tkn) printf("\n#KEYWORD: %s\n", yytext); 
+                                
                                 return keyword_hash_table[key];  
                             }
 
@@ -69,7 +69,7 @@ Comment_Token 	    \/\/(.)*
 <LINE>{Type_Token}          {  
                                 TypeHash(yytext);
                                 yylval.token = key; 
-                                if(tkn) printf("\n#TYPE: %s\n", yytext); 
+                                
                                 return type_hash_table[key];  
                             }
 

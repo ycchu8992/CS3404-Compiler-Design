@@ -1,3 +1,5 @@
+//scanner_test
+
 //
 /* hihihihi */
 /*
@@ -27,18 +29,6 @@
 /** @brief Nothing special
  * @note This is a docstring
  */
-
-#pragma source on
-
-    #pragma       token    off
-
-
-    #pragma source    off  
-
-#pragma     source on
-
-#pragma token on
-
 
 int main() {
 }

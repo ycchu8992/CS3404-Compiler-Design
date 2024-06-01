@@ -1,3 +1,4 @@
+//test_case
 int a[b] = { b = c} ;
 int func(){
     a[0];
