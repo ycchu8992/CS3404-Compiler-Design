@@ -1,8 +1,9 @@
 #!/bin/sh
 make clean
 make all
-
-./parser -d < ./test_case/test_case_$1.c
+./golden_parser_static < test.c > sol.txt
+./parser -d < test.c > out.txt
+diff out.txt sol.txt > diff.c
 make clean
 exit 0
 

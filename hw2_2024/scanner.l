@@ -49,13 +49,14 @@ Comment_Token 	    \/\/(.)*
 			    				if(cmt) BEGIN CMT;
 				    			else BEGIN LINE;
                                 num_lines++;
+                                num_chars = 0;
 						    }
 
 <LINE>{Keyword_Token}       {   
                                 KeyWordHash(yytext);
                                 yylval.token = key; 
-                                
-                                return keyword_hash_table[key];  
+                                num_chars+=yyleng;
+                                return keyword_hash_table[key];
                             }
 
 <LINE>"NULL"		        {   
@@ -63,13 +64,14 @@ Comment_Token 	    \/\/(.)*
                                 char* buffer = (char*)malloc(buffer_size);
                                 strcpy(buffer,"0");
                                 yylval.charv = buffer;
+                                num_chars+=yyleng;
                                 return NULL_SIGNAL;
                             }
 
 <LINE>{Type_Token}          {  
                                 TypeHash(yytext);
                                 yylval.token = key; 
-                                
+                                num_chars+=yyleng;
                                 return type_hash_table[key];  
                             }
 
@@ -79,59 +81,61 @@ Comment_Token 	    \/\/(.)*
                                 memset(buffer, '\0', buffer_size);
                                 sprintf(buffer, "%0.6f", atof(yytext));
                                 yylval.charv = buffer;
+                                num_chars+=yyleng;
                                 return FLOAT_NUM;
                             }
 
-<LINE>{Identifier_Token}    {   yylval.charv=check_id_exist(yytext); return ID; }
+<LINE>{Identifier_Token}    {   yylval.charv=check_id_exist(yytext);  num_chars+=yyleng; return ID; }
 
 
-<LINE>"="                   {   yylval.charv="=";return '=';  }
-<LINE>"+"	                {   yylval.charv="+"; return '+'; }
-<LINE>"-"	                {   yylval.charv="-"; return '-'; }
-<LINE>"*"	                {   yylval.charv="*"; return '*'; }
-<LINE>"/"	                {   yylval.charv="/"; return '/'; }
-<LINE>"%"	                {   yylval.charv="%"; return '%'; }
-<LINE>"<<"	                {   yylval.charv="<<"; return SHIFT_LEFT; }
-<LINE>">>"	                {   yylval.charv=">>"; return SHIFT_RIGHT; }
-<LINE>"<="	                {   yylval.charv="<="; return LESS_OR_EQUAL; }
-<LINE>">="	                {   yylval.charv=">="; return GREATER_OR_EQUAL; }
-<LINE>"=="	                {   yylval.charv="=="; return IS_EQUAL; }
-<LINE>"!="	                {   yylval.charv="!="; return IS_NOT_EQUAL; }
-<LINE>"<"	                {   yylval.charv="<"; return '<'; }
-<LINE>">"	                {   yylval.charv=">"; return '>'; }
-<LINE>"!"	                {   yylval.charv="!"; return '!'; }
-<LINE>"~"	                {   yylval.charv="~"; return '~'; }
-<LINE>"^"	                {   yylval.charv="^"; return '^'; }
-<LINE>"&"	                {   yylval.charv="&"; return '&'; }
-<LINE>"|"	                {   yylval.charv="|"; return '|'; }
-<LINE>"++"	                {   yylval.charv="++"; return INCREMENT; }
-<LINE>"--"	                {   yylval.charv="--"; return DECREMENT; }
-<LINE>"&&"	                {   yylval.charv="&&"; return AND;  }
-<LINE>"||"	                {   yylval.charv="||"; return OR;   }
+<LINE>"="                   {   yylval.charv="="; num_chars+=yyleng; return '=';  }
+<LINE>"+"	                {   yylval.charv="+"; num_chars+=yyleng; return '+'; }
+<LINE>"-"	                {   yylval.charv="-"; num_chars+=yyleng; return '-'; }
+<LINE>"*"	                {   yylval.charv="*"; num_chars+=yyleng; return '*'; }
+<LINE>"/"	                {   yylval.charv="/"; num_chars+=yyleng; return '/'; }
+<LINE>"%"	                {   yylval.charv="%"; num_chars+=yyleng; return '%'; }
+<LINE>"<<"	                {   yylval.charv="<<"; num_chars+=yyleng; return SHIFT_LEFT; }
+<LINE>">>"	                {   yylval.charv=">>"; num_chars+=yyleng; return SHIFT_RIGHT; }
+<LINE>"<="	                {   yylval.charv="<="; num_chars+=yyleng; return LESS_OR_EQUAL; }
+<LINE>">="	                {   yylval.charv=">="; num_chars+=yyleng; return GREATER_OR_EQUAL; }
+<LINE>"=="	                {   yylval.charv="=="; num_chars+=yyleng; return IS_EQUAL; }
+<LINE>"!="	                {   yylval.charv="!="; num_chars+=yyleng; return IS_NOT_EQUAL; }
+<LINE>"<"	                {   yylval.charv="<"; num_chars+=yyleng; return '<'; }
+<LINE>">"	                {   yylval.charv=">"; num_chars+=yyleng; return '>'; }
+<LINE>"!"	                {   yylval.charv="!"; num_chars+=yyleng; return '!'; }
+<LINE>"~"	                {   yylval.charv="~"; num_chars+=yyleng; return '~'; }
+<LINE>"^"	                {   yylval.charv="^"; num_chars+=yyleng; return '^'; }
+<LINE>"&"	                {   yylval.charv="&"; num_chars+=yyleng; return '&'; }
+<LINE>"|"	                {   yylval.charv="|"; num_chars+=yyleng; return '|'; }
+<LINE>"++"	                {   yylval.charv="++"; num_chars+=yyleng; return INCREMENT; }
+<LINE>"--"	                {   yylval.charv="--"; num_chars+=yyleng; return DECREMENT; }
+<LINE>"&&"	                {   yylval.charv="&&"; num_chars+=yyleng; return AND;  }
+<LINE>"||"	                {   yylval.charv="||"; num_chars+=yyleng; return OR;   }
 
 
-<LINE>","		            {   yylval.charv=","; return ',';   }
-<LINE>";"		            {   yylval.charv=";"; return ';';   }
-<LINE>"("		            {   yylval.charv="("; return '(';   }
-<LINE>")"		            {   yylval.charv=")"; return ')';   }                            
-<LINE>"["		            {   yylval.charv="["; return '[';   }
-<LINE>"]"		            {   yylval.charv="]"; return ']';   }
-<LINE>"{"		            {   yylval.charv="{"; return '{';   }
-<LINE>"}"		            {   yylval.charv="}"; return '}';   }
-<LINE>":"		            {   yylval.charv=":"; return ':';   }
+<LINE>","		            {   yylval.charv=","; num_chars+=yyleng; return ',';   }
+<LINE>";"		            {   yylval.charv=";"; num_chars+=yyleng; return ';';   }
+<LINE>"("		            {   yylval.charv="("; num_chars+=yyleng; return '(';   }
+<LINE>")"		            {   yylval.charv=")"; num_chars+=yyleng; return ')';   }                            
+<LINE>"["		            {   yylval.charv="["; num_chars+=yyleng; return '[';   }
+<LINE>"]"		            {   yylval.charv="]"; num_chars+=yyleng; return ']';   }
+<LINE>"{"		            {   yylval.charv="{"; num_chars+=yyleng; return '{';   }
+<LINE>"}"		            {   yylval.charv="}"; num_chars+=yyleng; return '}';   }
+<LINE>":"		            {   yylval.charv=":"; num_chars+=yyleng; return ':';   }
 
 <LINE>{Escape_Token}		{   if(tkn) printf("#char:%s\n", yytext);   }
 
 
 
 
-<LINE>{Integer_Token}	    {   yylval.charv=yytext; return INT_NUM;    }
+<LINE>{Integer_Token}	    {   yylval.charv=yytext; num_chars+=yyleng; return INT_NUM;    }
 
 <LINE>{Char_Token}		    {   
                                 size_t buffer_size = strlen(yytext);
                                 char* buffer = (char*)malloc(buffer_size);
                                 strcpy(buffer,yytext);
                                 yylval.charv = buffer;
+                                num_chars+=yyleng;
                                 return CHARACTER;
                             }
 
@@ -140,12 +144,13 @@ Comment_Token 	    \/\/(.)*
                                 char* buffer = (char*)malloc(buffer_size);
                                 strcpy(buffer,yytext);
                                 yylval.charv = buffer;
+                                num_chars+=yyleng;
                                 return STRING;
                             }
 
-<LINE>{Empty_Token}		    {}
+<LINE>{Empty_Token}		    { num_chars+=yyleng; }
 
-<LINE>{Comment_Token} 	    {}
+<LINE>{Comment_Token} 	    { num_chars+=yyleng; }
 
 <LINE>\/\*				    { cmt = 1; BEGIN CMT; }
 

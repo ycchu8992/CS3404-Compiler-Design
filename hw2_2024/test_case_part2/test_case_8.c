@@ -46,7 +46,7 @@ const signed long int *a, b;
 const signed long long int *a, b;
 const signed short int *a, b;
 
-const signed long long *a, b, *a, * as87asdfALFJAisljsijosl;
+
 const signed long *a, b;
 const signed char *a, b;
 const signed short *a, b;

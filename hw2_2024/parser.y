@@ -7,6 +7,7 @@ char* const type_table[11] = {"const", "signed", "unsigned", "longlong", "long",
 char* const keyword_table[12] = { "for", "do", "while", "break", "continue", "if", "else", "return", "struct", "switch", "case", "default" };
 extern int tkn;
 extern int num_lines;
+extern int num_chars;
 
 char* check_id_exist(char* tok);
 char* install_id(char* tok);
@@ -391,7 +392,7 @@ int main(int argc, char* argv[]) {
 }
 
 int yyerror(char *s){
-    fprintf(stderr, "%s at line %d\n", s, num_lines);
+    fprintf(stderr, "%s at Ln %d, Col %d\n", s, num_lines, num_chars);
     return 0;
 }
 
