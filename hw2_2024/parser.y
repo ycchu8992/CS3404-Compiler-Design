@@ -226,6 +226,7 @@ case_expr: expr ':' stmt                            {   $$ = reduce_nonterminal_
 default_expr: ':' stmt                              {   $$ = reduce_terminal_nonterminal($1, $2);   }
             | ':'                                   {   $$ = reduce_terminal($1);    }
             ;
+            
 if_else_stmt: if_stmt else_stmt                     {   $$ = reduce_nonterminal_nonterminal($1, $2);   }
             | if_stmt                               {   $$ = reduce_nonterminal($1);    }
             ;
