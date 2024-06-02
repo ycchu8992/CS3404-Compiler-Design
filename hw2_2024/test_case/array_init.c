@@ -1,4 +1,4 @@
-//array_init
+// by redleaf23477
 const signed int a[3] = {1, 2, 3, 4, 5};
 const signed long int a[c&b] = {2342};
 const signed long long int a[a||b];
@@ -10,7 +10,7 @@ const unsigned long long int a[-3];
 const unsigned short int a[1-2+c*d-c^e];
 
 const int a[b&&c&&d];
-//const long int a[4][3] = { {234234}, {"a", "aaaa", 1234234}, {+___+__+___+___++}};
+const long int a[4][3] = { {234234}, {"a", "aaaa", 1234234}, {+___+__+___+___++}};
 const long long int a[3][4];
 const short int a[3][3][b*c&&d];
 
@@ -24,7 +24,7 @@ long long int a[3][foo()][bar(a,b)] = {
     },
     {
         { asdfasf, safsadfsd, asdfasdfsdf, asdfasdfadsfsdf, adfasdfsadfsadfasdfasdfasdfasdf }, 
-        { "lkjdfslkjdfslkjdfoiuw3oiwriuorwe"/*, 823489323493489348934838732873287328732873873, (char*)&a&aa&a&a */}
+        { "lkjdfslkjdfslkjdfoiuw3oiwriuorwe", 823489323493489348934838732873287328732873873, (char*)&a&aa&a&a }
     },
     { (NULL)*(NULL&NULL)+(NULL+NULL&NULL*NULL)}
 };
@@ -42,7 +42,7 @@ const signed short int a[arr[3][4][5]];
 
 const signed long long a[3<<1];
 const signed long a[2+1>>3&4%5][7];
-//const signed char a[3][(double)8787+a];
+const signed char a[3][(double)8787+a];
 const signed short a[(char*)str];
 
 signed a[3];

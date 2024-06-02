@@ -1,4 +1,4 @@
-//func_decl
+// by redleaf23477
 const signed int a();
 const signed long int a();
 const signed long long int a();
