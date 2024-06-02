@@ -5,7 +5,7 @@
 
 char* const type_table[11] = {"const", "signed", "unsigned", "longlong", "long", "short", "int", "float", "double", "void", "char"};
 char* const keyword_table[12] = { "for", "do", "while", "break", "continue", "if", "else", "return", "struct", "switch", "case", "default" };
-extern int tkn;
+
 extern int num_lines;
 extern int num_chars;
 
@@ -53,10 +53,9 @@ int cur_scope=0;
     struct symbol *sym;
 }
 
-
 %type<charv>  type_decl type_layer sign_usgn int_char long_shrt while_stmt do_while_stmt while_tag do_tag 
 %type<charv>  switch_stmt switch_clause switch_content case_expr default_expr factor if_else_stmt break_stmt
-%type<charv>  ident var_init scalar_decl func_decl program array_decl func_def var_decl ident_tail type_casting
+%type<charv>  ident var_init scalar_decl func_decl program array_decl func_def var_decl ident_tail
 %type<charv>  expr_stmt compound_stmt_content stmt condition if_stmt else_stmt for_stmt arglist args
 %type<charv>  for_condition for_content for_layer_2 expr arr_ident arr_tag arr_content box arr_cnt_fmt arr_id
 %type<charv>  type_ident parameter_info parameters compound_stmt section init continue_stmt return_stmt arr_ident_init
@@ -156,7 +155,6 @@ func_decl: type_ident parameter_info ';'            {
                                                         strcat(buffer,$3);
                                                         strcat(buffer,"</func_decl>");
                                                         $$ = buffer;
-                                                        if(tkn) printf("%s",buffer);
                                                         free($1);
                                                         free($2);
                                                     };
@@ -174,7 +172,6 @@ func_def: type_ident parameter_info compound_stmt   {
                                                         strcat(buffer,$3);
                                                         strcat(buffer,"</func_def>");
                                                         $$ = buffer;
-                                                        if(tkn) printf("%s",buffer);
                                                         free($1);
                                                         free($2);
                                                         free($3);
@@ -387,7 +384,7 @@ args: expr ',' args                                 {   $$ = reduce_nonterminal_
 int yylex(void);
 
 int main(int argc, char* argv[]) {
-    if(argc ==2 && !strcmp(argv[1],"-d")) yydebug = 1; 
+    //if(argc ==2 && !strcmp(argv[1],"-d")) yydebug = 1; 
     yylval.sym = symbol_table;
     yyparse();
     return 0;

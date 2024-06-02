@@ -10,7 +10,7 @@ all: parser.y
 .PHONY: parser.y
 parser.y: lex.yy.c y.tab.c
 	
-	$(CC) -o parser lex.yy.c y.tab.c $(CFLAG) $(DFLAG)
+	$(CC) -o parser lex.yy.c y.tab.c $(CFLAG)
 
 y.tab.c:
 	byacc -d parser.y
