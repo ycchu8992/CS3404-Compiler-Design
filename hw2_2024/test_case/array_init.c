@@ -24,7 +24,7 @@ long long int a[3][foo()][bar(a,b)] = {
     },
     {
         { asdfasf, safsadfsd, asdfasdfsdf, asdfasdfadsfsdf, adfasdfsadfsadfasdfasdfasdfasdf }, 
-        { "lkjdfslkjdfslkjdfoiuw3oiwriuorwe", 823489323493489348934838732873287328732873873, (char*)&a&aa&a&a }
+        { "lkjdfslkjdfslkjdfoiuw3oiwriuorwe", (char*)&a&aa&a&a }
     },
     { (NULL)*(NULL&NULL)+(NULL+NULL&NULL*NULL)}
 };
