@@ -8,13 +8,14 @@ test_case=( array_decl.c  cast.c  func_decl.c  loop.c  scalar_init.c  test_case.
 max=13
 for (( i=0; i < $max; ++i))
 do
-    echo -e "\n"${test_case[$i]}":\n"
     ${PATH_gp} < ./test_case/${test_case[$i]} > sol.txt
     ./parser < ./test_case/${test_case[$i]} > out.txt
     diff out.txt sol.txt > ./test_result/${test_case[$i]}
     if ! test -s ./test_result/${test_case[$i]}
     then
         rm -f ./test_result/${test_case[$i]}
+    else
+        echo -e "ERROR: "${test_case[$i]}":\n"
     fi
 done
 
