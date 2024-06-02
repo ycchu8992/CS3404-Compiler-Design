@@ -325,6 +325,7 @@ ident: var_init expr ident_tail                     {   $$ = reduce_nonterminal_
     ;
 
 ident_tail: ',' ident                               {   $$ = reduce_terminal_nonterminal($1, $2);  }
+        | ',' '*' ident                             {   $$ = reduce_terminal_terminal_nonterminal($1, $2, $3);  }
         | ';'                                       {   $$ = reduce_terminal($1);  }
 
 var_init: ID '='                                    {   $$ = reduce_terminal_terminal($1, $2);  }  
