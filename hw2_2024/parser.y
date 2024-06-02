@@ -375,8 +375,8 @@ factor: INT_NUM                                     {   $$ = reduce_terminal($1)
         | '(' expr ')'                              {   $$ = reduce_terminal_nonterminal_terminal($1, $2, $3);    }
         ;
 
-arglist: '(' args ')'           %prec POSTFIX                    {   $$ = reduce_terminal_nonterminal_terminal($1, $2, $3);    }
-        | '(' ')'                    %prec POSTFIX               {   $$ = reduce_terminal_terminal($1, $2);    }
+arglist: '(' args ')' %prec POSTFIX                 {   $$ = reduce_terminal_nonterminal_terminal($1, $2, $3);    }
+        | '(' ')'     %prec POSTFIX                 {   $$ = reduce_terminal_terminal($1, $2);    }
         ;
 args: expr ',' args                                 {   $$ = reduce_nonterminal_terminal_nonterminal($1, $2, $3);   }
     | expr                                          {   $$ = reduce_nonterminal($1);   }
