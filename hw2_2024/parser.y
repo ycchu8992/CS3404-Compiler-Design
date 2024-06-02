@@ -29,6 +29,7 @@ char* reduce_unary_prefix_expr(char* r1, char* r2);
 char* reduce_unary_postfix_expr(char* r1, char* r2);
 char* reduce_factor_expr(char* r1);
 char* reduce_func_invoc_expr(char* r1, char* r2);
+char* reduce_type_casting_expr(char* r2, char* r4);
 
 struct symbol{
     int seq_num;
@@ -361,6 +362,7 @@ expr:     expr '+' expr                             {   $$ = reduce_for_expr($1,
         | expr DECREMENT %prec POSTFIX              {   $$ = reduce_unary_postfix_expr($1, $2);   }
         | factor                                    {   $$ = reduce_factor_expr($1);    }
         | expr arglist                              {   $$ = reduce_func_invoc_expr($1,$2);    }
+        | '(' type_decl ')' expr %prec PTRUSED      {   $$ = reduce_type_casting_expr($2,$4);    }
         ;
         
 factor: INT_NUM                                     {   $$ = reduce_terminal($1);   }
@@ -373,8 +375,8 @@ factor: INT_NUM                                     {   $$ = reduce_terminal($1)
         | '(' expr ')'                              {   $$ = reduce_terminal_nonterminal_terminal($1, $2, $3);    }
         ;
 
-arglist: '(' args ')'                               {   $$ = reduce_terminal_nonterminal_terminal($1, $2, $3);    }
-        | '(' ')'                                   {   $$ = reduce_terminal_terminal($1, $2);    }
+arglist: '(' args ')'           %prec POSTFIX                    {   $$ = reduce_terminal_nonterminal_terminal($1, $2, $3);    }
+        | '(' ')'                    %prec POSTFIX               {   $$ = reduce_terminal_terminal($1, $2);    }
         ;
 args: expr ',' args                                 {   $$ = reduce_nonterminal_terminal_nonterminal($1, $2, $3);   }
     | expr                                          {   $$ = reduce_nonterminal($1);   }
@@ -608,5 +610,24 @@ char* reduce_func_invoc_expr(char* r1, char* r2){
     strcat(buffer,"</expr>");
     free(r1);
     free(r2);
+    return buffer;
+}
+
+char* reduce_type_casting_expr(char* r2, char* r4){ 
+    size_t l = strlen("<expr>");
+    size_t lp = strlen("(");
+    size_t n2 = strlen(r2);
+    size_t n4 = strlen(r4);
+    size_t rp = strlen(")");
+    size_t r = strlen("</expr>");   
+    char* buffer = (char*)malloc(l+lp+r+rp+n2+n4+1);
+    strcpy(buffer,"<expr>");
+    strcat(buffer,"(");
+    strcat(buffer,r2);
+    strcat(buffer,")");
+    strcat(buffer,r4);
+    strcat(buffer,"</expr>");
+    free(r2);
+    free(r4);
     return buffer;
 }

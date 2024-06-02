@@ -1,3 +1,0 @@
-0a1
-> <scalar_decl>constsignedlonglong*a,b,*a,*as87asdfALFJAisljsijosl;</scalar_decl><array_decl>constsignedchara[<expr>3</expr>][<expr><expr>(double)<expr>8787</expr></expr>+<expr>a</expr></expr>]={<expr>"a"</expr>,<expr>"aaaa"</expr>,<expr>-1</expr>,<expr><expr><expr><expr>(char*)<expr>&<expr>a</expr></expr></expr>&<expr>aa</expr></expr>&<expr>a</expr></expr>&<expr>a</expr></expr>};</array_decl><func_def>intmain(){<stmt><expr><expr>f</expr>(<expr><expr>b</expr>=<expr><expr>(int)<expr>0</expr></expr>>><expr>--<expr>(<expr>0</expr>)</expr></expr></expr></expr>)</expr>;</stmt><stmt><expr>-2147483648</expr>;</stmt><stmt><expr>-<expr>-2147483647</expr></expr>;</stmt><stmt><expr>-<expr>-1</expr></expr>;</stmt>}</func_def>
-\ No newline at end of file
