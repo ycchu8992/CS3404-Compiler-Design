@@ -4,8 +4,8 @@ make all
 
 PATH_gp=./golden_parser_static
 
-test_case=( array_decl.c  cast.c  func_decl.c  loop.c  scalar_init.c  test_case.c array_init.c  expr.c  func_def.c   scalar_decl.c  scanner_test.c )
-max=11
+test_case=( array_decl.c  cast.c  func_decl.c  loop.c  scalar_init.c  test_case.c array_init.c  expr.c  func_def.c   scalar_decl.c  scanner_test.c string.c overflow.c)
+max=13
 for (( i=0; i < $max; ++i))
 do
     echo -e "\n"${test_case[$i]}":\n"
