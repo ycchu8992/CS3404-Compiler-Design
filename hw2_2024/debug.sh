@@ -5,5 +5,6 @@ make all
 ./parser < test.c > out.txt
 diff out.txt sol.txt > diff.c
 make clean
+rm -f out.txt sol.txt
 exit 0
 
