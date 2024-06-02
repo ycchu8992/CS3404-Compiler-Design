@@ -16,7 +16,7 @@ long* func(){
 int func(){
 
   (int)a;
-  (char*)printf("%d\n",sc);
+  
 }
 int main() {
   a[w] = b[2]-c[3];

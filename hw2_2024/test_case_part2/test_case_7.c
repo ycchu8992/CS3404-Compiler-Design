@@ -1,8 +1,6 @@
 
 int func(){
-
-  (int)a;
-  (char*)printf("%d\n",sc);
+  (char*)f();
 }
   
 
