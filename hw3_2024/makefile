@@ -1,7 +1,7 @@
 CC = gcc
 CFLAG = -lfl
 DFLAG = -DYYDEBUG
-
+TC_PATH=../Testcase 
 # Part 1: Compile the scanner.
 RUNFIRST:=$(shell )
 
@@ -21,7 +21,7 @@ lex.yy.c: y.tab.c
 
 .PHONY: run
 run: 
-	./parser < ./Testcase/ArithmeticExpression/0.c  > result.c
+	./parser < $(TC_PATH)/ArithmeticExpression/0.c  > result.c
 
 .PHONY: print
 print: 
@@ -37,7 +37,7 @@ q:
 	flex scanner.l
 	byacc -d parser.y
 	$(CC) -o parser lex.yy.c y.tab.c reduce.h symtb.h $(CFLAG)
-	./parser < ./Testcase/ArithmeticExpression/0.c  > result.c
+	./parser < $(TC_PATH)/ArithmeticExpression/0.c  > result.c
 	head stack.c
 	
 
