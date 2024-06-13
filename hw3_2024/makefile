@@ -1,7 +1,8 @@
 CC = gcc
 CFLAG = -lfl
 DFLAG = -DYYDEBUG
-TC_PATH=../Testcase
+TC_PATH=../Testcase/Jump
+#Jump
 # Part 1: Compile the scanner.
 RUNFIRST:=$(shell )
 
@@ -21,7 +22,7 @@ lex.yy.c: y.tab.c
 #ArithmeticExpression
 .PHONY: run
 run: 
-	./parser < $(TC_PATH)/Jump/0.c  > result.c
+	./parser < $(TC_PATH)/0.c  > result.c
 
 .PHONY: print
 print: 
@@ -29,14 +30,16 @@ print:
 
 # Part 2: Clean up previous Compilation of the scanner.
 clean:
-	rm -f lex.yy.c y.tab.c y.tab.h scanner parser stack.c symbol.c result.c
+	rm -f lex.yy.c y.tab.c y.tab.h scanner parser symbol.c result.c
 
 .PHONY: q
 q: 
-	rm -f lex.yy.c y.tab.c y.tab.h scanner parser stack.c symbol.c result.c
-	flex scanner.l
-	byacc -d parser.y
-	$(CC) -o parser lex.yy.c y.tab.c reduce.h symtb.h $(CFLAG)
-	./parser < $(TC_PATH)/Jump/0.c  > result.c
+	@rm -f lex.yy.c y.tab.c y.tab.h scanner parser symbol.c result.c
+	@flex scanner.l
+	@byacc -d parser.y
+	@$(CC) -o parser lex.yy.c y.tab.c reduce.h symtb.h $(CFLAG)
+	@rm -f lex.yy.c y.tab.c y.tab.h scanner
+	@./parser < $(TC_PATH)/0.c  > result.c
+	@rm -f parser result.c
 	
 

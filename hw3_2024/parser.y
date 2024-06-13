@@ -252,8 +252,7 @@ parameters: type_ident ',' parameters               {   $$ = reduce_nonterminal_
 
 type_ident: type_decl ID                            {   
 
-                                                        table_lookup($2, cur_scope, $1);
-                                                        
+                                                        table_lookup($2, cur_scope, $1);                      
                                                         $$ = reduce_nonterminal_nonterminal($1, $2);  
                                                     }  
 
@@ -350,7 +349,8 @@ ident_tail: ',' ident                               {   $$ = reduce_terminal_non
         | ',' '*' ident                             {   $$ = reduce_terminal_terminal_nonterminal($1, $2, $3);  }
         | ';'                                       {   $$ = reduce_terminal($1);  }
 
-var_init: ID '='                                    {   table_lookup($1, cur_scope, type_buffer);
+var_init: ID '='                                    {   
+                                                        table_lookup($1, cur_scope, type_buffer);
                                                         free(type_buffer);
                                                         $$ = reduce_nonterminal_terminal($1, $2);  
                                                     }  
@@ -385,7 +385,10 @@ expr:     expr '+' expr                             {   $$ = reduce_for_expr($1,
         | expr INCREMENT %prec POSTFIX              {   $$ = reduce_unary_postfix_expr($1, $2);   }
         | expr DECREMENT %prec POSTFIX              {   $$ = reduce_unary_postfix_expr($1, $2);   }
         | factor                                    {   $$ = reduce_factor_expr($1);    }
-        | expr arglist                              {   $$ = reduce_func_invoc_expr($1,$2);    }
+        | ID arglist                                {   
+                                                        table_lookup($1, cur_scope, "function");
+                                                        $$ = reduce_func_invoc_expr($1,$2);    
+                                                    }
         | '(' type_decl ')' expr %prec PTRUSED      {   $$ = reduce_type_casting_expr($2,$4);    }
         ;
         
