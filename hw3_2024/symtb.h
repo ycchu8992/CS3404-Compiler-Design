@@ -2,54 +2,60 @@
 #include<string.h>
 #include<stdlib.h>
 
-char* install_id(char* tok);
-char* check_id_exist(char* tok);
-void StackTable(int i);
-char* reduce_scope(char* r1, char* r2, char* r3);
+void symbol_table_format();
+char* table_lookup(char* sym, int scope, char* typ);
+void print_symbol_table(int i);
+char* push2symtb(char* sym, int scope, char* typ);
 
 struct symbol{
     int seq_num;
-    char name[40];
     int scope;
-    int type;
-    int parameter;
-    struct symbol* next;
+    char type[40];
+    //int parameter;
+    char name[40];
+    //struct symbol* next;
 };
 
-int top=0;
-int cur_scope=0;
+int num_symbol=0;
 
-struct symbol stack[295];
+struct symbol symbol_table[295];
 
-
-char* check_id_exist(char* tok){
-    if(top==0) return install_id(tok);
-    for(int i=0;i<top;i++) if(strcmp(stack[i].name,tok)==0 && stack[i].scope==cur_scope) return stack[i].name;
-    return install_id(tok);
+void symbol_table_format(){
+    FILE* fp;
+    fp = fopen("symbol.c","a");
+    fprintf(fp,"|  Seq  | Scope |   Type   |    Name    \n");
+    fprintf(fp,"---------------------------------------\n");
+    fclose(fp);
 }
 
-void StackTable(int i){
+char* table_lookup(char* sym, int scope, char* typ){
+    if(num_symbol==0) {
+        symbol_table_format();
+        return push2symtb(sym,scope,typ);
+    }
+    for(int i=0;i<num_symbol;i++) {
+        if( strcmp(symbol_table[i].name,sym)==0 && symbol_table[i].scope==scope ) {
+            return symbol_table[i].name;
+        }
+    }
+    return push2symtb(sym,scope,typ);
+} 
+
+void print_symbol_table(int i){
     FILE* fp;
-    fp = fopen("stack.c","a");
-    fprintf(fp,"|  %d  |   %d   |   %s\n", i, cur_scope, stack[i].name);
+    fp = fopen("symbol.c","a");
+    fprintf(fp,"|  %2d   |   %d   |   %s   |   %s\n", symbol_table[i].seq_num, symbol_table[i].scope, symbol_table[i].type, symbol_table[i].name);
     fclose(fp);
     return;
 }
 
-char* install_id(char* tok){ //put into stack
-    strcpy(stack[top].name,tok);
-    top++;
-    StackTable(top-1);
-    return stack[top-1].name;
-}
-
-char* reduce_scope(char* r1, char* r2, char* r3){
-    size_t buffer_size = strlen(r1) + strlen(r2) + strlen(r3) + 1;
-    char* buffer = (char*)malloc(buffer_size);
-    strcpy(buffer, r1);
-    strcat(buffer, r2);
-    strcat(buffer, r3);
-    free(r2);
-    cur_scope--;
-    return buffer;
+char* push2symtb(char* sym, int scope, char* typ){ //put into stack
+    printf("%s\n",typ);
+    strcpy(symbol_table[num_symbol].name,sym);
+    symbol_table[num_symbol].scope=scope;
+    strcpy(symbol_table[num_symbol].type,typ);
+    symbol_table[num_symbol].seq_num=num_symbol;
+    print_symbol_table(num_symbol);
+    num_symbol++;
+    return symbol_table[num_symbol-1].name;
 }

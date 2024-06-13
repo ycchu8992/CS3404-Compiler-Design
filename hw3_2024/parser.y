@@ -3,6 +3,7 @@
 #include<string.h>
 #include<stdlib.h>
 #include "symtb.h"
+#include "stktb.h"
 #include "reduce.h"
 
 char* const type_table[11] = {"const", "signed", "unsigned", "longlong", "long", "short", "int", "float", "double", "void", "char"};
@@ -20,7 +21,7 @@ extern int cur_scope;
 %union{
     int token;
     char* charv;
-    struct symbol *sym;
+    struct stk_sym *stk_symtb;
 }
 
 %type<charv>  type_decl type_layer sign_usgn int_char long_shrt 
@@ -244,9 +245,9 @@ parameters: type_ident ',' parameters               {   $$ = reduce_nonterminal_
             ;
 
 type_ident: type_decl ID                            {   
-                                                        printf("%d\n",cur_scope);
-                                                        printf("%s\n",$1);
-                                                        printf("%s\n",$2);
+
+                                                        table_lookup($2, cur_scope, $1);
+                                                        top--;
                                                         $$ = reduce_nonterminal_terminal($1, $2);  
                                                     }  
 
@@ -374,11 +375,11 @@ int yylex(void);
 
 int main(int argc, char* argv[]) {
     //if(argc ==2 && !strcmp(argv[1],"-d")) yydebug = 1; 
-    yylval.sym = stack;
+    yylval.stk_symtb = stack;
 
     FILE* fp;
     fp = fopen("stack.c","a");
-    fprintf(fp,"| Seq | Scope |    Name    \n");
+    fprintf(fp,"|  Seq  | Scope |    Name    \n");
     fprintf(fp,"------------------------------\n");
     fclose(fp);
     yyparse();
