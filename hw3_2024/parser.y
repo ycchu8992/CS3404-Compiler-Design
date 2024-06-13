@@ -3,7 +3,6 @@
 #include<string.h>
 #include<stdlib.h>
 #include "symtb.h"
-#include "stktb.h"
 #include "reduce.h"
 
 char* const type_table[11] = {"const", "signed", "unsigned", "longlong", "long", "short", "int", "float", "double", "void", "char"};
@@ -12,16 +11,19 @@ char* const keyword_table[12] = { "for", "do", "while", "break", "continue", "if
 extern int num_lines;
 extern int num_chars;
 
-extern int top;
 extern int cur_scope;
+extern int num_symbol;
+extern struct symbol symbol_table[295];
 
+char* type_buffer;
+int tb_valid=0;
 
 %}
 
 %union{
     int token;
     char* charv;
-    struct stk_sym *stk_symtb;
+    struct symbol *_symtb;
 }
 
 %type<charv>  type_decl type_layer sign_usgn int_char long_shrt 
@@ -113,6 +115,10 @@ array_decl: type_decl arr_ident ';'                 {
                                                         strcat(buffer,$3);
                                                         strcat(buffer,"</array_decl>");
                                                         $$ = buffer;
+                                                        if(tb_valid==1) { 
+                                                            free(type_buffer);
+                                                            tb_valid=0;
+                                                        }
                                                         free($1);
                                                         free($2);
                                                     }    
@@ -247,10 +253,9 @@ parameters: type_ident ',' parameters               {   $$ = reduce_nonterminal_
 type_ident: type_decl ID                            {   
 
                                                         table_lookup($2, cur_scope, $1);
-                                                        top--;
-                                                        $$ = reduce_nonterminal_terminal($1, $2);  
+                                                        
+                                                        $$ = reduce_nonterminal_nonterminal($1, $2);  
                                                     }  
-
 
 arr_ident:  arr_ident_init ',' arr_ident            {   $$ = reduce_nonterminal_terminal_nonterminal($1, $2, $3);   }
             | arr_ident_init                        {   $$ = reduce_nonterminal($1);    }                       
@@ -260,7 +265,10 @@ arr_ident_init:  arr_id '=' arr_cnt_fmt             {   $$ = reduce_nonterminal_
             | arr_id                                {   $$ = reduce_nonterminal($1);    }                       
             ;
 
-arr_id:     ID arr_tag                              {   $$ = reduce_terminal_nonterminal($1, $2);   }
+arr_id:     ID arr_tag                              {   
+                                                        if(tb_valid==1)  table_lookup($1, cur_scope, type_buffer);
+                                                        $$ = reduce_nonterminal_nonterminal($1, $2);   
+                                                    }
 
 arr_tag:    box arr_tag                             {   $$ = reduce_nonterminal_nonterminal($1, $2);    }
             | box                                   {   $$ = reduce_nonterminal($1);    }
@@ -276,12 +284,36 @@ arr_content: arr_cnt_fmt                            {   $$ = reduce_nonterminal(
             
 box: '[' expr ']'                                   {   $$ = reduce_terminal_nonterminal_terminal($1, $2, $3);    }   
 
-type_decl: CONST type_layer                         {   $$ = reduce_terminal_nonterminal(type_table[$1], $2);   }
-         | type_layer                               {   $$ = reduce_nonterminal($1);    }
-         | CONST                                    {   $$ = reduce_terminal(type_table[$1]);   }
-         | CONST type_layer '*'                     {   $$ = reduce_terminal_nonterminal_terminal(type_table[$1], $2, $3);    }
-         | type_layer '*'                           {   $$ = reduce_nonterminal_terminal($1, $2);   }   
-         | CONST '*'                                {   $$ = reduce_terminal_terminal(type_table[$1], $2);  }
+type_decl: CONST type_layer                         {   $$ = reduce_terminal_nonterminal(type_table[$1], $2);   
+                                                        type_buffer = (char*)malloc(strlen($$));
+                                                        strcpy(type_buffer,$$);
+                                                        tb_valid=1;
+                                                    }
+         | type_layer                               {   $$ = reduce_nonterminal($1);       
+                                                        type_buffer = (char*)malloc(strlen($$));
+                                                        strcpy(type_buffer,$$);
+                                                        tb_valid=1;
+                                                    }
+         | CONST                                    {   $$ = reduce_terminal(type_table[$1]);      
+                                                        type_buffer = (char*)malloc(strlen($$));
+                                                        strcpy(type_buffer,$$);
+                                                        tb_valid=1;
+                                                    }
+         | CONST type_layer '*'                     {   $$ = reduce_terminal_nonterminal_terminal(type_table[$1], $2, $3);       
+                                                        type_buffer = (char*)malloc(strlen($$));
+                                                        strcpy(type_buffer,$$);
+                                                        tb_valid=1;
+                                                    }
+         | type_layer '*'                           {   $$ = reduce_nonterminal_terminal($1, $2);      
+                                                        type_buffer = (char*)malloc(strlen($$));
+                                                        strcpy(type_buffer,$$);
+                                                        tb_valid=1;
+                                                    }   
+         | CONST '*'                                {   $$ = reduce_terminal_terminal(type_table[$1], $2);     
+                                                        type_buffer = (char*)malloc(strlen($$));
+                                                        strcpy(type_buffer,$$);
+                                                        tb_valid=1;
+                                                    }
          ;         
 
 type_layer: sign_usgn int_char                      {   $$ = reduce_nonterminal_nonterminal($1, $2);    }
@@ -308,14 +340,20 @@ long_shrt: LLONG                                    {   $$ = reduce_terminal(typ
          ;
 
 ident: var_init expr ident_tail                     {   $$ = reduce_nonterminal_nonterminal_nonterminal($1, $2, $3);   }
-    | ID ident_tail                                 {   $$ = reduce_terminal_nonterminal($1, $2);  }
+    | ID ident_tail                                 {   
+                                                        table_lookup($1, cur_scope, type_buffer);
+                                                        free(type_buffer);
+                                                        $$ = reduce_nonterminal_nonterminal($1, $2);  }
     ;
 
 ident_tail: ',' ident                               {   $$ = reduce_terminal_nonterminal($1, $2);  }
         | ',' '*' ident                             {   $$ = reduce_terminal_terminal_nonterminal($1, $2, $3);  }
         | ';'                                       {   $$ = reduce_terminal($1);  }
 
-var_init: ID '='                                    {   $$ = reduce_terminal_terminal($1, $2);  }  
+var_init: ID '='                                    {   table_lookup($1, cur_scope, type_buffer);
+                                                        free(type_buffer);
+                                                        $$ = reduce_nonterminal_terminal($1, $2);  
+                                                    }  
 
 expr:     expr '+' expr                             {   $$ = reduce_for_expr($1, $2, $3);   }
         | expr '-' expr                             {   $$ = reduce_for_expr($1, $2, $3);   }
@@ -356,8 +394,8 @@ factor: INT_NUM                                     {   $$ = reduce_terminal($1)
         | STRING                                    {   $$ = reduce_nonterminal($1);   } // special useage
         | CHARACTER                                 {   $$ = reduce_nonterminal($1);   } // special useage
         | NULL_SIGNAL                               {   $$ = reduce_nonterminal($1);   } // special useage
-        | arr_id                                    {   $$ = reduce_nonterminal($1);   } 
-        | ID                                        {   $$ = reduce_terminal($1);      }
+        | arr_id                                    {   num_symbol--;  $$ = reduce_nonterminal($1);   } 
+        | ID                                        {   $$ = reduce_nonterminal($1);      }
         | '(' expr ')'                              {   $$ = reduce_terminal_nonterminal_terminal($1, $2, $3);    }
         ;
 
@@ -375,14 +413,9 @@ int yylex(void);
 
 int main(int argc, char* argv[]) {
     //if(argc ==2 && !strcmp(argv[1],"-d")) yydebug = 1; 
-    yylval.stk_symtb = stack;
-
-    FILE* fp;
-    fp = fopen("stack.c","a");
-    fprintf(fp,"|  Seq  | Scope |    Name    \n");
-    fprintf(fp,"------------------------------\n");
-    fclose(fp);
+    yylval._symtb = symbol_table;
     yyparse();
+    print_symbol_table(num_symbol+3);
     return 0;
 }
 

@@ -10,7 +10,7 @@ all: parser.y
 .PHONY: parser.y
 parser.y: lex.yy.c y.tab.c
 	
-	$(CC) -o parser lex.yy.c y.tab.c reduce.h stktb.h symtb.h $(CFLAG) 
+	$(CC) -o parser lex.yy.c y.tab.c reduce.h symtb.h $(CFLAG) 
 
 y.tab.c:
 	byacc -d parser.y
@@ -18,10 +18,10 @@ y.tab.c:
 .PHONY: scanner.l
 lex.yy.c: y.tab.c
 	flex scanner.l
-
+#ArithmeticExpression
 .PHONY: run
 run: 
-	./parser < $(TC_PATH)/ArithmeticExpression/0.c  > result.c
+	./parser < $(TC_PATH)/Jump/0.c  > result.c
 
 .PHONY: print
 print: 
@@ -36,7 +36,7 @@ q:
 	rm -f lex.yy.c y.tab.c y.tab.h scanner parser stack.c symbol.c result.c
 	flex scanner.l
 	byacc -d parser.y
-	$(CC) -o parser lex.yy.c y.tab.c reduce.h stktb.h symtb.h $(CFLAG)
-	./parser < $(TC_PATH)/ArithmeticExpression/0.c  > result.c
+	$(CC) -o parser lex.yy.c y.tab.c reduce.h symtb.h $(CFLAG)
+	./parser < $(TC_PATH)/Jump/0.c  > result.c
 	
 

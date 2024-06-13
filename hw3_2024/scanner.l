@@ -16,7 +16,6 @@ int keyword_hash_table[12] = { FOR, DO, WHILE, BREAK, CONTINUE, IF, ELSE, RETURN
 
 void TypeHash(char* yytext);
 void KeyWordHash(char* yytext);
-extern char* check_id_exist(char* tok);
 extern int cur_scope;
 
 %}
@@ -85,7 +84,14 @@ Comment_Token 	    \/\/(.)*
                                 return FLOAT_NUM;
                             }
 
-<LINE>{Identifier_Token}    {   yylval.charv=check_id_exist(yytext);  num_chars+=yyleng; return ID; }
+<LINE>{Identifier_Token}    {   
+                                size_t buffer_size = strlen(yytext);
+                                char* buffer = (char*)malloc(buffer_size);
+                                strcpy(buffer,yytext);
+                                yylval.charv = buffer;
+                                num_chars+=yyleng; 
+                                return ID; 
+                            }
 
 
 <LINE>"="                   {   yylval.charv="="; num_chars+=yyleng; return '=';  }
