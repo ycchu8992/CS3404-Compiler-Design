@@ -25,7 +25,7 @@ struct symbol symbol_table[295];
 char* table_lookup(char* sym, int scope, char* typ){
     if(num_symbol==0) return push2symtb(sym,scope,typ);
     for(int i=0;i<num_symbol;i++) {
-        if( strcmp(symbol_table[i].name,sym)==0 && symbol_table[i].scope==scope ) {
+        if( strcmp(symbol_table[i].name,sym)==0 && symbol_table[i].scope<=scope ) {
             return symbol_table[i].name;
         }
     }
@@ -35,7 +35,7 @@ char* table_lookup(char* sym, int scope, char* typ){
 void print_symbol_table(int i){
     FILE* fp;
     fp = fopen("symbol.c","a+");
-    fprintf(fp,"\n|  Seq  | Scope |    Name    |        Type        |\n");
+    fprintf(fp,"|  Seq  | Scope |    Name    |        Type        |\n");
     fprintf(fp,"---------------------------------------------------\n");
     for(int i=0;i<num_symbol;i++) {
         fprintf(fp,"|  %2d   |   %d   |%*s%-10s|  %-12s|\n", symbol_table[i].seq_num, \

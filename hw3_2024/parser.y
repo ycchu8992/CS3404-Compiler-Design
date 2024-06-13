@@ -415,7 +415,7 @@ int main(int argc, char* argv[]) {
     //if(argc ==2 && !strcmp(argv[1],"-d")) yydebug = 1; 
     yylval._symtb = symbol_table;
     yyparse();
-    print_symbol_table(num_symbol+3);
+    //print_symbol_table(num_symbol+3);
     return 0;
 }
 
