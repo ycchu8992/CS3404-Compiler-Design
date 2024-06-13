@@ -21,7 +21,7 @@ lex.yy.c: y.tab.c
 
 .PHONY: run
 run: 
-	./parser < $(TC_PATH)/Basic/0.c  > result.c
+	./parser < $(TC_PATH)/ArithmeticExpression/0.c  > result.c
 
 .PHONY: print
 print: 
@@ -37,6 +37,6 @@ q:
 	flex scanner.l
 	byacc -d parser.y
 	$(CC) -o parser lex.yy.c y.tab.c reduce.h stktb.h symtb.h $(CFLAG)
-	./parser < $(TC_PATH)/Basic/0.c  > result.c
+	./parser < $(TC_PATH)/ArithmeticExpression/0.c  > result.c
 	
 
